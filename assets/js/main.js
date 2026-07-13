@@ -167,6 +167,13 @@ function initLightbox() {
             document.body.style.overflow = 'hidden';
             modal.classList.add('active');
         });
+
+        item.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                item.click();
+            }
+        });
     });
 
     closeBtn.addEventListener('click', () => {
