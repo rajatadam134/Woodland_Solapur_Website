@@ -586,3 +586,138 @@ footer {
     }
 }
 
+/* Category Filter Pills */
+.filter-panel-wrapper {
+    padding: 140px 0 40px;
+    display: flex;
+    justify-content: center;
+}
+.filter-pills {
+    display: flex;
+    gap: 12px;
+    padding: 8px 16px;
+    border-radius: 50px;
+    list-style: none;
+}
+.filter-pill {
+    padding: 10px 24px;
+    font-family: var(--font-heading);
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 50px;
+    cursor: pointer;
+    color: var(--accent-light);
+    transition: var(--transition-smooth);
+}
+.filter-pill:hover, .filter-pill.active {
+    background: var(--accent-color);
+    color: #FFFFFF;
+}
+
+/* Product Catalog Grid */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-bottom: 80px;
+}
+.product-card {
+    position: relative;
+    background: var(--surface-color);
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: var(--transition-smooth);
+}
+.product-img-wrapper {
+    position: relative;
+    height: 280px;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #ECE9E2;
+    margin-bottom: 20px;
+}
+.product-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition-smooth);
+}
+.product-info h3 {
+    font-size: 22px;
+    margin-bottom: 6px;
+}
+.product-info .product-cat {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    display: block;
+}
+
+/* Glassmorphism Hover Overlay */
+.glass-hover-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(82, 64, 50, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: var(--transition-smooth);
+    z-index: 3;
+}
+.product-card:hover .glass-hover-overlay {
+    opacity: 1;
+}
+.product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-hover);
+}
+.product-card:hover .product-img-wrapper img {
+    transform: scale(1.05);
+}
+
+/* Product Page Responsive */
+@media (max-width: 992px) {
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+    }
+}
+@media (max-width: 768px) {
+    .filter-panel-wrapper {
+        padding: 120px 0 30px;
+    }
+    .filter-pills {
+        flex-wrap: wrap;
+        justify-content: center;
+        border-radius: 20px;
+        padding: 12px;
+        gap: 8px;
+    }
+    .filter-pill {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+}
+@media (max-width: 576px) {
+    .product-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .product-img-wrapper {
+        height: 240px;
+    }
+}
+

@@ -2,12 +2,23 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('Woodland website initialized');
     initNavigation();
     initMobileMenu();
+    initFilters();
 });
 
 function initNavigation() {
     const header = document.querySelector('header');
     if (!header) return;
+    
+    const hasHero = document.querySelector('.hero-section');
+    if (!hasHero) {
+        header.classList.add('scrolled');
+    }
+    
     window.addEventListener('scroll', () => {
+        if (!hasHero) {
+            header.classList.add('scrolled');
+            return;
+        }
         if (window.scrollY > 50) {
             header.classList.add('scrolled');
         } else {
@@ -42,6 +53,52 @@ function initMobileMenu() {
         if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
             menuToggle.classList.remove('active');
             navLinks.classList.remove('active');
+        }
+    });
+}
+
+function initFilters() {
+    const pills = document.querySelectorAll('.filter-pill');
+    const cards = document.querySelectorAll('.product-card');
+    
+    if (pills.length === 0 || cards.length === 0) return;
+
+    // Check query parameter (e.g. ?cat=bedroom)
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialCat = urlParams.get('cat');
+    if (initialCat) {
+        const matchingPill = document.querySelector(`.filter-pill[data-filter="${initialCat}"]`);
+        if (matchingPill) {
+            pills.forEach(p => p.classList.remove('active'));
+            matchingPill.classList.add('active');
+            filterProducts(initialCat, cards);
+        }
+    }
+
+    pills.forEach(pill => {
+        pill.addEventListener('click', () => {
+            pills.forEach(p => p.classList.remove('active'));
+            pill.classList.add('active');
+            const filter = pill.getAttribute('data-filter');
+            // Update URL search param without reloading page
+            const newUrl = new URL(window.location);
+            if (filter === 'all') {
+                newUrl.searchParams.delete('cat');
+            } else {
+                newUrl.searchParams.set('cat', filter);
+            }
+            window.history.pushState({}, '', newUrl);
+            filterProducts(filter, cards);
+        });
+    });
+}
+
+function filterProducts(category, cards) {
+    cards.forEach(card => {
+        if (category === 'all' || card.getAttribute('data-category') === category) {
+            card.style.display = 'flex';
+        } else {
+            card.style.display = 'none';
         }
     });
 }

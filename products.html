@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Woodland | Our Luxury Collections</title>
+    <meta name="description" content="Explore Woodland's curated luxury furniture catalog in Solapur. Handcrafted living room, bedroom, dining, and executive office furniture customized to your style.">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="scrolled">
+        <div class="container nav-wrapper">
+            <a href="index.html" class="logo">Woodland</a>
+            <nav>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="index.html">Home</a></li>
+                    <li class="active"><a href="products.html">Products</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li class="mobile-only"><a href="contact.html" class="lux-btn lux-btn-outline nav-btn">Schedule Visit</a></li>
+                </ul>
+            </nav>
+            <a href="contact.html" class="lux-btn lux-btn-outline nav-btn desktop-only">Schedule Visit</a>
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle Menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Category Filtering -->
+    <div class="container filter-panel-wrapper">
+        <ul class="filter-pills glass-panel">
+            <li class="filter-pill active" data-filter="all">All Furniture</li>
+            <li class="filter-pill" data-filter="living">Living Room</li>
+            <li class="filter-pill" data-filter="bedroom">Bedroom</li>
+            <li class="filter-pill" data-filter="office">Office</li>
+            <li class="filter-pill" data-filter="dining">Dining</li>
+        </ul>
+    </div>
+
+    <!-- Product Showcase -->
+    <main class="container" style="min-height: 60vh;">
+        <div class="product-grid">
+            <!-- Card 1 -->
+            <div class="product-card" data-category="living">
+                <div class="product-img-wrapper">
+                    <img src="assets/images/prod_contor.png" alt="Contor Arm Chair">
+                    <div class="glass-hover-overlay">
+                        <a href="products/contor-arm-chair.html" class="lux-btn">View Details</a>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <span class="product-cat">Living Room</span>
+                    <h3>Contor Arm Chair</h3>
+                </div>
+            </div>
+            <!-- Card 2 -->
+            <div class="product-card" data-category="dining">
+                <div class="product-img-wrapper">
+                    <img src="assets/images/prod_wishbone.png" alt="Wishbone Dining Chair">
+                    <div class="glass-hover-overlay">
+                        <a href="products/wishbone-dining-chair.html" class="lux-btn">View Details</a>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <span class="product-cat">Dining Room</span>
+                    <h3>Wishbone Dining Chair</h3>
+                </div>
+            </div>
+            <!-- Card 3 -->
+            <div class="product-card" data-category="bedroom">
+                <div class="product-img-wrapper">
+                    <img src="assets/images/prod_bed.png" alt="Serene Teak Bed">
+                    <div class="glass-hover-overlay">
+                        <a href="products/serene-teak-bed.html" class="lux-btn">View Details</a>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <span class="product-cat">Bedroom</span>
+                    <h3>Serene Teak Bed</h3>
+                </div>
+            </div>
+            <!-- Card 4 -->
+            <div class="product-card" data-category="office">
+                <div class="product-img-wrapper">
+                    <img src="assets/images/prod_desk.png" alt="Minimalist Work Desk">
+                    <div class="glass-hover-overlay">
+                        <a href="products/minimalist-work-desk.html" class="lux-btn">View Details</a>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <span class="product-cat">Office</span>
+                    <h3>Minimalist Work Desk</h3>
+                </div>
+            </div>
+            <!-- Card 5 -->
+            <div class="product-card" data-category="office">
+                <div class="product-img-wrapper">
+                    <img src="assets/images/prod_ergo.png" alt="ErgoPro Task Chair">
+                    <div class="glass-hover-overlay">
+                        <a href="products/ergopro-task-chair.html" class="lux-btn">View Details</a>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <span class="product-cat">Office</span>
+                    <h3>ErgoPro Task Chair</h3>
+                </div>
+            </div>
+            <!-- Card 6 -->
+            <div class="product-card" data-category="living">
+                <div class="product-img-wrapper">
+                    <img src="assets/images/prod_sofa.png" alt="Chesterfield Sofa">
+                    <div class="glass-hover-overlay">
+                        <a href="products/chesterfield-sofa.html" class="lux-btn">View Details</a>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <span class="product-cat">Living Room</span>
+                    <h3>Chesterfield Sofa</h3>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-grid">
+            <div class="footer-col">
+                <a href="index.html" class="logo footer-logo">Woodland</a>
+                <p>A leading household and office furniture designer specializing in premium woodwork, solid teak furniture, and high-end customizations.</p>
+                <p><i class="fa-solid fa-location-dot"></i> Shop No. 12/13, Laxmi Vishnu (L.V.) Complex, Ramlal Chowk, Railway Line, Solapur – 413001, Maharashtra, India (Opposite Chitnis Nursing Home)</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Collections</h4>
+                <ul class="footer-links">
+                    <li><a href="products.html?cat=living">Living Room</a></li>
+                    <li><a href="products.html?cat=bedroom">Bedroom</a></li>
+                    <li><a href="products.html?cat=office">Office</a></li>
+                    <li><a href="products.html?cat=dining">Dining</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Showroom & Contact</h4>
+                <p><i class="fa-solid fa-clock"></i> Monday - Sunday: 10:00 AM - 9:00 PM</p>
+                <p><i class="fa-solid fa-phone"></i> +91 98601 93414</p>
+                <p><i class="fa-solid fa-phone"></i> +91 76669 73120</p>
+                <p><i class="fa-solid fa-phone"></i> Landline: 0217-2623120</p>
+                <p><i class="fa-solid fa-envelope"></i> surwoodland@yahoo.co.in</p>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <p>&copy; 2026 Woodland Solapur. All rights reserved.</p>
+            <p>Designed for Luxury | Solapur, MH, India</p>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
