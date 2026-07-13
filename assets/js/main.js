@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initNavigation();
     initMobileMenu();
     initFilters();
+    initProductGallery();
+    initAccordions();
 });
 
 function initNavigation() {
@@ -109,5 +111,33 @@ function filterProducts(category, cards) {
         } else {
             card.style.display = 'none';
         }
+    });
+}
+
+function initProductGallery() {
+    const thumbs = document.querySelectorAll('.thumb-img');
+    const mainImg = document.querySelector('.main-detail-img img');
+    if (!mainImg) return;
+    thumbs.forEach(thumb => {
+        thumb.addEventListener('click', () => {
+            thumbs.forEach(t => t.classList.remove('active'));
+            thumb.classList.add('active');
+            const newSrc = thumb.querySelector('img').getAttribute('src');
+            mainImg.setAttribute('src', newSrc);
+        });
+    });
+}
+
+function initAccordions() {
+    const headers = document.querySelectorAll('.accordion-header');
+    headers.forEach(header => {
+        header.addEventListener('click', () => {
+            const item = header.parentElement;
+            const isActive = item.classList.contains('active');
+            document.querySelectorAll('.accordion-item').forEach(i => i.classList.remove('active'));
+            if (!isActive) {
+                item.classList.add('active');
+            }
+        });
     });
 }
