@@ -1111,15 +1111,12 @@ textarea.form-control {
 /* Responsive Overrides for About & Contact */
 @media (max-width: 992px) {
     .about-content-row {
-        grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: column;
         gap: 40px;
     }
     .about-content-row:nth-child(even) {
-        direction: rtl;
-    }
-    .about-content-row:nth-child(even) .about-text,
-    .about-content-row:nth-child(even) .about-image {
-        direction: ltr;
+        flex-direction: column-reverse;
     }
     .about-image {
         height: 380px;
