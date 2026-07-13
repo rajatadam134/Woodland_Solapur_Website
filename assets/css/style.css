@@ -1207,7 +1207,73 @@ textarea.form-control {
 @media (max-width: 576px) {
     .gallery-grid.staggered-collage {
         grid-template-columns: 1fr !important;
-        gap: 16px;
     }
 }
+
+/* Catalog Grid Gallery Layout */
+.gallery-grid.catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    padding: 40px 0;
+    align-items: stretch;
+}
+
+.gallery-grid.catalog-grid .gallery-item {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    background: #FAF9F6;
+    border-radius: 24px;
+    padding: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(82, 64, 50, 0.03);
+    border: 1px solid rgba(82, 64, 50, 0.05);
+    height: auto !important;
+    cursor: pointer;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+
+.gallery-grid.catalog-grid .gallery-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(82, 64, 50, 0.08);
+}
+
+.gallery-grid.catalog-grid .gallery-item img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain !important;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gallery-grid.catalog-grid .gallery-item:hover img {
+    transform: scale(1.04);
+}
+
+/* Responsive adjustments for catalog grid */
+@media (max-width: 992px) {
+    .gallery-grid.catalog-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 24px;
+        padding: 20px 0;
+    }
+    .gallery-grid.catalog-grid .gallery-item {
+        padding: 36px;
+    }
+}
+
+@media (max-width: 576px) {
+    .gallery-grid.catalog-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px;
+    }
+    .gallery-grid.catalog-grid .gallery-item {
+        padding: 24px;
+    }
+}
+
 
