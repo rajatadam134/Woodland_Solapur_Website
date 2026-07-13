@@ -1221,10 +1221,10 @@ textarea.form-control {
 
 .gallery-grid.catalog-grid .gallery-item {
     position: relative;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 4 / 3;
     background: #FAF9F6;
     border-radius: 24px;
-    padding: 48px;
+    padding: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
