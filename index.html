@@ -13,14 +13,20 @@
     <header>
         <div class="container nav-wrapper">
             <a href="index.html" class="logo">Woodland</a>
-            <ul class="nav-links">
+            <ul class="nav-links" id="navLinks">
                 <li class="active"><a href="index.html">Home</a></li>
                 <li><a href="products.html">Products</a></li>
                 <li><a href="gallery.html">Gallery</a></li>
                 <li><a href="about.html">About Us</a></li>
                 <li><a href="contact.html">Contact</a></li>
+                <li class="mobile-only"><a href="contact.html" class="lux-btn lux-btn-outline nav-btn">Schedule Visit</a></li>
             </ul>
-            <a href="contact.html" class="lux-btn lux-btn-outline" style="padding: 10px 20px; font-size: 14px;">Schedule Visit</a>
+            <a href="contact.html" class="lux-btn lux-btn-outline nav-btn desktop-only">Schedule Visit</a>
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle Menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
         </div>
     </header>
 
@@ -30,7 +36,7 @@
             <div class="hero-content">
                 <h1>Bespoke Furniture To Match Your Personality</h1>
                 <p>Explore our curated top-class furniture collections. Handcrafted in Solapur, Maharashtra, with timeless premium teak, customized fabrics, and precise structural details.</p>
-                <div style="display: flex; gap: 16px;">
+                <div class="hero-actions">
                     <a href="products.html" class="lux-btn">Explore Catalog</a>
                     <a href="about.html" class="lux-btn lux-btn-outline">Our Story</a>
                 </div>
@@ -47,7 +53,7 @@
     </section>
 
     <!-- Curated Collections -->
-    <section style="padding: 60px 0 100px;">
+    <section class="collections-section">
         <div class="container">
             <div class="section-title-wrapper">
                 <div class="section-subtitle">Curated Collections</div>
@@ -79,13 +85,29 @@
         </div>
     </section>
 
+    <!-- Story Preview Section -->
+    <section class="story-preview-section">
+        <div class="container story-grid">
+            <div class="story-image">
+                <img src="assets/images/story_crafts.png" alt="Master Craftsman Carving Teak Wood">
+            </div>
+            <div class="story-content">
+                <div class="section-subtitle">Our Heritage</div>
+                <h2 class="section-title-left">Crafting Legacies in Solapur</h2>
+                <p>For decades, Woodland has been the cornerstone of luxury bespoke furniture in Solapur, Maharashtra. Our journey began with a simple passion: transforming premium, solid teak wood into exquisite, functional works of art that reflect the unique personality of our clients.</p>
+                <p>Every piece in our collection is painstakingly handcrafted by master artisans who blend traditional joinery techniques with modern ergonomic design. From selecting the finest logs to the final polish, we ensure unmatched attention to detail and structural integrity.</p>
+                <a href="about.html" class="lux-btn">Discover Our Story</a>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer>
         <div class="container footer-grid">
             <div class="footer-col">
-                <a href="index.html" class="logo" style="display: inline-block; margin-bottom: 20px;">Woodland</a>
+                <a href="index.html" class="logo footer-logo">Woodland</a>
                 <p>A leading household and office furniture designer specializing in premium woodwork, solid teak furniture, and high-end customizations.</p>
-                <p><i class="fa-solid fa-location-dot" style="margin-right: 8px;"></i> Ramlal Chowk, Solapur - 413001</p>
+                <p><i class="fa-solid fa-location-dot"></i> Shop No. 12/13, Laxmi Vishnu (L.V.) Complex, Ramlal Chowk, Railway Line, Solapur – 413001, Maharashtra, India (Opposite Chitnis Nursing Home)</p>
             </div>
             <div class="footer-col">
                 <h4>Quick Links</h4>
@@ -107,10 +129,12 @@
                 </ul>
             </div>
             <div class="footer-col">
-                <h4>Showroom Hours</h4>
-                <p>Monday - Sunday: 10:00 AM - 9:00 PM</p>
-                <p>Inquiries: +91 98601 93414</p>
-                <p>Email: surwoodland@yahoo.co.in</p>
+                <h4>Showroom & Contact</h4>
+                <p><i class="fa-solid fa-clock"></i> Monday - Sunday: 10:00 AM - 9:00 PM</p>
+                <p><i class="fa-solid fa-phone"></i> +91 98601 93414</p>
+                <p><i class="fa-solid fa-phone"></i> +91 76669 73120</p>
+                <p><i class="fa-solid fa-phone"></i> Landline: 0217-2623120</p>
+                <p><i class="fa-solid fa-envelope"></i> surwoodland@yahoo.co.in</p>
             </div>
         </div>
         <div class="container footer-bottom">
