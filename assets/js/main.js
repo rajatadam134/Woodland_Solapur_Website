@@ -122,8 +122,10 @@ function initProductGallery() {
         thumb.addEventListener('click', () => {
             thumbs.forEach(t => t.classList.remove('active'));
             thumb.classList.add('active');
-            const newSrc = thumb.querySelector('img').getAttribute('src');
-            mainImg.setAttribute('src', newSrc);
+            const img = thumb.querySelector('img');
+            if (img) {
+                mainImg.setAttribute('src', img.getAttribute('src'));
+            }
         });
     });
 }

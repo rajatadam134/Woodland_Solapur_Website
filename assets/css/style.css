@@ -820,7 +820,7 @@ footer {
     color: var(--text-secondary);
 }
 .accordion-item.active .accordion-content {
-    max-height: 200px;
+    max-height: 500px;
 }
 .accordion-item.active i {
     transform: rotate(180deg);
