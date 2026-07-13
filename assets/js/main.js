@@ -158,11 +158,12 @@ function initLightbox() {
         item.addEventListener('click', () => {
             const src = item.getAttribute('data-image');
             const ref = item.getAttribute('data-ref');
+            const title = item.getAttribute('data-title') || 'Gallery Setup';
             modalImg.setAttribute('src', src);
             
             // Set custom prefilled WhatsApp message
-            const message = encodeURIComponent(`Hi Woodland! I'm interested in inquiring about the custom gallery layout/setup shown in: ${ref}. Can we customize this for our space?`);
-            inquireBtn.setAttribute('href', `https://wa.me/918767223224?text=${message}`);
+            const msgText = `Hi Woodland Solapur! I would like to enquire about this and similar types of products: *${title}* (Ref: ${ref}). Link: http://www.woodlandsolapur.com/gallery.html#${ref}`;
+            inquireBtn.setAttribute('href', `https://wa.me/918767223224?text=${encodeURIComponent(msgText)}`);
             
             document.body.style.overflow = 'hidden';
             modal.classList.add('active');
