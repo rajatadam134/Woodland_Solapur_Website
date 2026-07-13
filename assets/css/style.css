@@ -1142,7 +1142,67 @@ textarea.form-control {
     .contact-cta-buttons {
         flex-direction: column;
     }
-    .contact-cta-buttons .lux-btn {
-        width: 100%;
     }
 }
+
+/* Staggered Collage Gallery Layout */
+.gallery-grid.staggered-collage {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 40px;
+    align-items: center;
+    padding: 40px 0;
+}
+
+.gallery-grid.staggered-collage .gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+
+.gallery-grid.staggered-collage .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gallery-grid.staggered-collage .gallery-item:hover img {
+    transform: scale(1.05);
+}
+
+.gallery-grid.staggered-collage .gallery-item:hover {
+    box-shadow: var(--shadow-lg);
+}
+
+/* Staggered Spans & Offsets for Collage Grid */
+.gallery-grid.staggered-collage .gallery-item:nth-child(1) { grid-column: span 5; aspect-ratio: 3/4; }
+.gallery-grid.staggered-collage .gallery-item:nth-child(2) { grid-column: span 7; aspect-ratio: 16/10; transform: translateY(40px); }
+.gallery-grid.staggered-collage .gallery-item:nth-child(3) { grid-column: span 7; aspect-ratio: 16/9; transform: translateY(-20px); }
+.gallery-grid.staggered-collage .gallery-item:nth-child(4) { grid-column: span 5; aspect-ratio: 4/5; }
+.gallery-grid.staggered-collage .gallery-item:nth-child(5) { grid-column: span 6; aspect-ratio: 1/1; transform: translateY(30px); }
+.gallery-grid.staggered-collage .gallery-item:nth-child(6) { grid-column: span 6; aspect-ratio: 16/10; transform: translateY(-30px); }
+
+/* Responsive adjustments for staggered grid */
+@media (max-width: 992px) {
+    .gallery-grid.staggered-collage {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 24px;
+        padding: 20px 0;
+    }
+    .gallery-grid.staggered-collage .gallery-item {
+        grid-column: span 1 !important;
+        transform: none !important;
+        aspect-ratio: 4/3 !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .gallery-grid.staggered-collage {
+        grid-template-columns: 1fr !important;
+        gap: 16px;
+    }
+}
+
