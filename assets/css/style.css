@@ -918,6 +918,7 @@ footer {
 }
 .lightbox-content {
     position: relative;
+    width: calc(100% - 48px);
     max-width: 900px;
     max-height: 80vh;
     border-radius: 24px;
@@ -948,6 +949,11 @@ footer {
     left: 50%;
     transform: translateX(-50%);
     z-index: 2001;
+}
+.lightbox-modal .lightbox-inquire-btn:hover {
+    background: #FFFFFF;
+    color: var(--accent-color);
+    border-color: #FFFFFF;
 }
 
 /* Responsive Gallery Grid */

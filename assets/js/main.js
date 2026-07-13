@@ -164,17 +164,30 @@ function initLightbox() {
             const message = encodeURIComponent(`Hi Woodland! I'm interested in inquiring about the custom gallery layout/setup shown in: ${ref}. Can we customize this for our space?`);
             inquireBtn.setAttribute('href', `https://wa.me/918767223224?text=${message}`);
             
+            document.body.style.overflow = 'hidden';
             modal.classList.add('active');
         });
     });
 
     closeBtn.addEventListener('click', () => {
         modal.classList.remove('active');
+        document.body.style.overflow = '';
+        modalImg.setAttribute('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7');
     });
 
     modal.addEventListener('click', (e) => {
         if (e.target === modal) {
             modal.classList.remove('active');
+            document.body.style.overflow = '';
+            modalImg.setAttribute('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7');
+        }
+    });
+
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+            modalImg.setAttribute('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7');
         }
     });
 }
