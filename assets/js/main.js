@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initFilters();
     initProductGallery();
     initAccordions();
+    initLightbox();
 });
 
 function initNavigation() {
@@ -141,5 +142,39 @@ function initAccordions() {
                 item.classList.add('active');
             }
         });
+    });
+}
+
+function initLightbox() {
+    const items = document.querySelectorAll('.gallery-item');
+    const modal = document.querySelector('.lightbox-modal');
+    if (!modal) return;
+    
+    const modalImg = modal.querySelector('img');
+    const closeBtn = modal.querySelector('.lightbox-close');
+    const inquireBtn = modal.querySelector('.lightbox-inquire-btn');
+
+    items.forEach(item => {
+        item.addEventListener('click', () => {
+            const src = item.getAttribute('data-image');
+            const ref = item.getAttribute('data-ref');
+            modalImg.setAttribute('src', src);
+            
+            // Set custom prefilled WhatsApp message
+            const message = encodeURIComponent(`Hi Woodland! I'm interested in inquiring about the custom gallery layout/setup shown in: ${ref}. Can we customize this for our space?`);
+            inquireBtn.setAttribute('href', `https://wa.me/918767223224?text=${message}`);
+            
+            modal.classList.add('active');
+        });
+    });
+
+    closeBtn.addEventListener('click', () => {
+        modal.classList.remove('active');
+    });
+
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.classList.remove('active');
+        }
     });
 }
