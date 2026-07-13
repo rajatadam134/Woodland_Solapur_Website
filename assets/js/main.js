@@ -162,7 +162,7 @@ function initLightbox() {
             modalImg.setAttribute('src', src);
             
             // Set custom prefilled WhatsApp message
-            const msgText = `Hi Woodland Solapur! I would like to enquire about this and similar types of products: *${title}* (Ref: ${ref}). Link: http://www.woodlandsolapur.com/gallery.html#${ref}`;
+            const msgText = `Hi Woodland Solapur! I would like to enquire about this and similar types of products: *${title}* (Ref: ${ref}). Link: https://rajatadam134.github.io/Woodland_Solapur_Website/gallery.html#${ref}`;
             inquireBtn.setAttribute('href', `https://wa.me/918767223224?text=${encodeURIComponent(msgText)}`);
             
             document.body.style.overflow = 'hidden';
