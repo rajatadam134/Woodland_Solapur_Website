@@ -407,9 +407,9 @@
 
 - [ ] **Step 2: Generate premium image files for the Homepage**
   Use `generate_image` to create luxury furniture photos for our hero and catalog:
-  - Slide/Hero: Stately high-end modern arm chair in studio lighting. Save to `assets/images/hero_chair1.png`.
-  - Staggered Hero: High-end luxury side cabinet or coffee table. Save to `assets/images/hero_table2.png`.
-  - Collections: Living Room luxury sofa setup (`assets/images/cat_living.png`), Bedroom teak bed setup (`assets/images/cat_bedroom.png`), Executive office table/chair setup (`assets/images/cat_office.png`).
+  - Slide/Hero: Stately high-end modern arm chair in studio lighting. Save to `assets/images/hero_chair1.jpg`.
+  - Staggered Hero: High-end luxury side cabinet or coffee table. Save to `assets/images/hero_table2.jpg`.
+  - Collections: Living Room luxury sofa setup (`assets/images/cat_living.jpg`), Bedroom teak bed setup (`assets/images/cat_bedroom.jpg`), Executive office table/chair setup (`assets/images/cat_office.jpg`).
 
 - [ ] **Step 3: Create the HTML structure in `index.html`**
   Create `index.html` with correct structural markup, linking styles and main.js:
@@ -453,10 +453,10 @@
               </div>
               <div class="hero-images">
                   <div class="hero-img-container hero-img-1">
-                      <img src="assets/images/hero_chair1.png" alt="Luxury Arm Chair">
+                      <img src="assets/images/hero_chair1.jpg" alt="Luxury Arm Chair">
                   </div>
                   <div class="hero-img-container hero-img-2">
-                      <img src="assets/images/hero_table2.png" alt="Bespoke Coffee Table">
+                      <img src="assets/images/hero_table2.jpg" alt="Bespoke Coffee Table">
                   </div>
               </div>
           </div>
@@ -471,21 +471,21 @@
               </div>
               <div class="collections-grid">
                   <a href="products.html?cat=living" class="collection-card">
-                      <img src="assets/images/cat_living.png" alt="Living Room Collection">
+                      <img src="assets/images/cat_living.jpg" alt="Living Room Collection">
                       <div class="collection-overlay">
                           <h3>Living Room</h3>
                           <p>Timeless sofas, armchairs, and coffee tables.</p>
                       </div>
                   </a>
                   <a href="products.html?cat=bedroom" class="collection-card">
-                      <img src="assets/images/cat_bedroom.png" alt="Bedroom Collection">
+                      <img src="assets/images/cat_bedroom.jpg" alt="Bedroom Collection">
                       <div class="collection-overlay">
                           <h3>Bedroom</h3>
                           <p>Bespoke teak beds, nightstands, and wardrobes.</p>
                       </div>
                   </a>
                   <a href="products.html?cat=office" class="collection-card">
-                      <img src="assets/images/cat_office.png" alt="Office Collection">
+                      <img src="assets/images/cat_office.jpg" alt="Office Collection">
                       <div class="collection-overlay">
                           <h3>Office Suite</h3>
                           <p>Ergonomic chairs and executive desk setups.</p>
@@ -666,12 +666,12 @@
 
 - [ ] **Step 2: Generate high-resolution product images**
   Generate images using `generate_image` and save as:
-  - `assets/images/prod_contor.png` (Contor Arm Chair)
-  - `assets/images/prod_wishbone.png` (Wishbone Chair)
-  - `assets/images/prod_bed.png` (Teak wood Bed)
-  - `assets/images/prod_desk.png` (Minimalist Desk)
-  - `assets/images/prod_ergo.png` (Ergonomic Office Chair)
-  - `assets/images/prod_sofa.png` (Chesterfield Sofa)
+  - `assets/images/prod_contor.jpg` (Contor Arm Chair)
+  - `assets/images/prod_wishbone.jpg` (Wishbone Chair)
+  - `assets/images/prod_bed.jpg` (Teak wood Bed)
+  - `assets/images/prod_desk.jpg` (Minimalist Desk)
+  - `assets/images/prod_ergo.jpg` (Ergonomic Office Chair)
+  - `assets/images/prod_sofa.jpg` (Chesterfield Sofa)
 
 - [ ] **Step 3: Create the HTML structure in `products.html`**
   ```html
@@ -717,7 +717,7 @@
               <!-- Card 1 -->
               <div class="product-card" data-category="living">
                   <div class="product-img-wrapper">
-                      <img src="assets/images/prod_contor.png" alt="Contor Arm Chair">
+                      <img src="assets/images/prod_contor.jpg" alt="Contor Arm Chair">
                       <div class="glass-hover-overlay">
                           <a href="products/contor-arm-chair.html" class="lux-btn">View Details</a>
                       </div>
@@ -730,7 +730,7 @@
               <!-- Card 2 -->
               <div class="product-card" data-category="dining">
                   <div class="product-img-wrapper">
-                      <img src="assets/images/prod_wishbone.png" alt="Wishbone Dining Chair">
+                      <img src="assets/images/prod_wishbone.jpg" alt="Wishbone Dining Chair">
                       <div class="glass-hover-overlay">
                           <a href="products/wishbone-dining-chair.html" class="lux-btn">View Details</a>
                       </div>
@@ -743,7 +743,7 @@
               <!-- Card 3 -->
               <div class="product-card" data-category="bedroom">
                   <div class="product-img-wrapper">
-                      <img src="assets/images/prod_bed.png" alt="Serene Teak Bed">
+                      <img src="assets/images/prod_bed.jpg" alt="Serene Teak Bed">
                       <div class="glass-hover-overlay">
                           <a href="products/serene-teak-bed.html" class="lux-btn">View Details</a>
                       </div>
@@ -756,7 +756,7 @@
               <!-- Card 4 -->
               <div class="product-card" data-category="office">
                   <div class="product-img-wrapper">
-                      <img src="assets/images/prod_desk.png" alt="Minimalist Work Desk">
+                      <img src="assets/images/prod_desk.jpg" alt="Minimalist Work Desk">
                       <div class="glass-hover-overlay">
                           <a href="products/minimalist-work-desk.html" class="lux-btn">View Details</a>
                       </div>
@@ -769,7 +769,7 @@
               <!-- Card 5 -->
               <div class="product-card" data-category="office">
                   <div class="product-img-wrapper">
-                      <img src="assets/images/prod_ergo.png" alt="ErgoPro Task Chair">
+                      <img src="assets/images/prod_ergo.jpg" alt="ErgoPro Task Chair">
                       <div class="glass-hover-overlay">
                           <a href="products/ergopro-task-chair.html" class="lux-btn">View Details</a>
                       </div>
@@ -782,7 +782,7 @@
               <!-- Card 6 -->
               <div class="product-card" data-category="living">
                   <div class="product-img-wrapper">
-                      <img src="assets/images/prod_sofa.png" alt="Chesterfield Sofa">
+                      <img src="assets/images/prod_sofa.jpg" alt="Chesterfield Sofa">
                       <div class="glass-hover-overlay">
                           <a href="products/chesterfield-sofa.html" class="lux-btn">View Details</a>
                       </div>
@@ -1033,7 +1033,7 @@
       <!-- OpenGraph Metadata for WhatsApp Link Preview -->
       <meta property="og:title" content="Wishbone Dining Chair | Woodland Furniture">
       <meta property="og:description" content="Discover hand-crafted solid teak wood comfort. Available for custom orders from Woodland Solapur.">
-      <meta property="og:image" content="https://woodlandsolapur.com/assets/images/prod_wishbone.png">
+      <meta property="og:image" content="https://woodlandsolapur.com/assets/images/prod_wishbone.jpg">
       <meta property="og:type" content="product">
       
       <link rel="stylesheet" href="../assets/css/style.css">
@@ -1060,11 +1060,11 @@
               <!-- Gallery -->
               <div class="detail-gallery">
                   <div class="main-detail-img">
-                      <img src="../assets/images/prod_wishbone.png" alt="Wishbone Dining Chair">
+                      <img src="../assets/images/prod_wishbone.jpg" alt="Wishbone Dining Chair">
                   </div>
                   <div class="gallery-thumbs">
-                      <div class="thumb-img active"><img src="../assets/images/prod_wishbone.png" alt="Angle 1"></div>
-                      <div class="thumb-img"><img src="../assets/images/prod_wishbone.png" alt="Angle 2"></div>
+                      <div class="thumb-img active"><img src="../assets/images/prod_wishbone.jpg" alt="Angle 1"></div>
+                      <div class="thumb-img"><img src="../assets/images/prod_wishbone.jpg" alt="Angle 2"></div>
                   </div>
               </div>
 
@@ -1236,11 +1236,11 @@
 
 - [ ] **Step 2: Generate unique Gallery showcase images**
   Generate beautiful showroom/installation snapshots using `generate_image` tool:
-  - `assets/images/gal_sofa_setup.png` (Living room layout showcase)
-  - `assets/images/gal_bedroom_setup.png` (Bespoke bedroom setup)
-  - `assets/images/gal_office_setup.png` (Premium office workstation setup)
-  - `assets/images/gal_dining_setup.png` (Luxury wooden dining arrangement)
-  - `assets/images/gal_craftsmanship.png` (Detail view of wood craftsmanship texture)
+  - `assets/images/gal_sofa_setup.jpg` (Living room layout showcase)
+  - `assets/images/gal_bedroom_setup.jpg` (Bespoke bedroom setup)
+  - `assets/images/gal_office_setup.jpg` (Premium office workstation setup)
+  - `assets/images/gal_dining_setup.jpg` (Luxury wooden dining arrangement)
+  - `assets/images/gal_craftsmanship.jpg` (Detail view of wood craftsmanship texture)
 
 - [ ] **Step 3: Create the HTML structure in `gallery.html`**
   Include a `.lightbox-modal` element in the document structure:
@@ -1272,24 +1272,24 @@
 
       <!-- Grid -->
       <div class="container gallery-grid">
-          <div class="gallery-item" data-image="assets/images/gal_sofa_setup.png" data-ref="luxury-sofa-setup">
-              <img src="assets/images/gal_sofa_setup.png" alt="Luxury Living Setup">
+          <div class="gallery-item" data-image="assets/images/gal_sofa_setup.jpg" data-ref="luxury-sofa-setup">
+              <img src="assets/images/gal_sofa_setup.jpg" alt="Luxury Living Setup">
               <div class="gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
           </div>
-          <div class="gallery-item" data-image="assets/images/gal_bedroom_setup.png" data-ref="bedroom-setup">
-              <img src="assets/images/gal_bedroom_setup.png" alt="Bespoke Bedroom Suite">
+          <div class="gallery-item" data-image="assets/images/gal_bedroom_setup.jpg" data-ref="bedroom-setup">
+              <img src="assets/images/gal_bedroom_setup.jpg" alt="Bespoke Bedroom Suite">
               <div class="gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
           </div>
-          <div class="gallery-item" data-image="assets/images/gal_office_setup.png" data-ref="executive-office">
-              <img src="assets/images/gal_office_setup.png" alt="Executive Corporate Workspace">
+          <div class="gallery-item" data-image="assets/images/gal_office_setup.jpg" data-ref="executive-office">
+              <img src="assets/images/gal_office_setup.jpg" alt="Executive Corporate Workspace">
               <div class="gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
           </div>
-          <div class="gallery-item" data-image="assets/images/gal_dining_setup.png" data-ref="dining-arrangement">
-              <img src="assets/images/gal_dining_setup.png" alt="Crafted Dining Layout">
+          <div class="gallery-item" data-image="assets/images/gal_dining_setup.jpg" data-ref="dining-arrangement">
+              <img src="assets/images/gal_dining_setup.jpg" alt="Crafted Dining Layout">
               <div class="gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
           </div>
-          <div class="gallery-item" data-image="assets/images/gal_craftsmanship.png" data-ref="woodwork-texture">
-              <img src="assets/images/gal_craftsmanship.png" alt="Teakwood Craftsmanship Details">
+          <div class="gallery-item" data-image="assets/images/gal_craftsmanship.jpg" data-ref="woodwork-texture">
+              <img src="assets/images/gal_craftsmanship.jpg" alt="Teakwood Craftsmanship Details">
               <div class="gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
           </div>
       </div>

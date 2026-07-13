@@ -84,30 +84,30 @@ We will use a 3-column grid of perfectly square cells where product images float
 
 To showcase our clean studio assets in the gallery:
 
-1.  **Windsor Velvet Sofa** (`assets/images/prod_yellow_sofa.png`):
+1.  **Windsor Velvet Sofa** (`assets/images/prod_yellow_sofa.jpg`):
     *   *Reference*: Living room luxury sofa
     *   *Anchor Ref*: `gal-sofa`
-2.  **Office Executive Ergonomic Chair** (`assets/images/prod_office_chair.png`):
+2.  **Office Executive Ergonomic Chair** (`assets/images/prod_office_chair.jpg`):
     *   *Reference*: Tall back office chair
     *   *Anchor Ref*: `gal-office-chair`
-3.  **Modern White Marble Dining Table** (`assets/images/prod_white_dining.png`):
+3.  **Modern White Marble Dining Table** (`assets/images/prod_white_dining.jpg`):
     *   *Reference*: Dining table showcase
     *   *Anchor Ref*: `gal-white-dining`
-4.  **Staggered Center Table** (`assets/images/prod_coffee_table.png`):
+4.  **Staggered Center Table** (`assets/images/prod_coffee_table.jpg`):
     *   *Reference*: Center coffee table
     *   *Anchor Ref*: `gal-coffee-table`
-5.  **Classic Teak Dining Suite** (`assets/images/prod_dining_suite.png`):
+5.  **Classic Teak Dining Suite** (`assets/images/prod_dining_suite.jpg`):
     *   *Reference*: Classic solid wood dining suite
     *   *Anchor Ref*: `gal-dining-suite`
-6.  **Luxury Cream Marble Dining Suite** (`assets/images/prod_cream_dining.png`):
+6.  **Luxury Cream Marble Dining Suite** (`assets/images/prod_cream_dining.jpg`):
     *   *Reference*: Pedestal dining table with upholstered seats
     *   *Anchor Ref*: `gal-cream-dining`
-7.  **Teak Compactors Storage System** (`assets/images/prod_compactors.png`):
+7.  **Teak Compactors Storage System** (`assets/images/prod_compactors.jpg`):
     *   *Reference*: Office drawer/cabinet system
     *   *Anchor Ref*: `gal-compactors`
-8.  **Classic Teak Bed Set** (`assets/images/prod_bed_set.png`):
+8.  **Classic Teak Bed Set** (`assets/images/prod_bed_set.jpg`):
     *   *Reference*: Master bed frame set
     *   *Anchor Ref*: `gal-bed-set`
-9.  **Teak TV Console Unit** (`assets/images/prod_tv_console.png`):
+9.  **Teak TV Console Unit** (`assets/images/prod_tv_console.jpg`):
     *   *Reference*: Living room console TV console
     *   *Anchor Ref*: `gal-tv-console`

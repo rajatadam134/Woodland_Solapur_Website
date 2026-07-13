@@ -10,8 +10,8 @@
 Use reference gallery images to produce the 2 new dining product images.
 
 **Files:**
-- Create: `assets/images/prod_cream_dining.png`
-- Create: `assets/images/prod_white_dining.png`
+- Create: `assets/images/prod_cream_dining.jpg`
+- Create: `assets/images/prod_white_dining.jpg`
 
 - [ ] **Step 1: Generate the Luxury Cream Dining image**
   Use `generate_image` with:
@@ -21,7 +21,7 @@ Use reference gallery images to produce the 2 new dining product images.
   - **AspectRatio**: `4:3`
 
 - [ ] **Step 2: Copy image to assets**
-  Copy from the artifacts folder to `assets/images/prod_cream_dining.png`.
+  Copy from the artifacts folder to `assets/images/prod_cream_dining.jpg`.
 
 - [ ] **Step 3: Generate the Modern White Dining image**
   Use `generate_image` with:
@@ -31,7 +31,7 @@ Use reference gallery images to produce the 2 new dining product images.
   - **AspectRatio**: `4:3`
 
 - [ ] **Step 4: Copy image to assets**
-  Copy from the artifacts folder to `assets/images/prod_white_dining.png`.
+  Copy from the artifacts folder to `assets/images/prod_white_dining.jpg`.
 
 - [ ] **Step 5: Commit images**
   Run:
@@ -57,7 +57,7 @@ Modify `products.html` to remove the Kitchen filter pill and add the two new din
               <!-- Card 11: Luxury Cream Marble Dining Suite -->
               <div class="product-card" data-category="dining">
                   <div class="product-img-wrapper">
-                      <img src="assets/images/prod_cream_dining.png" alt="Luxury Cream Marble Dining Suite" loading="lazy">
+                      <img src="assets/images/prod_cream_dining.jpg" alt="Luxury Cream Marble Dining Suite" loading="lazy">
                       <div class="glass-hover-overlay">
                           <a href="products/luxury-cream-dining.html" class="lux-btn">View Details</a>
                       </div>
@@ -70,7 +70,7 @@ Modify `products.html` to remove the Kitchen filter pill and add the two new din
               <!-- Card 12: Modern White Marble Dining Table -->
               <div class="product-card" data-category="dining">
                   <div class="product-img-wrapper">
-                      <img src="assets/images/prod_white_dining.png" alt="Modern White Marble Dining Table" loading="lazy">
+                      <img src="assets/images/prod_white_dining.jpg" alt="Modern White Marble Dining Table" loading="lazy">
                       <div class="glass-hover-overlay">
                           <a href="products/modern-white-dining.html" class="lux-btn">View Details</a>
                       </div>

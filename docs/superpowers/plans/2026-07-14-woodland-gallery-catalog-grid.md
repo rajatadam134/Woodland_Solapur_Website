@@ -99,40 +99,40 @@ Update `gallery.html` to house 9 clean product catalog items.
   Modify `<main class="container gallery-grid staggered-collage">` to use the `catalog-grid` class and populate it with 9 items:
   ```html
       <main class="container gallery-grid catalog-grid">
-          <div class="gallery-item" data-image="assets/images/prod_yellow_sofa.png" data-ref="gal-sofa" data-title="Windsor Velvet Sofa" tabindex="0" role="button">
-              <img src="assets/images/prod_yellow_sofa.png" alt="Windsor Velvet Sofa" loading="lazy">
+          <div class="gallery-item" data-image="assets/images/prod_yellow_sofa.jpg" data-ref="gal-sofa" data-title="Windsor Velvet Sofa" tabindex="0" role="button">
+              <img src="assets/images/prod_yellow_sofa.jpg" alt="Windsor Velvet Sofa" loading="lazy">
               <div class="gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
           </div>
-          <div class="gallery-item" data-image="assets/images/prod_office_chair.png" data-ref="gal-office-chair" data-title="Office Executive Chair" tabindex="0" role="button">
-              <img src="assets/images/prod_office_chair.png" alt="Office Executive Chair" loading="lazy">
+          <div class="gallery-item" data-image="assets/images/prod_office_chair.jpg" data-ref="gal-office-chair" data-title="Office Executive Chair" tabindex="0" role="button">
+              <img src="assets/images/prod_office_chair.jpg" alt="Office Executive Chair" loading="lazy">
               <div class="gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
           </div>
-          <div class="gallery-item" data-image="assets/images/prod_white_dining.png" data-ref="gal-white-dining" data-title="Modern White Marble Dining Table" tabindex="0" role="button">
-              <img src="assets/images/prod_white_dining.png" alt="Modern White Dining Table" loading="lazy">
+          <div class="gallery-item" data-image="assets/images/prod_white_dining.jpg" data-ref="gal-white-dining" data-title="Modern White Marble Dining Table" tabindex="0" role="button">
+              <img src="assets/images/prod_white_dining.jpg" alt="Modern White Dining Table" loading="lazy">
               <div class="gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
           </div>
-          <div class="gallery-item" data-image="assets/images/prod_coffee_table.png" data-ref="gal-coffee-table" data-title="Staggered Center Table" tabindex="0" role="button">
-              <img src="assets/images/prod_coffee_table.png" alt="Staggered Center Table" loading="lazy">
+          <div class="gallery-item" data-image="assets/images/prod_coffee_table.jpg" data-ref="gal-coffee-table" data-title="Staggered Center Table" tabindex="0" role="button">
+              <img src="assets/images/prod_coffee_table.jpg" alt="Staggered Center Table" loading="lazy">
               <div class="gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
           </div>
-          <div class="gallery-item" data-image="assets/images/prod_dining_suite.png" data-ref="gal-dining-suite" data-title="Classic Teak Dining Suite" tabindex="0" role="button">
-              <img src="assets/images/prod_dining_suite.png" alt="Classic Teak Dining Suite" loading="lazy">
+          <div class="gallery-item" data-image="assets/images/prod_dining_suite.jpg" data-ref="gal-dining-suite" data-title="Classic Teak Dining Suite" tabindex="0" role="button">
+              <img src="assets/images/prod_dining_suite.jpg" alt="Classic Teak Dining Suite" loading="lazy">
               <div class="gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
           </div>
-          <div class="gallery-item" data-image="assets/images/prod_cream_dining.png" data-ref="gal-cream-dining" data-title="Luxury Cream Marble Dining Suite" tabindex="0" role="button">
-              <img src="assets/images/prod_cream_dining.png" alt="Luxury Cream Dining Suite" loading="lazy">
+          <div class="gallery-item" data-image="assets/images/prod_cream_dining.jpg" data-ref="gal-cream-dining" data-title="Luxury Cream Marble Dining Suite" tabindex="0" role="button">
+              <img src="assets/images/prod_cream_dining.jpg" alt="Luxury Cream Dining Suite" loading="lazy">
               <div class="gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
           </div>
-          <div class="gallery-item" data-image="assets/images/prod_compactors.png" data-ref="gal-compactors" data-title="Teak Compactors Storage System" tabindex="0" role="button">
-              <img src="assets/images/prod_compactors.png" alt="Teak Compactors Storage System" loading="lazy">
+          <div class="gallery-item" data-image="assets/images/prod_compactors.jpg" data-ref="gal-compactors" data-title="Teak Compactors Storage System" tabindex="0" role="button">
+              <img src="assets/images/prod_compactors.jpg" alt="Teak Compactors Storage System" loading="lazy">
               <div class="gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
           </div>
-          <div class="gallery-item" data-image="assets/images/prod_bed_set.png" data-ref="gal-bed-set" data-title="Classic Teak Bed Set" tabindex="0" role="button">
-              <img src="assets/images/prod_bed_set.png" alt="Classic Teak Bed Set" loading="lazy">
+          <div class="gallery-item" data-image="assets/images/prod_bed_set.jpg" data-ref="gal-bed-set" data-title="Classic Teak Bed Set" tabindex="0" role="button">
+              <img src="assets/images/prod_bed_set.jpg" alt="Classic Teak Bed Set" loading="lazy">
               <div class="gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
           </div>
-          <div class="gallery-item" data-image="assets/images/prod_tv_console.png" data-ref="gal-tv-console" data-title="Teak TV Console Unit" tabindex="0" role="button">
-              <img src="assets/images/prod_tv_console.png" alt="Teak TV Console Unit" loading="lazy">
+          <div class="gallery-item" data-image="assets/images/prod_tv_console.jpg" data-ref="gal-tv-console" data-title="Teak TV Console Unit" tabindex="0" role="button">
+              <img src="assets/images/prod_tv_console.jpg" alt="Teak TV Console Unit" loading="lazy">
               <div class="gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
           </div>
       </main>

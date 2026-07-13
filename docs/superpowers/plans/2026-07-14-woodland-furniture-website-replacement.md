@@ -21,13 +21,13 @@
 Use reference images under `scratch/original_images/` to produce the remaining 7 luxury sand-beige backdrop product images.
 
 **Files:**
-- Create: `assets/images/prod_bed_set.png`
-- Create: `assets/images/prod_dining_suite.png`
-- Create: `assets/images/prod_office_chair.png`
-- Create: `assets/images/prod_compactors.png`
-- Create: `assets/images/prod_tv_console.png`
-- Create: `assets/images/prod_mattress.png`
-- Create: `assets/images/prod_curtains.png`
+- Create: `assets/images/prod_bed_set.jpg`
+- Create: `assets/images/prod_dining_suite.jpg`
+- Create: `assets/images/prod_office_chair.jpg`
+- Create: `assets/images/prod_compactors.jpg`
+- Create: `assets/images/prod_tv_console.jpg`
+- Create: `assets/images/prod_mattress.jpg`
+- Create: `assets/images/prod_curtains.jpg`
 
 - [ ] **Step 1: Generate the Bed Set image**
   Use `generate_image` with:
@@ -37,7 +37,7 @@ Use reference images under `scratch/original_images/` to produce the remaining 7
   - **AspectRatio**: `4:3`
 
 - [ ] **Step 2: Copy bed set image to assets**
-  Copy from the artifacts folder to `assets/images/prod_bed_set.png`.
+  Copy from the artifacts folder to `assets/images/prod_bed_set.jpg`.
 
 - [ ] **Step 3: Generate the Dining Suite image**
   Use `generate_image` with:
@@ -47,7 +47,7 @@ Use reference images under `scratch/original_images/` to produce the remaining 7
   - **AspectRatio**: `4:3`
 
 - [ ] **Step 4: Copy dining suite image to assets**
-  Copy from the artifacts folder to `assets/images/prod_dining_suite.png`.
+  Copy from the artifacts folder to `assets/images/prod_dining_suite.jpg`.
 
 - [ ] **Step 5: Generate the Office Chair image**
   Use `generate_image` with:
@@ -57,7 +57,7 @@ Use reference images under `scratch/original_images/` to produce the remaining 7
   - **AspectRatio**: `4:3`
 
 - [ ] **Step 6: Copy office chair image to assets**
-  Copy from the artifacts folder to `assets/images/prod_office_chair.png`.
+  Copy from the artifacts folder to `assets/images/prod_office_chair.jpg`.
 
 - [ ] **Step 7: Generate the Compactors image**
   Use `generate_image` with:
@@ -67,7 +67,7 @@ Use reference images under `scratch/original_images/` to produce the remaining 7
   - **AspectRatio**: `4:3`
 
 - [ ] **Step 8: Copy compactors image to assets**
-  Copy from the artifacts folder to `assets/images/prod_compactors.png`.
+  Copy from the artifacts folder to `assets/images/prod_compactors.jpg`.
 
 - [ ] **Step 9: Generate the TV Console image**
   Use `generate_image` with:
@@ -77,7 +77,7 @@ Use reference images under `scratch/original_images/` to produce the remaining 7
   - **AspectRatio**: `4:3`
 
 - [ ] **Step 10: Copy TV console image to assets**
-  Copy from the artifacts folder to `assets/images/prod_tv_console.png`.
+  Copy from the artifacts folder to `assets/images/prod_tv_console.jpg`.
 
 - [ ] **Step 11: Generate the Mattress image**
   Use `generate_image` with:
@@ -87,7 +87,7 @@ Use reference images under `scratch/original_images/` to produce the remaining 7
   - **AspectRatio**: `4:3`
 
 - [ ] **Step 12: Copy mattress image to assets**
-  Copy from the artifacts folder to `assets/images/prod_mattress.png`.
+  Copy from the artifacts folder to `assets/images/prod_mattress.jpg`.
 
 - [ ] **Step 13: Generate the Curtains image**
   Use `generate_image` with:
@@ -97,7 +97,7 @@ Use reference images under `scratch/original_images/` to produce the remaining 7
   - **AspectRatio**: `4:3`
 
 - [ ] **Step 14: Copy curtains image to assets**
-  Copy from the artifacts folder to `assets/images/prod_curtains.png`.
+  Copy from the artifacts folder to `assets/images/prod_curtains.jpg`.
 
 - [ ] **Step 15: Commit image assets**
   Run:
@@ -120,7 +120,7 @@ Modify `products.html` to host exactly the 10 authentic products mapped to corre
               <!-- Card 1: Windsor Velvet Sofa -->
               <div class="product-card" data-category="living">
                   <div class="product-img-wrapper">
-                      <img src="assets/images/prod_yellow_sofa.png" alt="Windsor Velvet Sofa" loading="lazy">
+                      <img src="assets/images/prod_yellow_sofa.jpg" alt="Windsor Velvet Sofa" loading="lazy">
                       <div class="glass-hover-overlay">
                           <a href="products/windsor-velvet-sofa.html" class="lux-btn">View Details</a>
                       </div>
@@ -133,7 +133,7 @@ Modify `products.html` to host exactly the 10 authentic products mapped to corre
               <!-- Card 2: Staggered Center Table -->
               <div class="product-card" data-category="living">
                   <div class="product-img-wrapper">
-                      <img src="assets/images/prod_coffee_table.png" alt="Staggered Center Table" loading="lazy">
+                      <img src="assets/images/prod_coffee_table.jpg" alt="Staggered Center Table" loading="lazy">
                       <div class="glass-hover-overlay">
                           <a href="products/staggered-center-table.html" class="lux-btn">View Details</a>
                       </div>
@@ -146,7 +146,7 @@ Modify `products.html` to host exactly the 10 authentic products mapped to corre
               <!-- Card 3: Teak TV Console Unit -->
               <div class="product-card" data-category="living">
                   <div class="product-img-wrapper">
-                      <img src="assets/images/prod_tv_console.png" alt="Teak TV Console Unit" loading="lazy">
+                      <img src="assets/images/prod_tv_console.jpg" alt="Teak TV Console Unit" loading="lazy">
                       <div class="glass-hover-overlay">
                           <a href="products/teak-tv-console.html" class="lux-btn">View Details</a>
                       </div>
@@ -159,7 +159,7 @@ Modify `products.html` to host exactly the 10 authentic products mapped to corre
               <!-- Card 4: Premium Draped Curtains -->
               <div class="product-card" data-category="living">
                   <div class="product-img-wrapper">
-                      <img src="assets/images/prod_curtains.png" alt="Premium Draped Curtains" loading="lazy">
+                      <img src="assets/images/prod_curtains.jpg" alt="Premium Draped Curtains" loading="lazy">
                       <div class="glass-hover-overlay">
                           <a href="products/premium-draped-curtains.html" class="lux-btn">View Details</a>
                       </div>
@@ -172,7 +172,7 @@ Modify `products.html` to host exactly the 10 authentic products mapped to corre
               <!-- Card 5: Classic Teak Bed Set -->
               <div class="product-card" data-category="bedroom">
                   <div class="product-img-wrapper">
-                      <img src="assets/images/prod_bed_set.png" alt="Classic Teak Bed Set" loading="lazy">
+                      <img src="assets/images/prod_bed_set.jpg" alt="Classic Teak Bed Set" loading="lazy">
                       <div class="glass-hover-overlay">
                           <a href="products/classic-teak-bed-set.html" class="lux-btn">View Details</a>
                       </div>
@@ -185,7 +185,7 @@ Modify `products.html` to host exactly the 10 authentic products mapped to corre
               <!-- Card 6: Luxury Pocket Spring Mattress -->
               <div class="product-card" data-category="bedroom">
                   <div class="product-img-wrapper">
-                      <img src="assets/images/prod_mattress.png" alt="Luxury Pocket Spring Mattress" loading="lazy">
+                      <img src="assets/images/prod_mattress.jpg" alt="Luxury Pocket Spring Mattress" loading="lazy">
                       <div class="glass-hover-overlay">
                           <a href="products/luxury-pocket-mattress.html" class="lux-btn">View Details</a>
                       </div>
@@ -198,7 +198,7 @@ Modify `products.html` to host exactly the 10 authentic products mapped to corre
               <!-- Card 7: Classic Teak Dining Suite -->
               <div class="product-card" data-category="dining">
                   <div class="product-img-wrapper">
-                      <img src="assets/images/prod_dining_suite.png" alt="Classic Teak Dining Suite" loading="lazy">
+                      <img src="assets/images/prod_dining_suite.jpg" alt="Classic Teak Dining Suite" loading="lazy">
                       <div class="glass-hover-overlay">
                           <a href="products/classic-teak-dining-suite.html" class="lux-btn">View Details</a>
                       </div>
@@ -211,7 +211,7 @@ Modify `products.html` to host exactly the 10 authentic products mapped to corre
               <!-- Card 8: Veneer Conference Desk -->
               <div class="product-card" data-category="office">
                   <div class="product-img-wrapper">
-                      <img src="assets/images/prod_office_table.png" alt="Veneer Conference Desk" loading="lazy">
+                      <img src="assets/images/prod_office_table.jpg" alt="Veneer Conference Desk" loading="lazy">
                       <div class="glass-hover-overlay">
                           <a href="products/veneer-conference-desk.html" class="lux-btn">View Details</a>
                       </div>
@@ -224,7 +224,7 @@ Modify `products.html` to host exactly the 10 authentic products mapped to corre
               <!-- Card 9: Office Executive Ergonomic Chair -->
               <div class="product-card" data-category="office">
                   <div class="product-img-wrapper">
-                      <img src="assets/images/prod_office_chair.png" alt="Office Executive Ergonomic Chair" loading="lazy">
+                      <img src="assets/images/prod_office_chair.jpg" alt="Office Executive Ergonomic Chair" loading="lazy">
                       <div class="glass-hover-overlay">
                           <a href="products/office-executive-chair.html" class="lux-btn">View Details</a>
                       </div>
@@ -237,7 +237,7 @@ Modify `products.html` to host exactly the 10 authentic products mapped to corre
               <!-- Card 10: Teak Compactors Storage System -->
               <div class="product-card" data-category="office">
                   <div class="product-img-wrapper">
-                      <img src="assets/images/prod_compactors.png" alt="Teak Compactors Storage System" loading="lazy">
+                      <img src="assets/images/prod_compactors.jpg" alt="Teak Compactors Storage System" loading="lazy">
                       <div class="glass-hover-overlay">
                           <a href="products/teak-compactors-storage.html" class="lux-btn">View Details</a>
                       </div>

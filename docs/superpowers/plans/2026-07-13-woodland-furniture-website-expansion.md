@@ -21,9 +21,9 @@
 Use reference images under `scratch/original_images/` to produce the three luxury theme-aligned product images.
 
 **Files:**
-- Create: `assets/images/prod_yellow_sofa.png`
-- Create: `assets/images/prod_coffee_table.png`
-- Create: `assets/images/prod_office_table.png`
+- Create: `assets/images/prod_yellow_sofa.jpg`
+- Create: `assets/images/prod_coffee_table.jpg`
+- Create: `assets/images/prod_office_table.jpg`
 
 - [ ] **Step 1: Generate the Windsor Velvet Sofa image**
   Use `generate_image` with:
@@ -33,7 +33,7 @@ Use reference images under `scratch/original_images/` to produce the three luxur
   - **AspectRatio**: `4:3`
 
 - [ ] **Step 2: Copy generated sofa image to assets**
-  Copy the generated image from the artifacts directory to `assets/images/prod_yellow_sofa.png`.
+  Copy the generated image from the artifacts directory to `assets/images/prod_yellow_sofa.jpg`.
 
 - [ ] **Step 3: Generate the Staggered Center Table image**
   Use `generate_image` with:
@@ -43,7 +43,7 @@ Use reference images under `scratch/original_images/` to produce the three luxur
   - **AspectRatio**: `4:3`
 
 - [ ] **Step 4: Copy generated center table image to assets**
-  Copy the generated image from the artifacts directory to `assets/images/prod_coffee_table.png`.
+  Copy the generated image from the artifacts directory to `assets/images/prod_coffee_table.jpg`.
 
 - [ ] **Step 5: Generate the Veneer Conference Desk image**
   Use `generate_image` with:
@@ -53,7 +53,7 @@ Use reference images under `scratch/original_images/` to produce the three luxur
   - **AspectRatio**: `4:3`
 
 - [ ] **Step 6: Copy generated conference desk image to assets**
-  Copy the generated image from the artifacts directory to `assets/images/prod_office_table.png`.
+  Copy the generated image from the artifacts directory to `assets/images/prod_office_table.jpg`.
 
 - [ ] **Step 7: Verify all files exist**
   Run: `ls assets/images/`
@@ -83,7 +83,7 @@ Append the three new product cards to the product grid deck in the catalog marku
   <!-- Product 7: Windsor Velvet Sofa -->
   <div class="product-card" data-category="living">
       <div class="product-img-wrapper">
-          <img src="assets/images/prod_yellow_sofa.png" alt="Windsor Velvet Sofa" loading="lazy">
+          <img src="assets/images/prod_yellow_sofa.jpg" alt="Windsor Velvet Sofa" loading="lazy">
           <div class="product-overlay">
               <a href="products/windsor-velvet-sofa.html" class="lux-btn lux-btn-light">View Details</a>
           </div>
@@ -101,7 +101,7 @@ Append the three new product cards to the product grid deck in the catalog marku
   <!-- Product 8: Staggered Center Table -->
   <div class="product-card" data-category="living">
       <div class="product-img-wrapper">
-          <img src="assets/images/prod_coffee_table.png" alt="Staggered Center Table" loading="lazy">
+          <img src="assets/images/prod_coffee_table.jpg" alt="Staggered Center Table" loading="lazy">
           <div class="product-overlay">
               <a href="products/staggered-center-table.html" class="lux-btn lux-btn-light">View Details</a>
           </div>
@@ -119,7 +119,7 @@ Append the three new product cards to the product grid deck in the catalog marku
   <!-- Product 9: Veneer Conference Desk -->
   <div class="product-card" data-category="office">
       <div class="product-img-wrapper">
-          <img src="assets/images/prod_office_table.png" alt="Veneer Conference Desk" loading="lazy">
+          <img src="assets/images/prod_office_table.jpg" alt="Veneer Conference Desk" loading="lazy">
           <div class="product-overlay">
               <a href="products/veneer-conference-desk.html" class="lux-btn lux-btn-light">View Details</a>
           </div>

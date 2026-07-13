@@ -52,28 +52,28 @@ Update `gallery.html` to map the 6 showroom setup images.
   Modify `<main class="container gallery-grid catalog-grid">` to populate it with our 6 showroom setups:
   ```html
       <main class="container gallery-grid catalog-grid" style="margin-top: 40px;">
-          <div class="gallery-item" data-image="assets/images/gal_living_setup.png" data-ref="gal-living" data-title="Living Lounge Showcase" tabindex="0" role="button">
-              <img src="assets/images/gal_living_setup.png" alt="Living Lounge Showcase" loading="lazy">
+          <div class="gallery-item" data-image="assets/images/gal_living_setup.jpg" data-ref="gal-living" data-title="Living Lounge Showcase" tabindex="0" role="button">
+              <img src="assets/images/gal_living_setup.jpg" alt="Living Lounge Showcase" loading="lazy">
               <div class="gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
           </div>
-          <div class="gallery-item" data-image="assets/images/gal_dining_setup.png" data-ref="gal-dining" data-title="Luxury Dining Showcase" tabindex="0" role="button">
-              <img src="assets/images/gal_dining_setup.png" alt="Luxury Dining Showcase" loading="lazy">
+          <div class="gallery-item" data-image="assets/images/gal_dining_setup.jpg" data-ref="gal-dining" data-title="Luxury Dining Showcase" tabindex="0" role="button">
+              <img src="assets/images/gal_dining_setup.jpg" alt="Luxury Dining Showcase" loading="lazy">
               <div class="gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
           </div>
-          <div class="gallery-item" data-image="assets/images/gal_bedroom_setup.png" data-ref="gal-bedroom" data-title="Bespoke Bedroom Showcase" tabindex="0" role="button">
-              <img src="assets/images/gal_bedroom_setup.png" alt="Bespoke Bedroom Showcase" loading="lazy">
+          <div class="gallery-item" data-image="assets/images/gal_bedroom_setup.jpg" data-ref="gal-bedroom" data-title="Bespoke Bedroom Showcase" tabindex="0" role="button">
+              <img src="assets/images/gal_bedroom_setup.jpg" alt="Bespoke Bedroom Showcase" loading="lazy">
               <div class="gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
           </div>
-          <div class="gallery-item" data-image="assets/images/gal_office_setup.png" data-ref="gal-office" data-title="Executive Office Showcase" tabindex="0" role="button">
-              <img src="assets/images/gal_office_setup.png" alt="Executive Office Showcase" loading="lazy">
+          <div class="gallery-item" data-image="assets/images/gal_office_setup.jpg" data-ref="gal-office" data-title="Executive Office Showcase" tabindex="0" role="button">
+              <img src="assets/images/gal_office_setup.jpg" alt="Executive Office Showcase" loading="lazy">
               <div class="gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
           </div>
-          <div class="gallery-item" data-image="assets/images/gal_outdoor_swing.png" data-ref="gal-outdoor-swing" data-title="Outdoor Balcony Swings" tabindex="0" role="button">
-              <img src="assets/images/gal_outdoor_swing.png" alt="Outdoor Balcony Swings" loading="lazy">
+          <div class="gallery-item" data-image="assets/images/gal_outdoor_swing.jpg" data-ref="gal-outdoor-swing" data-title="Outdoor Balcony Swings" tabindex="0" role="button">
+              <img src="assets/images/gal_outdoor_swing.jpg" alt="Outdoor Balcony Swings" loading="lazy">
               <div class="gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
           </div>
-          <div class="gallery-item" data-image="assets/images/gal_wicker_seating.png" data-ref="gal-wicker-seating" data-title="Wicker Patio Seating" tabindex="0" role="button">
-              <img src="assets/images/gal_wicker_seating.png" alt="Wicker Patio Seating" loading="lazy">
+          <div class="gallery-item" data-image="assets/images/gal_wicker_seating.jpg" data-ref="gal-wicker-seating" data-title="Wicker Patio Seating" tabindex="0" role="button">
+              <img src="assets/images/gal_wicker_seating.jpg" alt="Wicker Patio Seating" loading="lazy">
               <div class="gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
           </div>
       </main>

@@ -10,12 +10,12 @@
 Use reference gallery photos in `scratch/gallery_images/` to produce the 6 luxury-themed showroom setups.
 
 **Files:**
-- Create: `assets/images/gal_living_setup.png`
-- Create: `assets/images/gal_dining_setup.png`
-- Create: `assets/images/gal_bedroom_setup.png`
-- Create: `assets/images/gal_office_setup.png`
-- Create: `assets/images/gal_outdoor_swing.png`
-- Create: `assets/images/gal_wicker_seating.png`
+- Create: `assets/images/gal_living_setup.jpg`
+- Create: `assets/images/gal_dining_setup.jpg`
+- Create: `assets/images/gal_bedroom_setup.jpg`
+- Create: `assets/images/gal_office_setup.jpg`
+- Create: `assets/images/gal_outdoor_swing.jpg`
+- Create: `assets/images/gal_wicker_seating.jpg`
 
 - [ ] **Step 1: Generate Living Lounge Showcase**
   Use `generate_image` with:
@@ -25,7 +25,7 @@ Use reference gallery photos in `scratch/gallery_images/` to produce the 6 luxur
   - **AspectRatio**: `3:4`
 
 - [ ] **Step 2: Copy image to assets**
-  Copy from the artifacts folder to `assets/images/gal_living_setup.png`.
+  Copy from the artifacts folder to `assets/images/gal_living_setup.jpg`.
 
 - [ ] **Step 3: Generate Luxury Dining Showcase**
   Use `generate_image` with:
@@ -35,7 +35,7 @@ Use reference gallery photos in `scratch/gallery_images/` to produce the 6 luxur
   - **AspectRatio**: `4:3`
 
 - [ ] **Step 4: Copy image to assets**
-  Copy from the artifacts folder to `assets/images/gal_dining_setup.png` (overwriting the existing fictional one).
+  Copy from the artifacts folder to `assets/images/gal_dining_setup.jpg` (overwriting the existing fictional one).
 
 - [ ] **Step 5: Generate Bespoke Bedroom Showcase**
   Use `generate_image` with:
@@ -45,7 +45,7 @@ Use reference gallery photos in `scratch/gallery_images/` to produce the 6 luxur
   - **AspectRatio**: `16:9`
 
 - [ ] **Step 6: Copy image to assets**
-  Copy from the artifacts folder to `assets/images/gal_bedroom_setup.png` (overwriting the existing fictional one).
+  Copy from the artifacts folder to `assets/images/gal_bedroom_setup.jpg` (overwriting the existing fictional one).
 
 - [ ] **Step 7: Generate Executive Office Showcase**
   Use `generate_image` with:
@@ -55,7 +55,7 @@ Use reference gallery photos in `scratch/gallery_images/` to produce the 6 luxur
   - **AspectRatio**: `4:5`
 
 - [ ] **Step 8: Copy image to assets**
-  Copy from the artifacts folder to `assets/images/gal_office_setup.png` (overwriting the existing fictional one).
+  Copy from the artifacts folder to `assets/images/gal_office_setup.jpg` (overwriting the existing fictional one).
 
 - [ ] **Step 9: Generate Outdoor Balcony Swings**
   Use `generate_image` with:
@@ -65,7 +65,7 @@ Use reference gallery photos in `scratch/gallery_images/` to produce the 6 luxur
   - **AspectRatio**: `1:1`
 
 - [ ] **Step 10: Copy image to assets**
-  Copy from the artifacts folder to `assets/images/gal_outdoor_swing.png`.
+  Copy from the artifacts folder to `assets/images/gal_outdoor_swing.jpg`.
 
 - [ ] **Step 11: Generate Wicker Patio Seating**
   Use `generate_image` with:
@@ -75,7 +75,7 @@ Use reference gallery photos in `scratch/gallery_images/` to produce the 6 luxur
   - **AspectRatio**: `16:10`
 
 - [ ] **Step 12: Copy image to assets**
-  Copy from the artifacts folder to `assets/images/gal_wicker_seating.png`.
+  Copy from the artifacts folder to `assets/images/gal_wicker_seating.jpg`.
 
 - [ ] **Step 13: Commit image assets**
   Run:
@@ -165,28 +165,28 @@ Update `gallery.html` markup and `assets/js/main.js` to dynamically encode Whats
   Modify `gallery.html` to update the gallery container element `<main class="gallery-grid">` with class `staggered-collage` and populate it with our 6 items:
   ```html
       <main class="container gallery-grid staggered-collage">
-          <div class="gallery-item" data-image="assets/images/gal_living_setup.png" data-ref="gal-living" data-title="Living Lounge Showcase" tabindex="0" role="button">
-              <img src="assets/images/gal_living_setup.png" alt="Living Lounge Showcase" loading="lazy">
+          <div class="gallery-item" data-image="assets/images/gal_living_setup.jpg" data-ref="gal-living" data-title="Living Lounge Showcase" tabindex="0" role="button">
+              <img src="assets/images/gal_living_setup.jpg" alt="Living Lounge Showcase" loading="lazy">
               <div class="gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
           </div>
-          <div class="gallery-item" data-image="assets/images/gal_dining_setup.png" data-ref="gal-dining" data-title="Luxury Dining Showcase" tabindex="0" role="button">
-              <img src="assets/images/gal_dining_setup.png" alt="Luxury Dining Showcase" loading="lazy">
+          <div class="gallery-item" data-image="assets/images/gal_dining_setup.jpg" data-ref="gal-dining" data-title="Luxury Dining Showcase" tabindex="0" role="button">
+              <img src="assets/images/gal_dining_setup.jpg" alt="Luxury Dining Showcase" loading="lazy">
               <div class="gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
           </div>
-          <div class="gallery-item" data-image="assets/images/gal_bedroom_setup.png" data-ref="gal-bedroom" data-title="Bespoke Bedroom Showcase" tabindex="0" role="button">
-              <img src="assets/images/gal_bedroom_setup.png" alt="Bespoke Bedroom Showcase" loading="lazy">
+          <div class="gallery-item" data-image="assets/images/gal_bedroom_setup.jpg" data-ref="gal-bedroom" data-title="Bespoke Bedroom Showcase" tabindex="0" role="button">
+              <img src="assets/images/gal_bedroom_setup.jpg" alt="Bespoke Bedroom Showcase" loading="lazy">
               <div class="gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
           </div>
-          <div class="gallery-item" data-image="assets/images/gal_office_setup.png" data-ref="gal-office" data-title="Executive Office Showcase" tabindex="0" role="button">
-              <img src="assets/images/gal_office_setup.png" alt="Executive Office Showcase" loading="lazy">
+          <div class="gallery-item" data-image="assets/images/gal_office_setup.jpg" data-ref="gal-office" data-title="Executive Office Showcase" tabindex="0" role="button">
+              <img src="assets/images/gal_office_setup.jpg" alt="Executive Office Showcase" loading="lazy">
               <div class="gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
           </div>
-          <div class="gallery-item" data-image="assets/images/gal_outdoor_swing.png" data-ref="gal-outdoor-swing" data-title="Outdoor Balcony Swings" tabindex="0" role="button">
-              <img src="assets/images/gal_outdoor_swing.png" alt="Outdoor Balcony Swings" loading="lazy">
+          <div class="gallery-item" data-image="assets/images/gal_outdoor_swing.jpg" data-ref="gal-outdoor-swing" data-title="Outdoor Balcony Swings" tabindex="0" role="button">
+              <img src="assets/images/gal_outdoor_swing.jpg" alt="Outdoor Balcony Swings" loading="lazy">
               <div class="gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
           </div>
-          <div class="gallery-item" data-image="assets/images/gal_wicker_seating.png" data-ref="gal-wicker-seating" data-title="Wicker Patio Seating" tabindex="0" role="button">
-              <img src="assets/images/gal_wicker_seating.png" alt="Wicker Patio Seating" loading="lazy">
+          <div class="gallery-item" data-image="assets/images/gal_wicker_seating.jpg" data-ref="gal-wicker-seating" data-title="Wicker Patio Seating" tabindex="0" role="button">
+              <img src="assets/images/gal_wicker_seating.jpg" alt="Wicker Patio Seating" loading="lazy">
               <div class="gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
           </div>
       </main>

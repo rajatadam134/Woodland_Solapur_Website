@@ -15,14 +15,14 @@ Both product images will be processed using AI reference-based backdrop generati
 
 ### 11. Luxury Cream Marble Dining Suite (Dining - `dining`)
 *   **Original Image**: `scratch/gallery_images/07082019122959.jpg` (foreground left)
-*   **AI Backdrop Image**: `assets/images/prod_cream_dining.png`
+*   **AI Backdrop Image**: `assets/images/prod_cream_dining.jpg`
 *   **Details**: High-end dining suite featuring a polished luxury cream marble table top resting on a sculptural curved teak wood pedestal base. Paired with ergonomic high-back chairs upholstered in rich earth-brown fabric.
 *   **Dimensions**: Table Width: 180 cm | Table Depth: 95 cm | Table Height: 75 cm
 *   **Reference Code**: `WD-DN-02`
 
 ### 12. Modern White Marble Dining Table (Dining - `dining`)
 *   **Original Image**: `scratch/gallery_images/07082019122953.jpg` (foreground center)
-*   **AI Backdrop Image**: `assets/images/prod_white_dining.png`
+*   **AI Backdrop Image**: `assets/images/prod_white_dining.jpg`
 *   **Details**: Sleek dining table showcasing a pristine white quartz/marble slab top with soft rounded corners, supported by a clean solid oak subframe and tapered legs. Paired with elegant, minimalist armless dining chairs in sand-beige upholstery.
 *   **Dimensions**: Table Width: 160 cm | Table Depth: 90 cm | Table Height: 75 cm
 *   **Reference Code**: `WD-DN-03`

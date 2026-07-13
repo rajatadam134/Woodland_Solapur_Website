@@ -31,17 +31,17 @@ We will use a 12-column grid layout with varying column spans, aspect ratios, an
 
 ## 2. Showroom Image Assets Mapping
 
-1.  **Living Lounge Showcase** (`assets/images/gal_living_setup.png`):
+1.  **Living Lounge Showcase** (`assets/images/gal_living_setup.jpg`):
     *   *Reference Image*: `scratch/gallery_images/05072019053519.jpg` (showroom coffee tables)
-2.  **Luxury Dining Showcase** (`assets/images/gal_dining_setup.png`):
+2.  **Luxury Dining Showcase** (`assets/images/gal_dining_setup.jpg`):
     *   *Reference Image*: `scratch/gallery_images/07082019122953.jpg` (marble & wood dining tables)
-3.  **Bespoke Bedroom Showcase** (`assets/images/gal_bedroom_setup.png`):
+3.  **Bespoke Bedroom Showcase** (`assets/images/gal_bedroom_setup.jpg`):
     *   *Reference Image*: `scratch/gallery_images/07082019122809.jpg` (teak bedroom set)
-4.  **Executive Office Showcase** (`assets/images/gal_office_setup.png`):
+4.  **Executive Office Showcase** (`assets/images/gal_office_setup.jpg`):
     *   *Reference Image*: `scratch/gallery_images/07082019123238.jpg` (executive office chair rows)
-5.  **Outdoor Balcony Swings** (`assets/images/gal_outdoor_swing.png`):
+5.  **Outdoor Balcony Swings** (`assets/images/gal_outdoor_swing.jpg`):
     *   *Reference Image*: `scratch/gallery_images/07082019010352.jpg` (egg chair & swing)
-6.  **Wicker Patio Seating** (`assets/images/gal_wicker_seating.png`):
+6.  **Wicker Patio Seating** (`assets/images/gal_wicker_seating.jpg`):
     *   *Reference Image*: `scratch/gallery_images/07082019010649.jpg` (balcony wicker seating set)
 
 ---
