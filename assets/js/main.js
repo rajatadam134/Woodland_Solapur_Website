@@ -12,13 +12,10 @@ function initNavigation() {
     const hasHero = document.querySelector('.hero-section');
     if (!hasHero) {
         header.classList.add('scrolled');
+        return;
     }
     
     window.addEventListener('scroll', () => {
-        if (!hasHero) {
-            header.classList.add('scrolled');
-            return;
-        }
         if (window.scrollY > 50) {
             header.classList.add('scrolled');
         } else {
@@ -90,6 +87,18 @@ function initFilters() {
             window.history.pushState({}, '', newUrl);
             filterProducts(filter, cards);
         });
+    });
+
+    // Handle back/forward navigation
+    window.addEventListener('popstate', () => {
+        const params = new URLSearchParams(window.location.search);
+        const cat = params.get('cat') || 'all';
+        const matchingPill = document.querySelector(`.filter-pill[data-filter="${cat}"]`);
+        if (matchingPill) {
+            pills.forEach(p => p.classList.remove('active'));
+            matchingPill.classList.add('active');
+            filterProducts(cat, cards);
+        }
     });
 }
 
