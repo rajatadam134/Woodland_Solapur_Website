@@ -49,7 +49,7 @@
                 <div class="section-subtitle">Get In Touch</div>
                 <h1 class="section-title">Connect With Our Showroom</h1>
                 <p style="max-width: 600px; margin: 16px auto 0; color: var(--text-secondary); font-size: 16px; line-height: 1.6;">
-                    Visit our luxury furniture showroom in Solapur, Maharashtra, or send us an inquiry to discuss custom designs for your home or corporate office.
+                    Visit our luxury furniture showroom in Solapur, Maharashtra, or connect with our design consultants directly via phone or WhatsApp to discuss custom designs for your space.
                 </p>
             </div>
 
@@ -103,36 +103,9 @@
                     </div>
                 </div>
 
-                <!-- Right Side: Maps and inquiry form -->
-                <div style="display: flex; flex-direction: column; gap: 30px;">
-                    <!-- Google Maps Iframe -->
-                    <div class="map-container">
-                        <iframe src="https://maps.google.com/maps?q=Woodland%20Furniture%2C%20Laxmi%20Vishnu%20Complex%2C%20Ramlal%20Chowk%2C%20Solapur&t=&z=15&ie=UTF8&iwloc=&output=embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                    </div>
-
-                    <!-- Contact/Inquiry Form -->
-                    <form action="#" class="contact-form lux-card" id="contactForm">
-                        <div class="section-subtitle">Send An Inquiry</div>
-                        <h2 style="font-size: 28px; margin-bottom: 24px; color: var(--accent-color);">Bespoke Design Inquiry</h2>
-                        
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" id="name" name="name" class="form-control" placeholder="Your full name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" class="form-control" placeholder="Your email address" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Phone</label>
-                            <input type="tel" id="phone" name="phone" class="form-control" placeholder="Your phone number" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Message</label>
-                            <textarea id="message" name="message" class="form-control" placeholder="Describe your bespoke furniture requirements..." required></textarea>
-                        </div>
-                        <button type="submit" class="lux-btn" style="width: 100%;">Submit Inquiry</button>
-                    </form>
+                <!-- Right Side: Maps -->
+                <div class="map-container">
+                    <iframe src="https://maps.google.com/maps?q=Woodland%20Furniture%2C%20Laxmi%20Vishnu%20Complex%2C%20Ramlal%20Chowk%2C%20Solapur&t=&z=15&ie=UTF8&iwloc=&output=embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
             </div>
         </div>
@@ -181,19 +154,5 @@
     </footer>
 
     <script src="assets/js/main.js"></script>
-    <script>
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const formContainer = this;
-            formContainer.innerHTML = `
-                <div style="text-align: center; padding: 40px 20px;">
-                    <i class="fa-solid fa-circle-check" style="font-size: 64px; color: var(--accent-color); margin-bottom: 24px;"></i>
-                    <h3 style="margin-bottom: 12px; font-size: 24px; font-family: var(--font-heading); color: var(--accent-color);">Thank You!</h3>
-                    <p style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 24px;">Your inquiry has been received. Our luxury furniture design consultant will contact you shortly.</p>
-                    <button type="button" onclick="window.location.reload();" class="lux-btn lux-btn-outline" style="font-size: 14px; padding: 10px 20px;">Send Another Message</button>
-                </div>
-            `;
-        });
-    </script>
 </body>
 </html>
