@@ -1031,16 +1031,18 @@ footer {
 }
 .contact-grid {
     display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap: 60px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    align-items: stretch;
 }
 .map-container {
     border-radius: 24px;
     overflow: hidden;
-    height: 450px;
+    height: 100%;
+    min-height: 450px;
     border: 1px solid var(--border-color);
     box-shadow: var(--shadow-soft);
-    margin-bottom: 30px;
+    margin-bottom: 0;
 }
 .map-container iframe {
     width: 100%;
