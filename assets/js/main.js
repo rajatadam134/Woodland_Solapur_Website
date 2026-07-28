@@ -39,7 +39,6 @@ function initMobileMenu() {
         navLinks.classList.toggle('active');
     });
     
-    // Close menu when clicking a link
     const links = navLinks.querySelectorAll('a');
     links.forEach(link => {
         link.addEventListener('click', () => {
@@ -48,7 +47,6 @@ function initMobileMenu() {
         });
     });
     
-    // Close menu when clicking outside
     document.addEventListener('click', (e) => {
         if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
             menuToggle.classList.remove('active');
@@ -59,59 +57,87 @@ function initMobileMenu() {
 
 function initFilters() {
     const pills = document.querySelectorAll('.filter-pill');
-    const cards = document.querySelectorAll('.product-card');
+    const cards = document.querySelectorAll('.showcase-card, .product-card, .gallery-card-item');
     
-    if (pills.length === 0 || cards.length === 0) return;
+    if (cards.length === 0) return;
 
-    // Check query parameter (e.g. ?cat=bedroom)
+    // Read initial URL params
     const urlParams = new URLSearchParams(window.location.search);
-    const initialCat = urlParams.get('cat');
-    if (initialCat) {
-        const matchingPill = document.querySelector(`.filter-pill[data-filter="${initialCat}"]`);
-        if (matchingPill) {
-            pills.forEach(p => p.classList.remove('active'));
-            matchingPill.classList.add('active');
-            filterProducts(initialCat, cards);
-        }
+    let currentCat = urlParams.get('cat') || 'all';
+
+    const activePill = document.querySelector(`.filter-pill[data-filter="${currentCat}"]`) || pills[0];
+    if (activePill) {
+        pills.forEach(p => p.classList.remove('active'));
+        activePill.classList.add('active');
     }
 
+    applyFilter(currentCat, cards);
+    updateFilterCounts(pills, cards);
+
+    // Category Pill Click
     pills.forEach(pill => {
         pill.addEventListener('click', () => {
             pills.forEach(p => p.classList.remove('active'));
             pill.classList.add('active');
-            const filter = pill.getAttribute('data-filter');
-            // Update URL search param without reloading page
-            const newUrl = new URL(window.location);
-            if (filter === 'all') {
-                newUrl.searchParams.delete('cat');
-            } else {
-                newUrl.searchParams.set('cat', filter);
-            }
-            window.history.pushState({}, '', newUrl);
-            filterProducts(filter, cards);
+            currentCat = pill.getAttribute('data-filter');
+            syncUrl(currentCat);
+            applyFilter(currentCat, cards);
         });
     });
 
-    // Handle back/forward navigation
+    // History popstate
     window.addEventListener('popstate', () => {
         const params = new URLSearchParams(window.location.search);
-        const cat = params.get('cat') || 'all';
-        const matchingPill = document.querySelector(`.filter-pill[data-filter="${cat}"]`);
-        if (matchingPill) {
+        currentCat = params.get('cat') || 'all';
+
+        const pMatch = document.querySelector(`.filter-pill[data-filter="${currentCat}"]`);
+        if (pMatch) {
             pills.forEach(p => p.classList.remove('active'));
-            matchingPill.classList.add('active');
-            filterProducts(cat, cards);
+            pMatch.classList.add('active');
         }
+
+        applyFilter(currentCat, cards);
     });
 }
 
-function filterProducts(category, cards) {
+function syncUrl(cat) {
+    const newUrl = new URL(window.location);
+    if (cat === 'all') {
+        newUrl.searchParams.delete('cat');
+    } else {
+        newUrl.searchParams.set('cat', cat);
+    }
+    window.history.pushState({}, '', newUrl);
+}
+
+function applyFilter(category, cards) {
     cards.forEach(card => {
-        if (category === 'all' || card.getAttribute('data-category') === category) {
+        const cardCat = card.getAttribute('data-category');
+        if (category === 'all' || cardCat === category) {
             card.style.display = 'flex';
         } else {
             card.style.display = 'none';
         }
+    });
+}
+
+function updateFilterCounts(pills, cards) {
+    pills.forEach(pill => {
+        const cat = pill.getAttribute('data-filter');
+        let count = 0;
+
+        cards.forEach(card => {
+            const cardCat = card.getAttribute('data-category');
+            if (cat === 'all' || cardCat === cat) count++;
+        });
+
+        let countSpan = pill.querySelector('.filter-count');
+        if (!countSpan) {
+            countSpan = document.createElement('span');
+            countSpan.className = 'filter-count';
+            pill.appendChild(countSpan);
+        }
+        countSpan.textContent = count;
     });
 }
 
@@ -146,7 +172,7 @@ function initAccordions() {
 }
 
 function initLightbox() {
-    const items = document.querySelectorAll('.gallery-item');
+    const items = document.querySelectorAll('.gallery-card-item, .gallery-item');
     const modal = document.querySelector('.lightbox-modal');
     if (!modal) return;
     
@@ -155,14 +181,16 @@ function initLightbox() {
     const inquireBtn = modal.querySelector('.lightbox-inquire-btn');
 
     items.forEach(item => {
-        item.addEventListener('click', () => {
-            const src = item.getAttribute('data-image');
-            const ref = item.getAttribute('data-ref');
+        item.addEventListener('click', (e) => {
+            if (e.target.closest('a') && !e.target.closest('.glass-hover-overlay')) return;
+
+            const src = item.getAttribute('data-image') || item.querySelector('img')?.getAttribute('src');
+            const ref = item.getAttribute('data-ref') || 'showcase';
             const title = item.getAttribute('data-title') || 'Gallery Setup';
             modalImg.setAttribute('src', src);
             
-            // Set custom prefilled WhatsApp message
-            const msgText = `Hi Woodland Solapur! I would like to enquire about this and similar types of products: *${title}* (Ref: ${ref}). Link: https://rajatadam134.github.io/Woodland_Solapur_Website/gallery.html#${ref}`;
+            // Set custom prefilled WhatsApp message (Test Number: 918767223224)
+            const msgText = `Hi Woodland Solapur! I would like to enquire about this design style: *${title}* (Ref: ${ref}).`;
             inquireBtn.setAttribute('href', `https://wa.me/918767223224?text=${encodeURIComponent(msgText)}`);
             
             document.body.style.overflow = 'hidden';
@@ -177,11 +205,13 @@ function initLightbox() {
         });
     });
 
-    closeBtn.addEventListener('click', () => {
-        modal.classList.remove('active');
-        document.body.style.overflow = '';
-        modalImg.setAttribute('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7');
-    });
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+            modalImg.setAttribute('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7');
+        });
+    }
 
     modal.addEventListener('click', (e) => {
         if (e.target === modal) {

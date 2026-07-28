@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Woodland | Our Luxury Collections</title>
-    <meta name="description" content="Explore Woodland's curated luxury furniture catalog in Solapur. Handcrafted living room, bedroom, dining, and executive office furniture customized to your style.">
+    <title>Woodland | Our Luxury Products</title>
+    <meta name="description" content="Explore Woodland's curated luxury furniture catalog and room design inspiration gallery in Solapur. Bespoke living, bedroom, dining, office furniture, and patio setups.">
     
     <!-- OpenGraph Metadata for WhatsApp Link Preview -->
-    <meta property="og:title" content="Woodland Storefront Catalog | Fine Custom Furniture">
-    <meta property="og:description" content="Browse our curated catalog of living lounge sofa sets, teak wood master beds, conference desks, and marble dining suites.">
+    <meta property="og:title" content="Woodland Storefront Catalog | Fine Custom Furniture & Inspirations">
+    <meta property="og:description" content="Browse curated luxury furniture catalog and room setups in Solapur. Custom teak wood master beds, lounge sofas, and executive suites.">
     <meta property="og:image" content="https://rajatadam134.github.io/Woodland_Solapur_Website/assets/images/cat_living.jpg">
     <meta property="og:url" content="https://rajatadam134.github.io/Woodland_Solapur_Website/products.html">
     <meta property="og:type" content="website">
@@ -27,7 +27,6 @@
                 <ul class="nav-links" id="navLinks">
                     <li><a href="index.html">Home</a></li>
                     <li class="active"><a href="products.html">Products</a></li>
-                    <li><a href="gallery.html">Gallery</a></li>
                     <li><a href="about.html">About Us</a></li>
                     <li><a href="contact.html">Contact</a></li>
                     <li class="mobile-only"><a href="contact.html" class="lux-btn lux-btn-outline nav-btn">Schedule Visit</a></li>
@@ -45,16 +44,17 @@
     <section class="products-hero" style="padding-top: 140px; text-align: center;">
         <div class="container">
             <div class="section-title-wrapper" style="margin-bottom: 20px;">
-                <div class="section-subtitle">Our Collections</div>
-                <h1 class="section-title">Luxury Handcrafted Furniture</h1>
+                <div class="section-subtitle">Showcase & Inspiration</div>
+                <h1 class="section-title">Luxury Collections & Craftsmanship</h1>
             </div>
         </div>
     </section>
+    </div>
 
     <!-- Category Filtering -->
     <div class="container filter-panel-wrapper">
         <ul class="filter-pills glass-panel">
-            <li class="filter-pill active" data-filter="all">All Furniture</li>
+            <li class="filter-pill active" data-filter="all">All Items</li>
             <li class="filter-pill" data-filter="living">Living Room</li>
             <li class="filter-pill" data-filter="bedroom">Bedroom</li>
             <li class="filter-pill" data-filter="office">Office</li>
@@ -62,11 +62,11 @@
         </ul>
     </div>
 
-    <!-- Product Showcase -->
+    <!-- Combined Product & Gallery Showcase Grid -->
     <main class="container" style="min-height: 60vh;">
         <div class="product-grid">
-            <!-- Card 1: Windsor Velvet Sofa -->
-            <div class="product-card" data-category="living">
+            <!-- Product Card 1: Windsor Velvet Sofa -->
+            <div class="product-card showcase-card" data-category="living" data-type="product">
                 <div class="product-img-wrapper">
                     <img src="assets/images/prod_yellow_sofa.jpg" alt="Windsor Velvet Sofa" loading="lazy">
                     <div class="glass-hover-overlay">
@@ -78,8 +78,23 @@
                     <h3>Windsor Velvet Sofa</h3>
                 </div>
             </div>
-            <!-- Card 2: Staggered Center Table -->
-            <div class="product-card" data-category="living">
+
+            <!-- Inspiration Card 1: Living Lounge Showcase -->
+            <div class="product-card gallery-card-item showcase-card" data-category="living" data-type="gallery" data-image="assets/images/gal_living_setup.jpg" data-ref="gal-living" data-title="Living Lounge Showcase" tabindex="0" role="button">
+                <div class="product-img-wrapper">
+                    <img src="assets/images/gal_living_setup.jpg" alt="Living Lounge Showcase" loading="lazy">
+                    <div class="glass-hover-overlay">
+                        <span class="lux-btn"><i class="fa-solid fa-magnifying-glass-plus" style="margin-right: 8px;"></i> Zoom Setup</span>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <span class="product-cat">Living Room / Lookbook</span>
+                    <h3>Living Lounge Showcase</h3>
+                </div>
+            </div>
+
+            <!-- Product Card 2: Staggered Center Table -->
+            <div class="product-card showcase-card" data-category="living" data-type="product">
                 <div class="product-img-wrapper">
                     <img src="assets/images/prod_coffee_table.jpg" alt="Staggered Center Table" loading="lazy">
                     <div class="glass-hover-overlay">
@@ -91,8 +106,9 @@
                     <h3>Staggered Center Table</h3>
                 </div>
             </div>
-            <!-- Card 3: Teak TV Console Unit -->
-            <div class="product-card" data-category="living">
+
+            <!-- Product Card 3: Teak TV Console Unit -->
+            <div class="product-card showcase-card" data-category="living" data-type="product">
                 <div class="product-img-wrapper">
                     <img src="assets/images/prod_tv_console.jpg" alt="Teak TV Console Unit" loading="lazy">
                     <div class="glass-hover-overlay">
@@ -104,8 +120,9 @@
                     <h3>Teak TV Console Unit</h3>
                 </div>
             </div>
-            <!-- Card 4: Premium Draped Curtains -->
-            <div class="product-card" data-category="living">
+
+            <!-- Product Card 4: Premium Draped Curtains -->
+            <div class="product-card showcase-card" data-category="living" data-type="product">
                 <div class="product-img-wrapper">
                     <img src="assets/images/prod_curtains.jpg" alt="Premium Draped Curtains" loading="lazy">
                     <div class="glass-hover-overlay">
@@ -117,8 +134,23 @@
                     <h3>Premium Draped Curtains</h3>
                 </div>
             </div>
-            <!-- Card 5: Classic Teak Bed Set -->
-            <div class="product-card" data-category="bedroom">
+
+            <!-- Inspiration Card 2: Bespoke Bedroom Showcase -->
+            <div class="product-card gallery-card-item showcase-card" data-category="bedroom" data-type="gallery" data-image="assets/images/gal_bedroom_setup.jpg" data-ref="gal-bedroom" data-title="Bespoke Bedroom Showcase" tabindex="0" role="button">
+                <div class="product-img-wrapper">
+                    <img src="assets/images/gal_bedroom_setup.jpg" alt="Bespoke Bedroom Showcase" loading="lazy">
+                    <div class="glass-hover-overlay">
+                        <span class="lux-btn"><i class="fa-solid fa-magnifying-glass-plus" style="margin-right: 8px;"></i> Zoom Setup</span>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <span class="product-cat">Bedroom / Lookbook</span>
+                    <h3>Bespoke Bedroom Showcase</h3>
+                </div>
+            </div>
+
+            <!-- Product Card 5: Classic Teak Bed Set -->
+            <div class="product-card showcase-card" data-category="bedroom" data-type="product">
                 <div class="product-img-wrapper">
                     <img src="assets/images/prod_bed_set.jpg" alt="Classic Teak Bed Set" loading="lazy">
                     <div class="glass-hover-overlay">
@@ -130,8 +162,9 @@
                     <h3>Classic Teak Bed Set</h3>
                 </div>
             </div>
-            <!-- Card 6: Luxury Pocket Spring Mattress -->
-            <div class="product-card" data-category="bedroom">
+
+            <!-- Product Card 6: Luxury Pocket Spring Mattress -->
+            <div class="product-card showcase-card" data-category="bedroom" data-type="product">
                 <div class="product-img-wrapper">
                     <img src="assets/images/prod_mattress.jpg" alt="Luxury Pocket Spring Mattress" loading="lazy">
                     <div class="glass-hover-overlay">
@@ -143,8 +176,23 @@
                     <h3>Luxury Pocket Spring Mattress</h3>
                 </div>
             </div>
-            <!-- Card 7: Classic Teak Dining Suite -->
-            <div class="product-card" data-category="dining">
+
+            <!-- Inspiration Card 3: Luxury Dining Showcase -->
+            <div class="product-card gallery-card-item showcase-card" data-category="dining" data-type="gallery" data-image="assets/images/gal_dining_setup.jpg" data-ref="gal-dining" data-title="Luxury Dining Showcase" tabindex="0" role="button">
+                <div class="product-img-wrapper">
+                    <img src="assets/images/gal_dining_setup.jpg" alt="Luxury Dining Showcase" loading="lazy">
+                    <div class="glass-hover-overlay">
+                        <span class="lux-btn"><i class="fa-solid fa-magnifying-glass-plus" style="margin-right: 8px;"></i> Zoom Setup</span>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <span class="product-cat">Dining Room / Lookbook</span>
+                    <h3>Luxury Dining Showcase</h3>
+                </div>
+            </div>
+
+            <!-- Product Card 7: Classic Teak Dining Suite -->
+            <div class="product-card showcase-card" data-category="dining" data-type="product">
                 <div class="product-img-wrapper">
                     <img src="assets/images/prod_dining_suite.jpg" alt="Classic Teak Dining Suite" loading="lazy">
                     <div class="glass-hover-overlay">
@@ -156,47 +204,9 @@
                     <h3>Classic Teak Dining Suite</h3>
                 </div>
             </div>
-            <!-- Card 8: Veneer Conference Desk -->
-            <div class="product-card" data-category="office">
-                <div class="product-img-wrapper">
-                    <img src="assets/images/prod_office_table.jpg" alt="Veneer Conference Desk" loading="lazy">
-                    <div class="glass-hover-overlay">
-                        <a href="products/veneer-conference-desk.html" class="lux-btn">View Details</a>
-                    </div>
-                </div>
-                <div class="product-info">
-                    <span class="product-cat">Office / Table</span>
-                    <h3>Veneer Conference Desk</h3>
-                </div>
-            </div>
-            <!-- Card 9: Office Executive Ergonomic Chair -->
-            <div class="product-card" data-category="office">
-                <div class="product-img-wrapper">
-                    <img src="assets/images/prod_office_chair.jpg" alt="Office Executive Ergonomic Chair" loading="lazy">
-                    <div class="glass-hover-overlay">
-                        <a href="products/office-executive-chair.html" class="lux-btn">View Details</a>
-                    </div>
-                </div>
-                <div class="product-info">
-                    <span class="product-cat">Office / Chair</span>
-                    <h3>Office Executive Ergonomic Chair</h3>
-                </div>
-            </div>
-            <!-- Card 10: Teak Compactors Storage System -->
-            <div class="product-card" data-category="office">
-                <div class="product-img-wrapper">
-                    <img src="assets/images/prod_compactors.jpg" alt="Teak Compactors Storage System" loading="lazy">
-                    <div class="glass-hover-overlay">
-                        <a href="products/teak-compactors-storage.html" class="lux-btn">View Details</a>
-                    </div>
-                </div>
-                <div class="product-info">
-                    <span class="product-cat">Office / Storage</span>
-                    <h3>Teak Compactors Storage System</h3>
-                </div>
-            </div>
-            <!-- Card 11: Luxury Cream Marble Dining Suite -->
-            <div class="product-card" data-category="dining">
+
+            <!-- Product Card 8: Luxury Cream Marble Dining Suite -->
+            <div class="product-card showcase-card" data-category="dining" data-type="product">
                 <div class="product-img-wrapper">
                     <img src="assets/images/prod_cream_dining.jpg" alt="Luxury Cream Marble Dining Suite" loading="lazy">
                     <div class="glass-hover-overlay">
@@ -208,8 +218,9 @@
                     <h3>Luxury Cream Marble Dining Suite</h3>
                 </div>
             </div>
-            <!-- Card 12: Modern White Marble Dining Table -->
-            <div class="product-card" data-category="dining">
+
+            <!-- Product Card 9: Modern White Marble Dining Table -->
+            <div class="product-card showcase-card" data-category="dining" data-type="product">
                 <div class="product-img-wrapper">
                     <img src="assets/images/prod_white_dining.jpg" alt="Modern White Marble Dining Table" loading="lazy">
                     <div class="glass-hover-overlay">
@@ -221,8 +232,109 @@
                     <h3>Modern White Marble Dining Table</h3>
                 </div>
             </div>
+
+            <!-- Inspiration Card 4: Executive Office Showcase -->
+            <div class="product-card gallery-card-item showcase-card" data-category="office" data-type="gallery" data-image="assets/images/gal_office_setup.jpg" data-ref="gal-office" data-title="Executive Office Showcase" tabindex="0" role="button">
+                <div class="product-img-wrapper">
+                    <img src="assets/images/gal_office_setup.jpg" alt="Executive Office Showcase" loading="lazy">
+                    <div class="glass-hover-overlay">
+                        <span class="lux-btn"><i class="fa-solid fa-magnifying-glass-plus" style="margin-right: 8px;"></i> Zoom Setup</span>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <span class="product-cat">Office / Lookbook</span>
+                    <h3>Executive Office Showcase</h3>
+                </div>
+            </div>
+
+            <!-- Product Card 10: Veneer Conference Desk -->
+            <div class="product-card showcase-card" data-category="office" data-type="product">
+                <div class="product-img-wrapper">
+                    <img src="assets/images/prod_office_table.jpg" alt="Veneer Conference Desk" loading="lazy">
+                    <div class="glass-hover-overlay">
+                        <a href="products/veneer-conference-desk.html" class="lux-btn">View Details</a>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <span class="product-cat">Office / Table</span>
+                    <h3>Veneer Conference Desk</h3>
+                </div>
+            </div>
+
+            <!-- Product Card 11: Office Executive Ergonomic Chair -->
+            <div class="product-card showcase-card" data-category="office" data-type="product">
+                <div class="product-img-wrapper">
+                    <img src="assets/images/prod_office_chair.jpg" alt="Office Executive Ergonomic Chair" loading="lazy">
+                    <div class="glass-hover-overlay">
+                        <a href="products/office-executive-chair.html" class="lux-btn">View Details</a>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <span class="product-cat">Office / Chair</span>
+                    <h3>Office Executive Ergonomic Chair</h3>
+                </div>
+            </div>
+
+            <!-- Product Card 12: Teak Compactors Storage System -->
+            <div class="product-card showcase-card" data-category="office" data-type="product">
+                <div class="product-img-wrapper">
+                    <img src="assets/images/prod_compactors.jpg" alt="Teak Compactors Storage System" loading="lazy">
+                    <div class="glass-hover-overlay">
+                        <a href="products/teak-compactors-storage.html" class="lux-btn">View Details</a>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <span class="product-cat">Office / Storage</span>
+                    <h3>Teak Compactors Storage System</h3>
+                </div>
+            </div>
+
+            <!-- Inspiration Card 5: Outdoor Balcony Swings -->
+            <div class="product-card gallery-card-item showcase-card" data-category="living" data-type="gallery" data-image="assets/images/gal_outdoor_swing.jpg" data-ref="gal-outdoor-swing" data-title="Outdoor Balcony Swings" tabindex="0" role="button">
+                <div class="product-img-wrapper">
+                    <img src="assets/images/gal_outdoor_swing.jpg" alt="Outdoor Balcony Swings" loading="lazy">
+                    <div class="glass-hover-overlay">
+                        <span class="lux-btn"><i class="fa-solid fa-magnifying-glass-plus" style="margin-right: 8px;"></i> Zoom Setup</span>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <span class="product-cat">Living Room / Swings</span>
+                    <h3>Outdoor Balcony Swings</h3>
+                </div>
+            </div>
+
+            <!-- Inspiration Card 6: Wicker Patio Seating -->
+            <div class="product-card gallery-card-item showcase-card" data-category="living" data-type="gallery" data-image="assets/images/gal_wicker_seating.jpg" data-ref="gal-wicker-seating" data-title="Wicker Patio Seating" tabindex="0" role="button">
+                <div class="product-img-wrapper">
+                    <img src="assets/images/gal_wicker_seating.jpg" alt="Wicker Patio Seating" loading="lazy">
+                    <div class="glass-hover-overlay">
+                        <span class="lux-btn"><i class="fa-solid fa-magnifying-glass-plus" style="margin-right: 8px;"></i> Zoom Setup</span>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <span class="product-cat">Living Room / Patio</span>
+                    <h3>Wicker Patio Seating</h3>
+                </div>
+            </div>
+
         </div>
     </main>
+
+    <!-- Lightbox Modal -->
+    <div class="lightbox-modal">
+        <div class="lightbox-close"><i class="fa-solid fa-xmark"></i></div>
+        <div class="lightbox-content">
+            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Zoomed view">
+            <a href="" target="_blank" rel="noopener noreferrer" class="lux-btn lightbox-inquire-btn">
+                <i class="fa-brands fa-whatsapp" style="margin-right: 8px;"></i> Inquire About This Style
+            </a>
+        </div>
+    </div>
+
+    <!-- Persistent Floating WhatsApp CTA (Test Number: 918767223224) -->
+    <a href="https://wa.me/918767223224?text=Hi%20Woodland%2C%20I%20am%20interested%20in%20your%20furniture%20collections." class="floating-whatsapp-btn" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
 
     <!-- Footer -->
     <footer>
@@ -237,7 +349,6 @@
                 <ul class="footer-links">
                     <li><a href="index.html">Home</a></li>
                     <li><a href="products.html">Products</a></li>
-                    <li><a href="gallery.html">Gallery</a></li>
                     <li><a href="about.html">About Us</a></li>
                     <li><a href="contact.html">Contact</a></li>
                 </ul>
