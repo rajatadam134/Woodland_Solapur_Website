@@ -229,3 +229,5 @@ function initLightbox() {
         }
     });
 }
+
+window.initLightbox = initLightbox;

@@ -98,13 +98,22 @@ document.addEventListener('DOMContentLoaded', () => {
             progressBar.style.width = `${((i + 1) / total) * 100}%`;
 
             let finalBlob = file;
-            if (useAI && window.imgly) {
-                try {
-                    statusText.innerText = `Removing background with AI (${i + 1}/${total}): ${file.name}...`;
-                    const blob = await window.imgly.removeBackground(file);
-                    finalBlob = await compositeOnStudioCanvas(blob);
-                } catch (err) {
-                    console.warn("AI BG Removal fallback to original file:", file.name, err);
+            if (useAI) {
+                const bgFn = window.imglyBackgroundRemoval || (window.imgly && window.imgly.removeBackground);
+                if (bgFn) {
+                    try {
+                        statusText.innerText = `Removing background with AI (${i + 1}/${total}): ${file.name}...`;
+                        const blob = await bgFn(file, {
+                            publicPath: 'https://cdn.jsdelivr.net/npm/@imgly/background-removal-data@1.4.5/dist/'
+                        });
+                        finalBlob = await compositeOnStudioCanvas(blob);
+                    } catch (err) {
+                        console.warn("AI BG Removal fallback to studio composite:", file.name, err);
+                        finalBlob = await compositeOnStudioCanvas(file);
+                    }
+                } else {
+                    console.warn("imglyBackgroundRemoval not found on window, compositing on studio backdrop:", file.name);
+                    finalBlob = await compositeOnStudioCanvas(file);
                 }
             }
 
@@ -204,20 +213,22 @@ document.addEventListener('DOMContentLoaded', () => {
             const img = new Image();
             img.onload = () => {
                 const canvas = document.createElement('canvas');
-                canvas.width = img.width;
-                canvas.height = img.height;
+                const pad = Math.max(img.width, img.height) * 0.08;
+                canvas.width = Math.round(img.width + pad * 2);
+                canvas.height = Math.round(img.height + pad * 2);
                 const ctx = canvas.getContext('2d');
 
                 ctx.fillStyle = '#F5F5F7';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-                ctx.shadowColor = 'rgba(0, 0, 0, 0.15)';
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.18)';
                 ctx.shadowBlur = 24;
                 ctx.shadowOffsetY = 12;
 
-                ctx.drawImage(img, 0, 0);
+                ctx.drawImage(img, pad, pad, img.width, img.height);
                 canvas.toBlob((blob) => resolve(blob), 'image/jpeg', 0.92);
             };
+            img.onerror = () => resolve(bgRemovedBlob);
             img.src = URL.createObjectURL(bgRemovedBlob);
         });
     }
