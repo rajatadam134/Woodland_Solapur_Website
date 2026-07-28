@@ -187,11 +187,12 @@ function initLightbox() {
             const src = item.getAttribute('data-image') || item.querySelector('img')?.getAttribute('src');
             const ref = item.getAttribute('data-ref') || 'showcase';
             const title = item.getAttribute('data-title') || 'Gallery Setup';
+            const catDisplay = item.getAttribute('data-catdisplay') || item.querySelector('.product-cat')?.textContent || 'Showcase';
             modalImg.setAttribute('src', src);
             
-            // Set custom prefilled WhatsApp message (Test Number: 918767223224)
-            const msgText = `Hi Woodland Solapur! I would like to enquire about this design style: *${title}* (Ref: ${ref}).`;
-            inquireBtn.setAttribute('href', `https://wa.me/918767223224?text=${encodeURIComponent(msgText)}`);
+            const waNumber = (window.WOODLAND_CONFIG && window.WOODLAND_CONFIG.whatsappNumber) || '918767223224';
+            const msgText = `Hi Woodland Solapur! I am inquiring about *${title}* (${catDisplay}).\nDirect Photo: ${src}`;
+            inquireBtn.setAttribute('href', `https://wa.me/${waNumber}?text=${encodeURIComponent(msgText)}`);
             
             document.body.style.overflow = 'hidden';
             modal.classList.add('active');

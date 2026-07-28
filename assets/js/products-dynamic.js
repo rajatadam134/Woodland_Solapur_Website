@@ -144,54 +144,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const dynamicCardsHtml = batch.map(p => {
             const catDisplay = p.catLabel || formatCategory(p.category);
-            const waNumber = config.whatsappNumber || '918767223224';
-
-            if (p.type === 'gallery') {
-                return `
-                    <div class="product-card gallery-card-item showcase-card" data-category="${p.category}" data-type="gallery" data-image="${p.url}" data-ref="${p.ref || 'gal'}" data-title="${p.title}" tabindex="0" role="button">
-                        <div class="product-img-wrapper">
-                            <img src="${p.url}" alt="${p.title}" loading="lazy">
-                            <div class="glass-hover-overlay">
-                                <span class="lux-btn"><i class="fa-solid fa-magnifying-glass-plus" style="margin-right: 8px;"></i> Zoom Setup</span>
-                            </div>
-                        </div>
-                        <div class="product-info">
-                            <span class="product-cat">${catDisplay}</span>
-                            <h3>${p.title}</h3>
-                        </div>
-                    </div>
-                `;
-            }
-
-            if (p.link) {
-                return `
-                    <div class="product-card showcase-card" data-category="${p.category}" data-type="product">
-                        <div class="product-img-wrapper">
-                            <img src="${p.url}" alt="${p.title}" loading="lazy">
-                            <div class="glass-hover-overlay">
-                                <a href="${p.link}" class="lux-btn">View Details</a>
-                            </div>
-                        </div>
-                        <div class="product-info">
-                            <span class="product-cat">${catDisplay}</span>
-                            <h3>${p.title}</h3>
-                        </div>
-                    </div>
-                `;
-            }
-
-            // Newly uploaded / Cloudinary product
-            const waText = encodeURIComponent(`Hi Woodland Solapur! I am inquiring about *${p.title}* (${p.category.toUpperCase()}).\nDirect Photo: ${p.url}`);
-            const waUrl = `https://wa.me/${waNumber}?text=${waText}`;
+            const refId = p.ref || p.id || 'prod';
 
             return `
-                <div class="product-card showcase-card" data-category="${p.category}" data-type="product">
+                <div class="product-card gallery-card-item showcase-card" data-category="${p.category}" data-type="gallery" data-image="${p.url}" data-ref="${refId}" data-title="${p.title}" data-catdisplay="${catDisplay}" tabindex="0" role="button">
                     <div class="product-img-wrapper">
                         <img src="${p.url}" alt="${p.title}" loading="lazy">
                         <div class="glass-hover-overlay">
-                            <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="lux-btn" style="padding:10px 16px; font-size:13px;">
-                                <i class="fa-brands fa-whatsapp" style="margin-right:6px;"></i> Inquire on WhatsApp
-                            </a>
+                            <span class="lux-btn"><i class="fa-solid fa-magnifying-glass-plus" style="margin-right: 8px;"></i> Zoom Setup</span>
                         </div>
                     </div>
                     <div class="product-info">
