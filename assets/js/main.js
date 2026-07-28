@@ -184,14 +184,21 @@ function initLightbox() {
         item.addEventListener('click', (e) => {
             if (e.target.closest('a') && !e.target.closest('.glass-hover-overlay')) return;
 
-            const src = item.getAttribute('data-image') || item.querySelector('img')?.getAttribute('src');
+            let src = item.getAttribute('data-image') || item.querySelector('img')?.getAttribute('src') || '';
             const ref = item.getAttribute('data-ref') || 'showcase';
             const title = item.getAttribute('data-title') || 'Gallery Setup';
             const catDisplay = item.getAttribute('data-catdisplay') || item.querySelector('.product-cat')?.textContent || 'Showcase';
+            
+            // Convert relative image path to absolute URL for WhatsApp link preview
+            if (src && !src.startsWith('http')) {
+                const cleanBase = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1);
+                src = new URL(src, cleanBase).href;
+            }
+
             modalImg.setAttribute('src', src);
             
             const waNumber = (window.WOODLAND_CONFIG && window.WOODLAND_CONFIG.whatsappNumber) || '918767223224';
-            const msgText = `Hi Woodland Solapur! I am inquiring about *${title}* (${catDisplay}).\nDirect Photo: ${src}`;
+            const msgText = `Hi Woodland Solapur! I am inquiring about *${title}* (${catDisplay}).\n\nProduct Photo:\n${src}`;
             inquireBtn.setAttribute('href', `https://wa.me/${waNumber}?text=${encodeURIComponent(msgText)}`);
             
             document.body.style.overflow = 'hidden';
