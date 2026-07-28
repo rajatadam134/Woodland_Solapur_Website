@@ -1,7 +1,7 @@
 window.WOODLAND_CONFIG = {
     cloudName: 'dnybwc9y',
     uploadPreset: 'woodland_preset',
-    adminPasscode: 'Woodlandsolapur@123',
+    adminPasscodeHash: '23a1c698aee483847fc3ff5bfed2217e75a10940e664e01ea32d987b6570fd0a',
     whatsappNumber: '919422028686',
     defaultCategories: ['living', 'bedroom', 'office', 'dining']
 };

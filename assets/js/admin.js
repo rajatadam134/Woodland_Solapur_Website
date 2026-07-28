@@ -11,8 +11,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'Enter') handleLogin();
     });
 
-    function handleLogin() {
-        if (passcodeInput.value === config.adminPasscode) {
+    async function handleLogin() {
+        const hashBuffer = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(passcodeInput.value));
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
+        if (hashHex === config.adminPasscodeHash) {
             modal.style.display = 'none';
             adminMain.style.display = 'block';
         } else {
