@@ -107,9 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (bgFn) {
                     try {
                         statusText.innerText = `Removing background with AI (${i + 1}/${total}): ${file.name}...`;
-                        const blob = await bgFn(file, {
-                            publicPath: 'https://cdn.jsdelivr.net/npm/@imgly/background-removal-data@1.4.5/dist/'
-                        });
+                        const blob = await bgFn(file);
                         finalBlob = await compositeOnStudioCanvas(blob);
                     } catch (err) {
                         console.warn("AI BG Removal fallback to studio composite:", file.name, err);
@@ -224,21 +222,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /**
      * Publish product catalog as a raw JSON file to Cloudinary.
-     * This replaces the broken /image/list/<tag>.json API.
-     * The products page fetches this file to discover all uploaded products.
+     * Merges cloud-stored items with localStorage to prevent data loss.
      */
     async function publishCatalog() {
-        const items = getStoredProducts();
-        // Only include items with valid Cloudinary URLs (filter out any leftover data: URLs)
+        let items = getStoredProducts();
+        
+        // Try fetching existing cloud catalog to merge
+        try {
+            const cloudRes = await fetch(`https://res.cloudinary.com/${config.cloudName}/raw/upload/woodland_catalog.json?_t=${Date.now()}`);
+            if (cloudRes.ok) {
+                const cloudItems = await cloudRes.json();
+                if (Array.isArray(cloudItems)) {
+                    const seenUrls = new Set(items.map(i => i.url));
+                    cloudItems.forEach(ci => {
+                        if (ci.url && ci.url.startsWith('https://') && !seenUrls.has(ci.url)) {
+                            items.push(ci);
+                            seenUrls.add(ci.url);
+                        }
+                    });
+                    // Save merged list back to localStorage
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+                }
+            }
+        } catch (e) {
+            console.warn('Could not fetch existing cloud catalog for merge:', e.message);
+        }
+
+        // Filter out any invalid non-https URLs
         const validItems = items.filter(item => item.url && item.url.startsWith('https://'));
 
         const catalogJson = JSON.stringify(validItems, null, 2);
         const blob = new Blob([catalogJson], { type: 'application/json' });
 
         const formData = new FormData();
-        formData.append('file', blob, 'woodland_catalog.json');
-        formData.append('upload_preset', config.catalogPreset || 'woodland_catalog');
-        formData.append('public_id', 'woodland_catalog');
+        formData.append('file', blob, 'woodland_catalog_v1.json');
+        formData.append('upload_preset', config.catalogPreset || config.uploadPreset);
+        formData.append('public_id', 'woodland_catalog_v1.json');
 
         const res = await fetch(`https://api.cloudinary.com/v1_1/${config.cloudName}/raw/upload`, {
             method: 'POST',

@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     async function fetchCatalogFromCloudinary() {
         try {
-            const url = `https://res.cloudinary.com/${config.cloudName}/raw/upload/woodland_catalog.json?_t=${Date.now()}`;
+            const url = `https://res.cloudinary.com/${config.cloudName}/raw/upload/woodland_catalog_v1.json?_t=${Date.now()}`;
             const res = await fetch(url);
             if (!res.ok) {
                 if (res.status === 404) {
