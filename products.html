@@ -53,7 +53,7 @@
 
     <!-- Category Filtering -->
     <div class="container filter-panel-wrapper">
-        <ul class="filter-pills glass-panel">
+        <ul class="filter-pills glass-panel" id="dynamicFilterPills">
             <li class="filter-pill active" data-filter="all">All Items</li>
             <li class="filter-pill" data-filter="living">Living Room</li>
             <li class="filter-pill" data-filter="bedroom">Bedroom</li>
@@ -64,7 +64,7 @@
 
     <!-- Combined Product & Gallery Showcase Grid -->
     <main class="container" style="min-height: 60vh;">
-        <div class="product-grid">
+        <div class="product-grid" id="dynamicProductGrid">
             <!-- Product Card 1: Windsor Velvet Sofa -->
             <div class="product-card showcase-card" data-category="living" data-type="product">
                 <div class="product-img-wrapper">
@@ -378,5 +378,7 @@
     </footer>
 
     <script src="assets/js/main.js"></script>
+    <script src="assets/js/cloudinary-config.js"></script>
+    <script src="assets/js/products-dynamic.js"></script>
 </body>
 </html>

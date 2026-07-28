@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Woodland Solapur | Client Admin Upload</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.4.5/dist/index.umd.js"></script>
+</head>
+<body>
+    <header class="scrolled">
+        <div class="container nav-wrapper">
+            <a href="index.html" class="logo">Woodland</a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li class="active"><a href="admin.html">Admin Upload</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div id="passcodeModal" class="passcode-modal">
+        <div class="passcode-box">
+            <h2>Woodland Admin Portal</h2>
+            <p style="color:#aaa; font-size:14px; margin-bottom:20px;">Enter Passcode to Access Upload System</p>
+            <input type="password" id="passcodeInput" placeholder="Enter Passcode" style="padding:14px; width:100%; margin-bottom:15px; border-radius:8px; border:1px solid #444; background:#181818; color:#fff; font-size:16px;">
+            <button id="loginBtn" class="lux-btn" style="width:100%;">Access Portal</button>
+            <p id="passcodeError" style="color:#ff5555; display:none; margin-top:15px; font-size:14px;">Invalid Passcode. Please try again.</p>
+        </div>
+    </div>
+
+    <main class="container admin-container" id="adminMain" style="display:none;">
+        <div class="section-title-wrapper" style="text-align:center; margin-bottom:30px;">
+            <div class="section-subtitle">Store Management</div>
+            <h1 class="section-title">Bulk Product Upload & AI Studio Studio</h1>
+        </div>
+
+        <form id="uploadForm" onsubmit="return false;">
+            <div class="admin-field">
+                <label for="productName">Product Name (Optional for batch upload):</label>
+                <input type="text" id="productName" placeholder="e.g. Windsor Velvet Sofa">
+            </div>
+
+            <div class="admin-field">
+                <label for="categorySelect">Category Tag:</label>
+                <select id="categorySelect">
+                    <option value="living">Living Room</option>
+                    <option value="bedroom">Bedroom</option>
+                    <option value="office">Office</option>
+                    <option value="dining">Dining</option>
+                    <option value="custom">+ Add Custom Category</option>
+                </select>
+                <input type="text" id="customCategoryInput" placeholder="Type custom category name (e.g. patio)" style="display:none; margin-top:10px;">
+            </div>
+
+            <div class="admin-field" style="display:flex; align-items:center; gap:10px;">
+                <input type="checkbox" id="aiBgRemoval" checked style="width:18px; height:18px; accent-color:#c5a059;">
+                <label for="aiBgRemoval" style="margin-bottom:0; cursor:pointer;">
+                    Apply AI Background Removal & Studio Grey Backdrop (#F5F5F7 + Shadow)
+                </label>
+            </div>
+
+            <div class="drop-zone" id="dropZone">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+                <h3 style="font-family:'Outfit',sans-serif; margin-bottom:8px; color:#fff;">Drag & Drop Product Photos</h3>
+                <p style="color:#aaa; font-size:14px;">or click to browse files (Upload 1 to 200+ images)</p>
+                <input type="file" id="fileInput" multiple accept="image/*" style="display:none;">
+            </div>
+
+            <div id="statusArea" style="display:none; margin-top:30px;">
+                <h4 id="statusText" style="color:#c5a059; font-family:'Outfit',sans-serif; margin-bottom:10px;">Processing images...</h4>
+                <div class="progress-bar-wrapper">
+                    <div class="progress-bar-fill" id="progressBar"></div>
+                </div>
+                <div class="preview-grid" id="previewGrid"></div>
+            </div>
+        </form>
+    </main>
+
+    <script src="assets/js/cloudinary-config.js"></script>
+    <script src="assets/js/admin.js"></script>
+</body>
+</html>

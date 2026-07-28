@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cloudinary Configuration Test</title>
+</head>
+<body>
+    <h1>Cloudinary Connectivity Test</h1>
+    <div id="output">Testing...</div>
+    <script src="../assets/js/cloudinary-config.js"></script>
+    <script>
+        const config = window.WOODLAND_CONFIG;
+        const out = document.getElementById('output');
+        out.innerHTML = `<p>Cloud Name: ${config.cloudName}</p><p>Upload Preset: ${config.uploadPreset}</p><p>Default Categories: ${config.defaultCategories.join(', ')}</p>`;
+    </script>
+</body>
+</html>
