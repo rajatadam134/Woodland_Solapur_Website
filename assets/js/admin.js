@@ -248,8 +248,8 @@ document.addEventListener('DOMContentLoaded', () => {
             console.warn('Could not fetch existing cloud catalog for merge:', e.message);
         }
 
-        // Filter out any invalid non-https URLs
-        const validItems = items.filter(item => item.url && item.url.startsWith('https://'));
+        // Filter out any invalid non-https URLs or dummy test URLs
+        const validItems = items.filter(item => item.url && item.url.startsWith('https://') && !item.url.includes('v1722170000'));
 
         const catalogJson = JSON.stringify(validItems, null, 2);
         const blob = new Blob([catalogJson], { type: 'application/json' });

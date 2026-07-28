@@ -88,8 +88,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.warn('Product catalog is not a valid array, ignoring.');
                 return [];
             }
-            // Filter out any entries without valid Cloudinary URLs
-            return data.filter(item => item.url && item.url.startsWith('https://'));
+            // Filter out dummy test URLs and non-https URLs
+            return data.filter(item => item.url && item.url.startsWith('https://') && !item.url.includes('v1722170000'));
         } catch (err) {
             console.warn('Failed to fetch product catalog from Cloudinary:', err.message);
             return [];
@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return `
                 <div class="product-card gallery-card-item showcase-card" data-category="${p.category}" data-type="gallery" data-image="${p.url}" data-ref="${refId}" data-title="${p.title}" data-catdisplay="${catDisplay}" tabindex="0" role="button">
                     <div class="product-img-wrapper">
-                        <img src="${p.url}" alt="${p.title}" loading="lazy">
+                        <img src="${p.url}" alt="${p.title}" loading="lazy" onerror="this.closest('.product-card').style.display='none'">
                         <div class="glass-hover-overlay">
                             <span class="lux-btn"><i class="fa-solid fa-magnifying-glass-plus" style="margin-right: 8px;"></i> Zoom Setup</span>
                         </div>
