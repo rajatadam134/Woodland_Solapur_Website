@@ -1,19 +1,24 @@
+/* Woodland Solapur - Luxury Admin Theme */
+
 .admin-container {
-    max-width: 900px;
+    max-width: 960px;
     margin: 120px auto 60px;
-    padding: 35px;
-    background: #181818;
-    border-radius: 16px;
-    color: #f5f5f7;
-    border: 1px solid #2a2a2a;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 24px;
+    color: var(--text-primary, #222222);
+    border: 1px solid rgba(82, 64, 50, 0.12);
+    box-shadow: 0 20px 50px rgba(82, 64, 50, 0.08);
 }
 
 .passcode-modal {
     position: fixed;
     inset: 0;
-    background: rgba(10, 10, 10, 0.95);
-    backdrop-filter: blur(10px);
+    background: rgba(34, 30, 26, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -21,119 +26,259 @@
 }
 
 .passcode-box {
-    background: #222224;
-    padding: 40px;
-    border-radius: 16px;
+    background: #FFFFFF;
+    padding: 45px;
+    border-radius: 24px;
     text-align: center;
-    max-width: 420px;
+    max-width: 440px;
     width: 90%;
-    border: 1px solid #333;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    border: 1px solid rgba(82, 64, 50, 0.15);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
 }
 
 .passcode-box h2 {
     font-family: 'Outfit', sans-serif;
-    color: #c5a059;
+    color: #524032;
     margin-bottom: 8px;
-    font-size: 26px;
+    font-size: 28px;
+    font-weight: 700;
 }
 
 .admin-field {
-    margin-bottom: 22px;
+    margin-bottom: 24px;
 }
 
 .admin-field label {
     display: block;
     font-size: 14px;
-    font-weight: 500;
-    color: #ccc;
+    font-weight: 600;
+    color: #524032;
     margin-bottom: 8px;
+    letter-spacing: 0.2px;
 }
 
 .admin-field input[type="text"],
 .admin-field select {
     width: 100%;
-    padding: 14px;
-    background: #252528;
-    border: 1px solid #3d3d42;
-    border-radius: 8px;
-    color: #fff;
+    padding: 14px 18px;
+    background: #FDFCF7;
+    border: 1.5px solid #E2DAD0;
+    border-radius: 12px;
+    color: #222222;
     font-size: 15px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     outline: none;
-    transition: border-color 0.2s;
+    transition: all 0.3s ease;
 }
 
 .admin-field input[type="text"]:focus,
 .admin-field select:focus {
-    border-color: #c5a059;
+    border-color: #524032;
+    background: #FFFFFF;
+    box-shadow: 0 0 0 4px rgba(82, 64, 50, 0.08);
 }
 
 .drop-zone {
-    border: 2px dashed #c5a059;
-    background: rgba(197, 160, 89, 0.04);
-    padding: 50px 20px;
+    border: 2px dashed #C5A059;
+    background: rgba(197, 160, 89, 0.05);
+    padding: 50px 24px;
     text-align: center;
-    border-radius: 14px;
+    border-radius: 20px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .drop-zone:hover {
-    background: rgba(197, 160, 89, 0.08);
-    border-color: #e6c887;
+    background: rgba(197, 160, 89, 0.12);
+    border-color: #524032;
+    transform: translateY(-2px);
+}
+
+.drop-zone.drag-active {
+    background: rgba(197, 160, 89, 0.22);
+    border-color: #524032;
+    transform: scale(1.02);
 }
 
 .drop-zone i {
-    font-size: 48px;
-    color: #c5a059;
-    margin-bottom: 12px;
+    font-size: 52px;
+    color: #C5A059;
+    margin-bottom: 14px;
+}
+
+.drop-zone h3 {
+    color: #524032;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    margin-bottom: 6px;
 }
 
 .progress-bar-wrapper {
     width: 100%;
-    background: #2d2d32;
-    height: 14px;
-    border-radius: 7px;
+    background: #EFEBE4;
+    height: 12px;
+    border-radius: 6px;
     overflow: hidden;
     margin-top: 15px;
 }
 
 .progress-bar-fill {
     height: 100%;
-    background: linear-gradient(90deg, #c5a059, #e6c887);
+    background: linear-gradient(90deg, #524032, #C5A059);
     width: 0%;
     transition: width 0.3s ease;
 }
 
 .preview-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 15px;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 18px;
     margin-top: 25px;
 }
 
 .preview-card {
-    background: #222;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #333;
+    background: #FFFFFF;
+    padding: 12px;
+    border-radius: 14px;
+    border: 1px solid #EFEBE4;
+    box-shadow: 0 4px 15px rgba(82, 64, 50, 0.05);
     text-align: center;
+    position: relative;
+    transition: transform 0.2s ease;
+}
+
+.preview-card:hover {
+    transform: translateY(-3px);
 }
 
 .preview-card img {
     width: 100%;
-    height: 110px;
+    height: 120px;
     object-fit: cover;
-    border-radius: 6px;
-    background: #f5f5f7;
+    border-radius: 10px;
+    background: #F5F5F7;
 }
 
 .preview-card span {
     display: block;
-    font-size: 12px;
-    color: #aaa;
-    margin-top: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #524032;
+    margin-top: 8px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+/* Upload Success Banner */
+.upload-success-box {
+    margin-top: 25px;
+    padding: 18px 24px;
+    background: rgba(76, 175, 80, 0.1);
+    border: 1px solid #4CAF50;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.upload-success-box p {
+    color: #2E7D32;
+    font-weight: 600;
+    margin: 0;
+    font-size: 15px;
+}
+
+/* Admin Catalog Manager */
+.admin-catalog-section {
+    margin-top: 45px;
+    padding-top: 35px;
+    border-top: 1px solid #E2DAD0;
+}
+
+.admin-catalog-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.admin-catalog-header h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 24px;
+    color: #524032;
+    font-weight: 700;
+}
+
+.catalog-card {
+    position: relative;
+    background: #FFFFFF;
+    border: 1px solid rgba(82, 64, 50, 0.1);
+    border-radius: 16px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 6px 20px rgba(82, 64, 50, 0.05);
+    transition: all 0.3s ease;
+}
+
+.catalog-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(82, 64, 50, 0.1);
+}
+
+.catalog-card img {
+    width: 100%;
+    height: 130px;
+    object-fit: cover;
+    border-radius: 10px;
+    background: #F5F5F7;
+}
+
+.catalog-card .cat-badge {
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    background: #524032;
+    color: #FFFFFF;
+    font-size: 10px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.catalog-card .card-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #222222;
+    margin-top: 10px;
+    width: 100%;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.catalog-card .delete-btn {
+    margin-top: 12px;
+    width: 100%;
+    padding: 8px;
+    background: #FFF5F5;
+    border: 1px solid #FFCDD2;
+    color: #D32F2F;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.catalog-card .delete-btn:hover {
+    background: #D32F2F;
+    color: #FFFFFF;
+    border-color: #D32F2F;
 }

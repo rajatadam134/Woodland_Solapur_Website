@@ -6,6 +6,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const passcodeInput = document.getElementById('passcodeInput');
     const passcodeError = document.getElementById('passcodeError');
 
+    const STORAGE_KEY = 'WOODLAND_STORED_PRODUCTS';
+    const SESSION_KEY = 'woodland_admin_authed';
+
+    // Auto-unlock if session authenticated
+    if (sessionStorage.getItem(SESSION_KEY) === 'true') {
+        modal.style.display = 'none';
+        adminMain.style.display = 'block';
+        renderCatalog();
+    }
+
     loginBtn.addEventListener('click', handleLogin);
     passcodeInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') handleLogin();
@@ -17,8 +27,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 
         if (hashHex === config.adminPasscodeHash) {
+            sessionStorage.setItem(SESSION_KEY, 'true');
             modal.style.display = 'none';
             adminMain.style.display = 'block';
+            renderCatalog();
         } else {
             passcodeError.style.display = 'block';
         }
@@ -34,9 +46,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const fileInput = document.getElementById('fileInput');
 
     dropZone.addEventListener('click', () => fileInput.click());
-    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); });
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropZone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            dropZone.classList.add('drag-active');
+        });
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('drag-active');
+        });
+    });
+
     dropZone.addEventListener('drop', (e) => {
-        e.preventDefault();
         if (e.dataTransfer.files) handleFiles(e.dataTransfer.files);
     });
 
@@ -57,14 +82,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const statusText = document.getElementById('statusText');
         const progressBar = document.getElementById('progressBar');
         const previewGrid = document.getElementById('previewGrid');
+        const successNotice = document.getElementById('successNotice');
 
         statusArea.style.display = 'block';
+        successNotice.style.display = 'none';
         previewGrid.innerHTML = '';
 
         const total = files.length;
+        const newlyUploaded = [];
+
         for (let i = 0; i < total; i++) {
             const file = files[i];
-            const title = productNameInput || file.name.replace(/\.[^/.]+$/, "");
+            const title = (total === 1 && productNameInput) ? productNameInput : (productNameInput ? `${productNameInput} #${i+1}` : file.name.replace(/\.[^/.]+$/, ""));
             statusText.innerText = `Processing ${i + 1} of ${total}: ${file.name}`;
             progressBar.style.width = `${((i + 1) / total) * 100}%`;
 
@@ -79,17 +108,95 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            statusText.innerText = `Uploading to Cloudinary (${i + 1}/${total}): ${file.name}...`;
+            statusText.innerText = `Uploading image (${i + 1}/${total}): ${file.name}...`;
+
+            let imageUrl = '';
             try {
                 const data = await uploadToCloudinary(finalBlob, title, category);
-                addPreviewCard(previewGrid, data.secure_url || URL.createObjectURL(finalBlob), title);
+                imageUrl = data.secure_url;
             } catch (uploadErr) {
-                console.error("Cloudinary upload failed:", uploadErr);
+                console.warn("Cloudinary upload failed, saving locally:", uploadErr);
+                imageUrl = await blobToDataURL(finalBlob);
             }
+
+            const item = {
+                id: 'prod_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+                title: title,
+                category: category,
+                url: imageUrl,
+                created_at: new Date().toISOString()
+            };
+
+            saveToLocalStorage(item);
+            newlyUploaded.push(item);
+            addPreviewCard(previewGrid, imageUrl, title);
         }
 
-        statusText.innerText = `Successfully uploaded ${total} images to category '${category}'.`;
+        statusText.innerText = `Successfully uploaded ${total} image(s) to category '${category}'.`;
         progressBar.style.width = '100%';
+        successNotice.style.display = 'flex';
+
+        document.getElementById('productName').value = '';
+        renderCatalog();
+    }
+
+    function saveToLocalStorage(item) {
+        const items = getStoredProducts();
+        items.unshift(item);
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+        } catch (e) {
+            console.error("Failed to save to localStorage:", e);
+        }
+    }
+
+    function getStoredProducts() {
+        try {
+            return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+        } catch (e) {
+            return [];
+        }
+    }
+
+    function renderCatalog() {
+        const catalogGrid = document.getElementById('catalogGrid');
+        const catalogCount = document.getElementById('catalogCount');
+        if (!catalogGrid) return;
+
+        const items = getStoredProducts();
+        catalogCount.innerText = `${items.length} item(s)`;
+
+        if (items.length === 0) {
+            catalogGrid.innerHTML = `<p style="grid-column:1/-1; text-align:center; color:#777; padding:20px;">No uploaded products yet. Drag & drop images above to add products.</p>`;
+            return;
+        }
+
+        catalogGrid.innerHTML = items.map(item => `
+            <div class="catalog-card" data-id="${item.id}">
+                <span class="cat-badge">${item.category}</span>
+                <img src="${item.url}" alt="${item.title}" loading="lazy">
+                <div class="card-title">${item.title}</div>
+                <button class="delete-btn" onclick="deleteProduct('${item.id}')">
+                    <i class="fa-solid fa-trash"></i> Delete
+                </button>
+            </div>
+        `).join('');
+    }
+
+    window.deleteProduct = function(id) {
+        if (!confirm('Are you sure you want to delete this product from store catalog?')) return;
+        let items = getStoredProducts();
+        items = items.filter(i => i.id !== id);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+        renderCatalog();
+    };
+
+    function blobToDataURL(blob) {
+        return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result);
+            reader.readAsDataURL(blob);
+        });
     }
 
     function compositeOnStudioCanvas(bgRemovedBlob) {
@@ -101,11 +208,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 canvas.height = img.height;
                 const ctx = canvas.getContext('2d');
 
-                // Studio grey background #F5F5F7
                 ctx.fillStyle = '#F5F5F7';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-                // Subtle shadow
                 ctx.shadowColor = 'rgba(0, 0, 0, 0.15)';
                 ctx.shadowBlur = 24;
                 ctx.shadowOffsetY = 12;
@@ -130,7 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: formData
             })
             .then(res => {
-                if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+                if (!res.ok) throw new Error(`HTTP status ${res.status}`);
                 return res.json();
             })
             .then(data => resolve(data))

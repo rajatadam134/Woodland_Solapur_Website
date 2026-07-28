@@ -29,17 +29,17 @@
     <div id="passcodeModal" class="passcode-modal">
         <div class="passcode-box">
             <h2>Woodland Admin Portal</h2>
-            <p style="color:#aaa; font-size:14px; margin-bottom:20px;">Enter Passcode to Access Upload System</p>
-            <input type="password" id="passcodeInput" placeholder="Enter Passcode" style="padding:14px; width:100%; margin-bottom:15px; border-radius:8px; border:1px solid #444; background:#181818; color:#fff; font-size:16px;">
+            <p style="color:#6D675E; font-size:14px; margin-bottom:20px;">Enter Passcode to Access Upload System</p>
+            <input type="password" id="passcodeInput" placeholder="Enter Passcode" style="padding:14px; width:100%; margin-bottom:15px; border-radius:10px; border:1px solid #E2DAD0; background:#FDFCF7; color:#222; font-size:16px;">
             <button id="loginBtn" class="lux-btn" style="width:100%;">Access Portal</button>
-            <p id="passcodeError" style="color:#ff5555; display:none; margin-top:15px; font-size:14px;">Invalid Passcode. Please try again.</p>
+            <p id="passcodeError" style="color:#D32F2F; display:none; margin-top:15px; font-size:14px; font-weight:600;">Invalid Passcode. Please try again.</p>
         </div>
     </div>
 
     <main class="container admin-container" id="adminMain" style="display:none;">
-        <div class="section-title-wrapper" style="text-align:center; margin-bottom:30px;">
+        <div class="section-title-wrapper" style="text-align:center; margin-bottom:35px;">
             <div class="section-subtitle">Store Management</div>
-            <h1 class="section-title">Bulk Product Upload & AI Studio Studio</h1>
+            <h1 class="section-title">Bulk Product Upload & AI Studio</h1>
         </div>
 
         <form id="uploadForm" onsubmit="return false;">
@@ -61,7 +61,7 @@
             </div>
 
             <div class="admin-field" style="display:flex; align-items:center; gap:10px;">
-                <input type="checkbox" id="aiBgRemoval" checked style="width:18px; height:18px; accent-color:#c5a059;">
+                <input type="checkbox" id="aiBgRemoval" checked style="width:18px; height:18px; accent-color:#524032;">
                 <label for="aiBgRemoval" style="margin-bottom:0; cursor:pointer;">
                     Apply AI Background Removal & Studio Grey Backdrop (#F5F5F7 + Shadow)
                 </label>
@@ -69,19 +69,38 @@
 
             <div class="drop-zone" id="dropZone">
                 <i class="fa-solid fa-cloud-arrow-up"></i>
-                <h3 style="font-family:'Outfit',sans-serif; margin-bottom:8px; color:#fff;">Drag & Drop Product Photos</h3>
-                <p style="color:#aaa; font-size:14px;">or click to browse files (Upload 1 to 200+ images)</p>
+                <h3>Drag & Drop Product Photos</h3>
+                <p style="color:#6D675E; font-size:14px;">or click to browse files (Upload 1 to 200+ images)</p>
                 <input type="file" id="fileInput" multiple accept="image/*" style="display:none;">
             </div>
 
             <div id="statusArea" style="display:none; margin-top:30px;">
-                <h4 id="statusText" style="color:#c5a059; font-family:'Outfit',sans-serif; margin-bottom:10px;">Processing images...</h4>
+                <h4 id="statusText" style="color:#524032; font-family:'Outfit',sans-serif; margin-bottom:10px;">Processing images...</h4>
                 <div class="progress-bar-wrapper">
                     <div class="progress-bar-fill" id="progressBar"></div>
                 </div>
                 <div class="preview-grid" id="previewGrid"></div>
+                <div id="successNotice" class="upload-success-box" style="display:none;">
+                    <div>
+                        <p id="successNoticeText">Upload Complete!</p>
+                        <span style="font-size:12px; color:#888;">Items are now visible on the Products page.</span>
+                    </div>
+                    <a href="products.html" class="lux-btn" style="padding:8px 14px; font-size:13px;" target="_blank">
+                        View Products <i class="fa-solid fa-arrow-right" style="margin-left:5px;"></i>
+                    </a>
+                </div>
             </div>
         </form>
+
+        <section class="admin-catalog-section">
+            <div class="admin-catalog-header">
+                <h2>Uploaded Products Catalog</h2>
+                <span id="catalogCount" style="font-size:14px; color:#aaa;">0 items</span>
+            </div>
+            <div class="preview-grid" id="catalogGrid">
+                <!-- Dynamically rendered stored items -->
+            </div>
+        </section>
     </main>
 
     <script src="assets/js/cloudinary-config.js"></script>

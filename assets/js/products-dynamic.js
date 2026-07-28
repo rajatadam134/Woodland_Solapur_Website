@@ -6,15 +6,53 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!grid) return;
 
+    const STORAGE_KEY = 'WOODLAND_STORED_PRODUCTS';
     let allProducts = [];
     let displayedCount = 0;
     const PAGE_SIZE = 16;
     let activeFilter = 'all';
 
-    fetchProductsFromCloudinary();
+    // Initial render from local storage for instant feedback
+    loadLocalAndCloudinaryProducts();
+
+    async function loadLocalAndCloudinaryProducts() {
+        const localProducts = getStoredProducts();
+        allProducts = [...localProducts];
+
+        // Render local items immediately
+        if (allProducts.length > 0) {
+            renderCategoryPills();
+            renderProducts();
+        }
+
+        // Fetch from Cloudinary and merge
+        const cloudinaryProducts = await fetchProductsFromCloudinary();
+        
+        // Deduplicate products by URL or ID
+        const existingUrls = new Set(allProducts.map(p => p.url));
+        cloudinaryProducts.forEach(cp => {
+            if (!existingUrls.has(cp.url)) {
+                allProducts.push(cp);
+                existingUrls.add(cp.url);
+            }
+        });
+
+        renderCategoryPills();
+        renderProducts();
+    }
+
+    function getStoredProducts() {
+        try {
+            return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+        } catch (e) {
+            return [];
+        }
+    }
 
     async function fetchProductsFromCloudinary() {
-        const categories = config.defaultCategories;
+        const localItems = getStoredProducts();
+        const localCats = localItems.map(item => item.category);
+        const categories = Array.from(new Set([...config.defaultCategories, ...localCats]));
         const fetched = [];
 
         for (const cat of categories) {
@@ -35,20 +73,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
             } catch (err) {
-                console.warn(`Category '${cat}' list fetch info:`, err.message);
+                console.warn(`Category '${cat}' Cloudinary list notice:`, err.message);
             }
         }
-
-        if (fetched.length > 0) {
-            allProducts = fetched;
-            renderCategoryPills();
-            renderProducts();
-        }
+        return fetched;
     }
 
     function renderCategoryPills() {
         if (!filterPills) return;
-        const uniqueCategories = ['all', ...new Set(allProducts.map(p => p.category))];
+        const uniqueCategories = ['all', ...new Set(allProducts.map(p => p.category.toLowerCase()))];
         filterPills.innerHTML = uniqueCategories.map(cat => `
             <li class="filter-pill ${cat === activeFilter ? 'active' : ''}" data-filter="${cat}">
                 ${cat.charAt(0).toUpperCase() + cat.slice(1)}
@@ -67,11 +100,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderProducts() {
-        const filtered = activeFilter === 'all' ? allProducts : allProducts.filter(p => p.category === activeFilter);
+        const filtered = activeFilter === 'all' 
+            ? allProducts 
+            : allProducts.filter(p => p.category.toLowerCase() === activeFilter.toLowerCase());
+
+        if (filtered.length === 0 && allProducts.length === 0) {
+            // Keep default layout or show empty message if needed
+            return;
+        }
+
         const batch = filtered.slice(0, displayedCount + PAGE_SIZE);
         displayedCount = batch.length;
 
-        // Append dynamic items to existing or replace grid content
         const dynamicCardsHtml = batch.map(p => `
             <div class="product-card showcase-card" data-category="${p.category}">
                 <div class="product-img-wrapper">
