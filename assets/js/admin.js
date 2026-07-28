@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             let finalBlob = file;
             if (useAI) {
-                const bgFn = window.imglyBackgroundRemoval || (window.imgly && window.imgly.removeBackground);
+                const bgFn = window.imglyRemoveBackground || window.imglyBackgroundRemoval || (window.imgly && window.imgly.removeBackground);
                 if (bgFn) {
                     try {
                         statusText.innerText = `Removing background with AI (${i + 1}/${total}): ${file.name}...`;
@@ -177,22 +177,35 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /**
-     * Remove old data: URL items from localStorage.
-     * These were created by the old fallback when Cloudinary upload failed.
+     * Remove old data: URL items and duplicates from localStorage.
      * data: URLs only work on the device that created them and bloat storage.
+     * Duplicates happen when same image is uploaded multiple times.
      */
     function cleanupDataUrls() {
         const items = getStoredProducts();
-        const cleaned = items.filter(item => item.url && !item.url.startsWith('data:'));
+        // Remove data: URLs
+        let cleaned = items.filter(item => item.url && !item.url.startsWith('data:'));
+        // Remove duplicates (keep first occurrence of each URL)
+        const seenUrls = new Set();
+        cleaned = cleaned.filter(item => {
+            if (seenUrls.has(item.url)) return false;
+            seenUrls.add(item.url);
+            return true;
+        });
         if (cleaned.length !== items.length) {
             const removedCount = items.length - cleaned.length;
-            console.log(`Cleaned ${removedCount} local-only data URL item(s) from localStorage.`);
+            console.log(`Cleaned ${removedCount} invalid/duplicate item(s) from localStorage.`);
             localStorage.setItem(STORAGE_KEY, JSON.stringify(cleaned));
         }
     }
 
     function saveToLocalStorage(item) {
         const items = getStoredProducts();
+        // Prevent duplicates — skip if same URL already exists
+        if (items.some(existing => existing.url === item.url)) {
+            console.log('Duplicate URL skipped:', item.title);
+            return;
+        }
         items.unshift(item);
         try {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(items));

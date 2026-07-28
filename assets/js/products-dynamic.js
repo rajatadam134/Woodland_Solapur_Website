@@ -43,15 +43,22 @@ document.addEventListener('DOMContentLoaded', () => {
         // Fetch cloud-synced catalog (uploaded products)
         const cloudProducts = await fetchCatalogFromCloudinary();
 
+        // Deduplicate cloud products by URL
+        const seenUrls = new Set();
+        const uniqueCloudProducts = cloudProducts.filter(p => {
+            if (seenUrls.has(p.url)) return false;
+            seenUrls.add(p.url);
+            return true;
+        });
+
         // Cloud-uploaded products first
-        allProducts = [...cloudProducts];
+        allProducts = [...uniqueCloudProducts];
 
         // Append default static products (dedup by URL)
-        const existingUrls = new Set(allProducts.map(p => p.url));
         DEFAULT_PRODUCTS.forEach(dp => {
-            if (!existingUrls.has(dp.url)) {
+            if (!seenUrls.has(dp.url)) {
                 allProducts.push(dp);
-                existingUrls.add(dp.url);
+                seenUrls.add(dp.url);
             }
         });
 
