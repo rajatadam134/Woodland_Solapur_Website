@@ -976,11 +976,18 @@ footer {
     left: 50%;
     transform: translateX(-50%);
     z-index: 2001;
+    white-space: nowrap;
+    max-width: 90%;
+    padding: 10px 22px;
+    font-size: 14px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
 }
-.lightbox-modal .lightbox-inquire-btn:hover {
-    background: #FFFFFF;
-    color: var(--accent-color);
-    border-color: #FFFFFF;
+@media (max-width: 768px) {
+    .lightbox-inquire-btn {
+        bottom: 16px;
+        padding: 8px 16px;
+        font-size: 12px;
+    }
 }
 
 /* Responsive Gallery Grid */
