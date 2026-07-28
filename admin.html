@@ -100,9 +100,6 @@
                 <h2>Uploaded Products Catalog</h2>
                 <div style="display:flex; align-items:center; gap:12px;">
                     <span id="catalogCount" style="font-size:14px; color:#aaa;">0 items</span>
-                    <button id="syncCatalogBtn" onclick="syncCatalogToCloud()" class="lux-btn" style="padding:6px 14px; font-size:12px; background:#524032; color:#fff; border:none; border-radius:8px; cursor:pointer; display:flex; align-items:center; gap:6px;">
-                        <i class="fa-solid fa-cloud-arrow-up"></i> Sync to Cloud
-                    </button>
                 </div>
             </div>
             <div class="preview-grid" id="catalogGrid">
@@ -111,7 +108,8 @@
         </section>
     </main>
 
-    <script src="assets/js/cloudinary-config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/config.js"></script>
     <script src="assets/js/admin.js"></script>
 </body>
 </html>

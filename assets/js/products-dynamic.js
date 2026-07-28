@@ -11,6 +11,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const PAGE_SIZE = 16;
     let activeFilter = 'all';
 
+    const supabaseClient = (window.supabase && config.supabaseUrl)
+        ? window.supabase.createClient(config.supabaseUrl, config.supabaseAnonKey)
+        : null;
+
     const DEFAULT_PRODUCTS = [
         { id: 'def_1', title: 'Windsor Velvet Sofa', category: 'living', type: 'product', url: 'assets/images/prod_yellow_sofa.jpg', link: 'products/windsor-velvet-sofa.html', catLabel: 'Living Room / Sofa' },
         { id: 'def_2', title: 'Living Lounge Showcase', category: 'living', type: 'gallery', url: 'assets/images/gal_living_setup.jpg', ref: 'gal-living', catLabel: 'Living Room / Lookbook' },
@@ -34,27 +38,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
     loadProducts();
 
-    /**
-     * Load products from Cloudinary catalog JSON + default static products.
-     * No longer uses the broken /image/list/<tag>.json API.
-     * No longer reads localStorage (that's admin-only).
-     */
     async function loadProducts() {
-        // Fetch cloud-synced catalog (uploaded products)
-        const cloudProducts = await fetchCatalogFromCloudinary();
+        let cloudProducts = [];
+        if (supabaseClient) {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('products')
+                    .select('*')
+                    .order('created_at', { ascending: false });
 
-        // Deduplicate cloud products by URL
+                if (error) {
+                    console.error('Error fetching Supabase products:', error);
+                } else if (data) {
+                    cloudProducts = data;
+                }
+            } catch (err) {
+                console.error('Supabase fetch exception:', err);
+            }
+        }
+
         const seenUrls = new Set();
-        const uniqueCloudProducts = cloudProducts.filter(p => {
-            if (seenUrls.has(p.url)) return false;
-            seenUrls.add(p.url);
-            return true;
+        allProducts = [];
+
+        // Uploaded Supabase products first
+        cloudProducts.forEach(p => {
+            if (p.url && !seenUrls.has(p.url)) {
+                allProducts.push(p);
+                seenUrls.add(p.url);
+            }
         });
 
-        // Cloud-uploaded products first
-        allProducts = [...uniqueCloudProducts];
-
-        // Append default static products (dedup by URL)
+        // Default static products fallback
         DEFAULT_PRODUCTS.forEach(dp => {
             if (!seenUrls.has(dp.url)) {
                 allProducts.push(dp);
@@ -64,36 +78,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         renderCategoryPills();
         renderProducts();
-    }
-
-    /**
-     * Fetch product catalog from Cloudinary as a raw JSON file.
-     * This file is published by the admin page after each upload/delete.
-     * Cache-busted with timestamp query param to always get latest version.
-     */
-    async function fetchCatalogFromCloudinary() {
-        try {
-            const url = `https://res.cloudinary.com/${config.cloudName}/raw/upload/woodland_catalog_v1.json?_t=${Date.now()}`;
-            const res = await fetch(url);
-            if (!res.ok) {
-                if (res.status === 404) {
-                    console.log('No product catalog found on Cloudinary yet — admin needs to upload products first.');
-                } else {
-                    console.warn(`Product catalog fetch returned HTTP ${res.status}. Products may not show until admin uploads and syncs.`);
-                }
-                return [];
-            }
-            const data = await res.json();
-            if (!Array.isArray(data)) {
-                console.warn('Product catalog is not a valid array, ignoring.');
-                return [];
-            }
-            // Filter out dummy test URLs and non-https URLs
-            return data.filter(item => item.url && item.url.startsWith('https://') && !item.url.includes('v1722170000'));
-        } catch (err) {
-            console.warn('Failed to fetch product catalog from Cloudinary:', err.message);
-            return [];
-        }
     }
 
     function formatCategory(cat) {

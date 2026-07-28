@@ -6,11 +6,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const passcodeInput = document.getElementById('passcodeInput');
     const passcodeError = document.getElementById('passcodeError');
 
-    const STORAGE_KEY = 'WOODLAND_STORED_PRODUCTS';
     const SESSION_KEY = 'woodland_admin_authed';
 
-    // Clean up old data: URLs from localStorage on load
-    cleanupDataUrls();
+    // Initialize Supabase Client
+    const supabaseClient = (window.supabase && config.supabaseUrl)
+        ? window.supabase.createClient(config.supabaseUrl, config.supabaseAnonKey)
+        : null;
 
     // Auto-unlock if session authenticated
     if (sessionStorage.getItem(SESSION_KEY) === 'true') {
@@ -72,6 +73,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function handleFiles(files) {
         if (!files || files.length === 0) return;
+        if (!supabaseClient) {
+            alert('Supabase client not initialized. Check config.js settings.');
+            return;
+        }
 
         let category = categorySelect.value;
         if (category === 'custom') {
@@ -117,25 +122,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.warn("imglyBackgroundRemoval not found on window, compositing on studio backdrop:", file.name);
                     finalBlob = await compositeOnStudioCanvas(file);
                 }
+            } else {
+                finalBlob = await compositeOnStudioCanvas(file);
             }
 
-            statusText.innerText = `Uploading to Cloudinary (${i + 1}/${total}): ${file.name}...`;
+            statusText.innerText = `Uploading compressed studio image to Supabase (${i + 1}/${total}): ${file.name}...`;
 
             try {
-                const data = await uploadToCloudinary(finalBlob, title, category);
-                const item = {
-                    id: data.public_id || ('prod_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5)),
-                    title: title,
-                    category: category,
-                    url: data.secure_url,
-                    public_id: data.public_id,
-                    created_at: new Date().toISOString()
-                };
-                saveToLocalStorage(item);
-                addPreviewCard(previewGrid, data.secure_url, title);
+                const dbProduct = await uploadToSupabase(finalBlob, title, category);
+                addPreviewCard(previewGrid, dbProduct.url, title);
                 uploadedCount++;
             } catch (uploadErr) {
-                console.error("Cloudinary upload FAILED:", file.name, uploadErr);
+                console.error("Upload FAILED:", file.name, uploadErr);
                 failedCount++;
                 const errorCard = document.createElement('div');
                 errorCard.className = 'preview-card';
@@ -144,25 +142,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div style="color:#D32F2F; padding:10px; text-align:center;">
                         <i class="fa-solid fa-triangle-exclamation"></i>
                         <p style="font-size:12px; margin-top:5px;">Upload failed: ${title}</p>
-                        <p style="font-size:10px; color:#888;">${uploadErr.message}</p>
+                        <p style="font-size:10px; color:#888;">${uploadErr.message || uploadErr}</p>
                     </div>
                 `;
                 previewGrid.appendChild(errorCard);
             }
         }
 
-        // Publish catalog to Cloudinary as raw JSON for cross-device access
         if (uploadedCount > 0) {
-            statusText.innerText = 'Publishing catalog to cloud...';
-            try {
-                await publishCatalog();
-                statusText.innerText = `Done! ${uploadedCount} uploaded${failedCount > 0 ? `, ${failedCount} failed` : ''} — catalog synced to cloud.`;
-            } catch (pubErr) {
-                console.error('Catalog publish failed:', pubErr);
-                statusText.innerText = `${uploadedCount} image(s) uploaded to Cloudinary. Catalog sync failed — see console. Products may not appear on other devices until next sync.`;
-            }
+            statusText.innerText = `Done! ${uploadedCount} uploaded to Supabase${failedCount > 0 ? `, ${failedCount} failed` : ''}.`;
         } else {
-            statusText.innerText = `All ${total} upload(s) failed. Check Cloudinary upload preset settings in dashboard.`;
+            statusText.innerText = `All ${total} upload(s) failed. Check Supabase RLS policies and bucket permissions.`;
         }
 
         progressBar.style.width = '100%';
@@ -174,177 +164,111 @@ document.addEventListener('DOMContentLoaded', () => {
         renderCatalog();
     }
 
-    /**
-     * Remove old data: URL items and duplicates from localStorage.
-     * data: URLs only work on the device that created them and bloat storage.
-     * Duplicates happen when same image is uploaded multiple times.
-     */
-    function cleanupDataUrls() {
-        const items = getStoredProducts();
-        // Remove data: URLs
-        let cleaned = items.filter(item => item.url && !item.url.startsWith('data:'));
-        // Remove duplicates (keep first occurrence of each URL)
-        const seenUrls = new Set();
-        cleaned = cleaned.filter(item => {
-            if (seenUrls.has(item.url)) return false;
-            seenUrls.add(item.url);
-            return true;
-        });
-        if (cleaned.length !== items.length) {
-            const removedCount = items.length - cleaned.length;
-            console.log(`Cleaned ${removedCount} invalid/duplicate item(s) from localStorage.`);
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(cleaned));
-        }
-    }
+    async function uploadToSupabase(blob, title, category) {
+        const fileExt = 'jpg';
+        const fileName = `${category}/${Date.now()}_${Math.random().toString(36).substring(2, 7)}.${fileExt}`;
 
-    function saveToLocalStorage(item) {
-        const items = getStoredProducts();
-        // Prevent duplicates — skip if same URL already exists
-        if (items.some(existing => existing.url === item.url)) {
-            console.log('Duplicate URL skipped:', item.title);
-            return;
-        }
-        items.unshift(item);
-        try {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-        } catch (e) {
-            console.error("Failed to save to localStorage:", e);
-        }
-    }
+        // 1. Upload to Supabase Storage
+        const { data: storageData, error: storageErr } = await supabaseClient
+            .storage
+            .from(config.storageBucket)
+            .upload(fileName, blob, {
+                contentType: 'image/jpeg',
+                upsert: false
+            });
 
-    function getStoredProducts() {
-        try {
-            return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-        } catch (e) {
-            return [];
-        }
-    }
+        if (storageErr) throw storageErr;
 
-    /**
-     * Publish product catalog as a raw JSON file to Cloudinary.
-     * Merges cloud-stored items with localStorage to prevent data loss.
-     */
-    async function publishCatalog() {
-        let items = getStoredProducts();
-        
-        // Try fetching existing cloud catalog to merge
-        try {
-            const cloudRes = await fetch(`https://res.cloudinary.com/${config.cloudName}/raw/upload/woodland_catalog.json?_t=${Date.now()}`);
-            if (cloudRes.ok) {
-                const cloudItems = await cloudRes.json();
-                if (Array.isArray(cloudItems)) {
-                    const seenUrls = new Set(items.map(i => i.url));
-                    cloudItems.forEach(ci => {
-                        if (ci.url && ci.url.startsWith('https://') && !seenUrls.has(ci.url)) {
-                            items.push(ci);
-                            seenUrls.add(ci.url);
-                        }
-                    });
-                    // Save merged list back to localStorage
-                    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+        // 2. Get Public URL
+        const { data: urlData } = supabaseClient
+            .storage
+            .from(config.storageBucket)
+            .getPublicUrl(fileName);
+
+        const publicUrl = urlData.publicUrl;
+
+        // 3. Insert record into Supabase Database
+        const { data: dbData, error: dbErr } = await supabaseClient
+            .from('products')
+            .insert([
+                {
+                    title: title,
+                    category: category,
+                    url: publicUrl,
+                    storage_path: fileName
                 }
-            }
-        } catch (e) {
-            console.warn('Could not fetch existing cloud catalog for merge:', e.message);
-        }
+            ])
+            .select()
+            .single();
 
-        // Filter out any invalid non-https URLs or dummy test URLs
-        const validItems = items.filter(item => item.url && item.url.startsWith('https://') && !item.url.includes('v1722170000'));
+        if (dbErr) throw dbErr;
 
-        const catalogJson = JSON.stringify(validItems, null, 2);
-        const blob = new Blob([catalogJson], { type: 'application/json' });
-
-        const formData = new FormData();
-        formData.append('file', blob, 'woodland_catalog_v1.json');
-        formData.append('upload_preset', config.catalogPreset || config.uploadPreset);
-        formData.append('public_id', 'woodland_catalog_v1.json');
-
-        const res = await fetch(`https://api.cloudinary.com/v1_1/${config.cloudName}/raw/upload`, {
-            method: 'POST',
-            body: formData
-        });
-
-        if (!res.ok) {
-            const errText = await res.text();
-            throw new Error(`HTTP ${res.status}: ${errText}`);
-        }
-
-        const data = await res.json();
-        console.log('Catalog published to Cloudinary:', data.secure_url);
-        return data;
+        return dbData;
     }
 
-    // Expose publishCatalog globally for the Sync button
-    window.syncCatalogToCloud = async function() {
-        const syncBtn = document.getElementById('syncCatalogBtn');
-        if (syncBtn) {
-            syncBtn.disabled = true;
-            syncBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Syncing...';
-        }
-        try {
-            await publishCatalog();
-            if (syncBtn) {
-                syncBtn.innerHTML = '<i class="fa-solid fa-check"></i> Synced!';
-                setTimeout(() => {
-                    syncBtn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Sync to Cloud';
-                    syncBtn.disabled = false;
-                }, 2000);
-            }
-        } catch (err) {
-            console.error('Manual catalog sync failed:', err);
-            if (syncBtn) {
-                syncBtn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Sync Failed';
-                syncBtn.style.borderColor = '#D32F2F';
-                syncBtn.style.color = '#D32F2F';
-                setTimeout(() => {
-                    syncBtn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Sync to Cloud';
-                    syncBtn.disabled = false;
-                    syncBtn.style.borderColor = '';
-                    syncBtn.style.color = '';
-                }, 3000);
-            }
-            alert('Catalog sync failed. Make sure the "woodland_catalog" upload preset exists in your Cloudinary dashboard (Settings > Upload > Upload Presets). It should be Unsigned, with Overwrite ON and Unique Filename OFF.');
-        }
-    };
-
-    function renderCatalog() {
+    async function renderCatalog() {
         const catalogGrid = document.getElementById('catalogGrid');
         const catalogCount = document.getElementById('catalogCount');
-        if (!catalogGrid) return;
+        if (!catalogGrid || !supabaseClient) return;
 
-        const items = getStoredProducts();
-        catalogCount.innerText = `${items.length} item(s)`;
+        catalogGrid.innerHTML = `<p style="grid-column:1/-1; text-align:center; color:#777; padding:20px;"><i class="fa-solid fa-spinner fa-spin"></i> Loading catalog from Supabase...</p>`;
 
-        if (items.length === 0) {
-            catalogGrid.innerHTML = `<p style="grid-column:1/-1; text-align:center; color:#777; padding:20px;">No uploaded products yet. Drag & drop images above to add products.</p>`;
-            return;
+        try {
+            const { data: items, error } = await supabaseClient
+                .from('products')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            if (error) throw error;
+
+            catalogCount.innerText = `${items ? items.length : 0} item(s)`;
+
+            if (!items || items.length === 0) {
+                catalogGrid.innerHTML = `<p style="grid-column:1/-1; text-align:center; color:#777; padding:20px;">No uploaded products yet. Drag & drop images above to add products.</p>`;
+                return;
+            }
+
+            catalogGrid.innerHTML = items.map(item => `
+                <div class="catalog-card" data-id="${item.id}">
+                    <span class="cat-badge">${item.category}</span>
+                    <img src="${item.url}" alt="${item.title}" loading="lazy">
+                    <div class="card-title">${item.title}</div>
+                    <button class="delete-btn" onclick="deleteProduct('${item.id}', '${item.storage_path}')">
+                        <i class="fa-solid fa-trash"></i> Delete
+                    </button>
+                </div>
+            `).join('');
+        } catch (err) {
+            console.error('Fetch catalog failed:', err);
+            catalogGrid.innerHTML = `<p style="grid-column:1/-1; text-align:center; color:#D32F2F; padding:20px;">Error loading catalog: ${err.message}</p>`;
         }
-
-        catalogGrid.innerHTML = items.map(item => `
-            <div class="catalog-card" data-id="${item.id}">
-                <span class="cat-badge">${item.category}</span>
-                <img src="${item.url}" alt="${item.title}" loading="lazy">
-                <div class="card-title">${item.title}</div>
-                <button class="delete-btn" onclick="deleteProduct('${item.id}')">
-                    <i class="fa-solid fa-trash"></i> Delete
-                </button>
-            </div>
-        `).join('');
     }
 
-    window.deleteProduct = async function(id) {
+    window.deleteProduct = async function(id, storagePath) {
         if (!confirm('Are you sure you want to delete this product from store catalog?')) return;
-        let items = getStoredProducts();
-        items = items.filter(i => i.id !== id);
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-        renderCatalog();
+        if (!supabaseClient) return;
 
-        // Re-publish catalog to Cloudinary so the deletion is reflected cross-device
         try {
-            await publishCatalog();
-            console.log('Catalog updated after product deletion.');
+            // 1. Delete from DB
+            const { error: dbErr } = await supabaseClient
+                .from('products')
+                .delete()
+                .eq('id', id);
+
+            if (dbErr) throw dbErr;
+
+            // 2. Delete from Storage if path exists
+            if (storagePath && storagePath !== 'undefined') {
+                await supabaseClient
+                    .storage
+                    .from(config.storageBucket)
+                    .remove([storagePath]);
+            }
+
+            renderCatalog();
         } catch (err) {
-            console.error('Failed to sync catalog after delete:', err);
+            console.error('Delete failed:', err);
+            alert('Delete failed: ' + err.message);
         }
     };
 
@@ -353,44 +277,54 @@ document.addEventListener('DOMContentLoaded', () => {
             const img = new Image();
             img.onload = () => {
                 const canvas = document.createElement('canvas');
-                const pad = Math.max(img.width, img.height) * 0.08;
+                const pad = Math.max(img.width, img.height) * 0.12;
                 canvas.width = Math.round(img.width + pad * 2);
                 canvas.height = Math.round(img.height + pad * 2);
                 const ctx = canvas.getContext('2d');
 
-                ctx.fillStyle = '#F5F5F7';
+                // 1. Studio Gradient Backdrop
+                const grad = ctx.createRadialGradient(
+                    canvas.width / 2, canvas.height * 0.4, 20,
+                    canvas.width / 2, canvas.height / 2, Math.max(canvas.width, canvas.height) / 1.1
+                );
+                grad.addColorStop(0, '#FFFFFF');
+                grad.addColorStop(0.55, '#F0F0F3');
+                grad.addColorStop(1, '#E0E0E5');
+                ctx.fillStyle = grad;
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-                ctx.shadowColor = 'rgba(0, 0, 0, 0.18)';
-                ctx.shadowBlur = 24;
-                ctx.shadowOffsetY = 12;
+                // 2. Base Ground Contact Shadow
+                ctx.save();
+                const shadowY = pad + img.height * 0.97;
+                const shadowRx = img.width * 0.42;
+                const shadowRy = Math.max(14, img.height * 0.07);
+
+                const sGrad = ctx.createRadialGradient(
+                    canvas.width / 2, shadowY, 0,
+                    canvas.width / 2, shadowY, shadowRx
+                );
+                sGrad.addColorStop(0, 'rgba(0, 0, 0, 0.38)');
+                sGrad.addColorStop(0.4, 'rgba(0, 0, 0, 0.18)');
+                sGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+                ctx.fillStyle = sGrad;
+                ctx.beginPath();
+                ctx.ellipse(canvas.width / 2, shadowY, shadowRx, shadowRy, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+
+                // 3. Floating Soft Drop Shadow on product
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.22)';
+                ctx.shadowBlur = Math.round(img.width * 0.04);
+                ctx.shadowOffsetY = Math.round(img.height * 0.025);
 
                 ctx.drawImage(img, pad, pad, img.width, img.height);
-                canvas.toBlob((blob) => resolve(blob), 'image/jpeg', 0.92);
+
+                // 4. Compress composite image to high-quality JPEG (0.85 quality ratio)
+                canvas.toBlob((blob) => resolve(blob), 'image/jpeg', 0.85);
             };
             img.onerror = () => resolve(bgRemovedBlob);
             img.src = URL.createObjectURL(bgRemovedBlob);
-        });
-    }
-
-    function uploadToCloudinary(blob, title, category) {
-        return new Promise((resolve, reject) => {
-            const formData = new FormData();
-            formData.append('file', blob);
-            formData.append('upload_preset', config.uploadPreset);
-            formData.append('tags', category);
-            formData.append('context', `caption=${title}|title=${title}`);
-
-            fetch(`https://api.cloudinary.com/v1_1/${config.cloudName}/image/upload`, {
-                method: 'POST',
-                body: formData
-            })
-            .then(res => {
-                if (!res.ok) throw new Error(`HTTP status ${res.status}`);
-                return res.json();
-            })
-            .then(data => resolve(data))
-            .catch(err => reject(err));
         });
     }
 
