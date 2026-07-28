@@ -206,6 +206,16 @@ document.addEventListener('DOMContentLoaded', () => {
         return dbData;
     }
 
+    function escapeHtml(str) {
+        if (!str) return '';
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+
     async function renderCatalog() {
         const catalogGrid = document.getElementById('catalogGrid');
         const catalogCount = document.getElementById('catalogCount');
@@ -228,19 +238,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            catalogGrid.innerHTML = items.map(item => `
-                <div class="catalog-card" data-id="${item.id}">
-                    <span class="cat-badge">${item.category}</span>
-                    <img src="${item.url}" alt="${item.title}" loading="lazy">
-                    <div class="card-title">${item.title}</div>
-                    <button class="delete-btn" onclick="deleteProduct('${item.id}', '${item.storage_path}')">
-                        <i class="fa-solid fa-trash"></i> Delete
-                    </button>
-                </div>
-            `).join('');
+            catalogGrid.innerHTML = items.map(item => {
+                const safeTitle = escapeHtml(item.title);
+                const safeCat = escapeHtml(item.category);
+                const safeUrl = escapeHtml(item.url);
+                const safeId = escapeHtml(item.id);
+                const safePath = escapeHtml(item.storage_path);
+
+                return `
+                    <div class="catalog-card" data-id="${safeId}">
+                        <span class="cat-badge">${safeCat}</span>
+                        <img src="${safeUrl}" alt="${safeTitle}" loading="lazy">
+                        <div class="card-title">${safeTitle}</div>
+                        <button class="delete-btn" onclick="deleteProduct('${safeId}', '${safePath}')">
+                            <i class="fa-solid fa-trash"></i> Delete
+                        </button>
+                    </div>
+                `;
+            }).join('');
         } catch (err) {
             console.error('Fetch catalog failed:', err);
-            catalogGrid.innerHTML = `<p style="grid-column:1/-1; text-align:center; color:#D32F2F; padding:20px;">Error loading catalog: ${err.message}</p>`;
+            catalogGrid.innerHTML = `<p style="grid-column:1/-1; text-align:center; color:#D32F2F; padding:20px;">Error loading catalog: ${escapeHtml(err.message)}</p>`;
         }
     }
 

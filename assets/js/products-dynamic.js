@@ -112,6 +112,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function escapeHtml(str) {
+        if (!str) return '';
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+
     function renderProducts() {
         const filtered = activeFilter === 'all' 
             ? allProducts 
@@ -121,20 +131,24 @@ document.addEventListener('DOMContentLoaded', () => {
         displayedCount = batch.length;
 
         const dynamicCardsHtml = batch.map(p => {
-            const catDisplay = p.catLabel || formatCategory(p.category);
-            const refId = p.ref || p.id || 'prod';
+            const rawCatDisplay = p.catLabel || formatCategory(p.category);
+            const catDisplay = escapeHtml(rawCatDisplay);
+            const refId = escapeHtml(p.ref || p.id || 'prod');
+            const safeTitle = escapeHtml(p.title);
+            const safeCategory = escapeHtml(p.category);
+            const safeUrl = escapeHtml(p.url);
 
             return `
-                <div class="product-card gallery-card-item showcase-card" data-category="${p.category}" data-type="gallery" data-image="${p.url}" data-ref="${refId}" data-title="${p.title}" data-catdisplay="${catDisplay}" tabindex="0" role="button">
+                <div class="product-card gallery-card-item showcase-card" data-category="${safeCategory}" data-type="gallery" data-image="${safeUrl}" data-ref="${refId}" data-title="${safeTitle}" data-catdisplay="${catDisplay}" tabindex="0" role="button">
                     <div class="product-img-wrapper">
-                        <img src="${p.url}" alt="${p.title}" loading="lazy" onerror="this.closest('.product-card').style.display='none'">
+                        <img src="${safeUrl}" alt="${safeTitle}" loading="lazy" onerror="this.closest('.product-card').style.display='none'">
                         <div class="glass-hover-overlay">
                             <span class="lux-btn"><i class="fa-solid fa-magnifying-glass-plus" style="margin-right: 8px;"></i> Zoom Setup</span>
                         </div>
                     </div>
                     <div class="product-info">
                         <span class="product-cat">${catDisplay}</span>
-                        <h3>${p.title}</h3>
+                        <h3>${safeTitle}</h3>
                     </div>
                 </div>
             `;
