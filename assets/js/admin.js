@@ -9,6 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const STORAGE_KEY = 'WOODLAND_STORED_PRODUCTS';
     const SESSION_KEY = 'woodland_admin_authed';
 
+    // Clean up old data: URLs from localStorage on load
+    cleanupDataUrls();
+
     // Auto-unlock if session authenticated
     if (sessionStorage.getItem(SESSION_KEY) === 'true') {
         modal.style.display = 'none';
@@ -89,7 +92,8 @@ document.addEventListener('DOMContentLoaded', () => {
         previewGrid.innerHTML = '';
 
         const total = files.length;
-        const newlyUploaded = [];
+        let uploadedCount = 0;
+        let failedCount = 0;
 
         for (let i = 0; i < total; i++) {
             const file = files[i];
@@ -117,36 +121,74 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            statusText.innerText = `Uploading image (${i + 1}/${total}): ${file.name}...`;
+            statusText.innerText = `Uploading to Cloudinary (${i + 1}/${total}): ${file.name}...`;
 
-            let imageUrl = '';
             try {
                 const data = await uploadToCloudinary(finalBlob, title, category);
-                imageUrl = data.secure_url;
+                const item = {
+                    id: data.public_id || ('prod_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5)),
+                    title: title,
+                    category: category,
+                    url: data.secure_url,
+                    public_id: data.public_id,
+                    created_at: new Date().toISOString()
+                };
+                saveToLocalStorage(item);
+                addPreviewCard(previewGrid, data.secure_url, title);
+                uploadedCount++;
             } catch (uploadErr) {
-                console.warn("Cloudinary upload failed, saving locally:", uploadErr);
-                imageUrl = await blobToDataURL(finalBlob);
+                console.error("Cloudinary upload FAILED:", file.name, uploadErr);
+                failedCount++;
+                const errorCard = document.createElement('div');
+                errorCard.className = 'preview-card';
+                errorCard.style.borderColor = '#D32F2F';
+                errorCard.innerHTML = `
+                    <div style="color:#D32F2F; padding:10px; text-align:center;">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <p style="font-size:12px; margin-top:5px;">Upload failed: ${title}</p>
+                        <p style="font-size:10px; color:#888;">${uploadErr.message}</p>
+                    </div>
+                `;
+                previewGrid.appendChild(errorCard);
             }
-
-            const item = {
-                id: 'prod_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
-                title: title,
-                category: category,
-                url: imageUrl,
-                created_at: new Date().toISOString()
-            };
-
-            saveToLocalStorage(item);
-            newlyUploaded.push(item);
-            addPreviewCard(previewGrid, imageUrl, title);
         }
 
-        statusText.innerText = `Successfully uploaded ${total} image(s) to category '${category}'.`;
+        // Publish catalog to Cloudinary as raw JSON for cross-device access
+        if (uploadedCount > 0) {
+            statusText.innerText = 'Publishing catalog to cloud...';
+            try {
+                await publishCatalog();
+                statusText.innerText = `Done! ${uploadedCount} uploaded${failedCount > 0 ? `, ${failedCount} failed` : ''} — catalog synced to cloud.`;
+            } catch (pubErr) {
+                console.error('Catalog publish failed:', pubErr);
+                statusText.innerText = `${uploadedCount} image(s) uploaded to Cloudinary. Catalog sync failed — see console. Products may not appear on other devices until next sync.`;
+            }
+        } else {
+            statusText.innerText = `All ${total} upload(s) failed. Check Cloudinary upload preset settings in dashboard.`;
+        }
+
         progressBar.style.width = '100%';
-        successNotice.style.display = 'flex';
+        if (uploadedCount > 0) {
+            successNotice.style.display = 'flex';
+        }
 
         document.getElementById('productName').value = '';
         renderCatalog();
+    }
+
+    /**
+     * Remove old data: URL items from localStorage.
+     * These were created by the old fallback when Cloudinary upload failed.
+     * data: URLs only work on the device that created them and bloat storage.
+     */
+    function cleanupDataUrls() {
+        const items = getStoredProducts();
+        const cleaned = items.filter(item => item.url && !item.url.startsWith('data:'));
+        if (cleaned.length !== items.length) {
+            const removedCount = items.length - cleaned.length;
+            console.log(`Cleaned ${removedCount} local-only data URL item(s) from localStorage.`);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(cleaned));
+        }
     }
 
     function saveToLocalStorage(item) {
@@ -166,6 +208,72 @@ document.addEventListener('DOMContentLoaded', () => {
             return [];
         }
     }
+
+    /**
+     * Publish product catalog as a raw JSON file to Cloudinary.
+     * This replaces the broken /image/list/<tag>.json API.
+     * The products page fetches this file to discover all uploaded products.
+     */
+    async function publishCatalog() {
+        const items = getStoredProducts();
+        // Only include items with valid Cloudinary URLs (filter out any leftover data: URLs)
+        const validItems = items.filter(item => item.url && item.url.startsWith('https://'));
+
+        const catalogJson = JSON.stringify(validItems, null, 2);
+        const blob = new Blob([catalogJson], { type: 'application/json' });
+
+        const formData = new FormData();
+        formData.append('file', blob, 'woodland_catalog.json');
+        formData.append('upload_preset', config.catalogPreset || 'woodland_catalog');
+        formData.append('public_id', 'woodland_catalog');
+
+        const res = await fetch(`https://api.cloudinary.com/v1_1/${config.cloudName}/raw/upload`, {
+            method: 'POST',
+            body: formData
+        });
+
+        if (!res.ok) {
+            const errText = await res.text();
+            throw new Error(`HTTP ${res.status}: ${errText}`);
+        }
+
+        const data = await res.json();
+        console.log('Catalog published to Cloudinary:', data.secure_url);
+        return data;
+    }
+
+    // Expose publishCatalog globally for the Sync button
+    window.syncCatalogToCloud = async function() {
+        const syncBtn = document.getElementById('syncCatalogBtn');
+        if (syncBtn) {
+            syncBtn.disabled = true;
+            syncBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Syncing...';
+        }
+        try {
+            await publishCatalog();
+            if (syncBtn) {
+                syncBtn.innerHTML = '<i class="fa-solid fa-check"></i> Synced!';
+                setTimeout(() => {
+                    syncBtn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Sync to Cloud';
+                    syncBtn.disabled = false;
+                }, 2000);
+            }
+        } catch (err) {
+            console.error('Manual catalog sync failed:', err);
+            if (syncBtn) {
+                syncBtn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Sync Failed';
+                syncBtn.style.borderColor = '#D32F2F';
+                syncBtn.style.color = '#D32F2F';
+                setTimeout(() => {
+                    syncBtn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Sync to Cloud';
+                    syncBtn.disabled = false;
+                    syncBtn.style.borderColor = '';
+                    syncBtn.style.color = '';
+                }, 3000);
+            }
+            alert('Catalog sync failed. Make sure the "woodland_catalog" upload preset exists in your Cloudinary dashboard (Settings > Upload > Upload Presets). It should be Unsigned, with Overwrite ON and Unique Filename OFF.');
+        }
+    };
 
     function renderCatalog() {
         const catalogGrid = document.getElementById('catalogGrid');
@@ -192,21 +300,21 @@ document.addEventListener('DOMContentLoaded', () => {
         `).join('');
     }
 
-    window.deleteProduct = function(id) {
+    window.deleteProduct = async function(id) {
         if (!confirm('Are you sure you want to delete this product from store catalog?')) return;
         let items = getStoredProducts();
         items = items.filter(i => i.id !== id);
         localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
         renderCatalog();
-    };
 
-    function blobToDataURL(blob) {
-        return new Promise((resolve) => {
-            const reader = new FileReader();
-            reader.onloadend = () => resolve(reader.result);
-            reader.readAsDataURL(blob);
-        });
-    }
+        // Re-publish catalog to Cloudinary so the deletion is reflected cross-device
+        try {
+            await publishCatalog();
+            console.log('Catalog updated after product deletion.');
+        } catch (err) {
+            console.error('Failed to sync catalog after delete:', err);
+        }
+    };
 
     function compositeOnStudioCanvas(bgRemovedBlob) {
         return new Promise((resolve) => {

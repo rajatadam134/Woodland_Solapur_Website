@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!grid) return;
 
-    const STORAGE_KEY = 'WOODLAND_STORED_PRODUCTS';
     let allProducts = [];
     let displayedCount = 0;
     const PAGE_SIZE = 16;
@@ -33,26 +32,22 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'def_18', title: 'Wicker Patio Seating', category: 'living', type: 'gallery', url: 'assets/images/gal_wicker_seating.jpg', ref: 'gal-wicker-seating', catLabel: 'Living Room / Patio' }
     ];
 
-    loadLocalAndCloudinaryProducts();
+    loadProducts();
 
-    async function loadLocalAndCloudinaryProducts() {
-        const localProducts = getStoredProducts();
-        
-        // Newly uploaded local items PREPENDED AT TOP
-        allProducts = [...localProducts];
+    /**
+     * Load products from Cloudinary catalog JSON + default static products.
+     * No longer uses the broken /image/list/<tag>.json API.
+     * No longer reads localStorage (that's admin-only).
+     */
+    async function loadProducts() {
+        // Fetch cloud-synced catalog (uploaded products)
+        const cloudProducts = await fetchCatalogFromCloudinary();
 
-        // Fetch Cloudinary items
-        const cloudinaryProducts = await fetchProductsFromCloudinary();
+        // Cloud-uploaded products first
+        allProducts = [...cloudProducts];
+
+        // Append default static products (dedup by URL)
         const existingUrls = new Set(allProducts.map(p => p.url));
-
-        cloudinaryProducts.forEach(cp => {
-            if (!existingUrls.has(cp.url)) {
-                allProducts.push(cp);
-                existingUrls.add(cp.url);
-            }
-        });
-
-        // Append default static 18 cards at bottom
         DEFAULT_PRODUCTS.forEach(dp => {
             if (!existingUrls.has(dp.url)) {
                 allProducts.push(dp);
@@ -64,42 +59,34 @@ document.addEventListener('DOMContentLoaded', () => {
         renderProducts();
     }
 
-    function getStoredProducts() {
+    /**
+     * Fetch product catalog from Cloudinary as a raw JSON file.
+     * This file is published by the admin page after each upload/delete.
+     * Cache-busted with timestamp query param to always get latest version.
+     */
+    async function fetchCatalogFromCloudinary() {
         try {
-            return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-        } catch (e) {
+            const url = `https://res.cloudinary.com/${config.cloudName}/raw/upload/woodland_catalog.json?_t=${Date.now()}`;
+            const res = await fetch(url);
+            if (!res.ok) {
+                if (res.status === 404) {
+                    console.log('No product catalog found on Cloudinary yet — admin needs to upload products first.');
+                } else {
+                    console.warn(`Product catalog fetch returned HTTP ${res.status}. Products may not show until admin uploads and syncs.`);
+                }
+                return [];
+            }
+            const data = await res.json();
+            if (!Array.isArray(data)) {
+                console.warn('Product catalog is not a valid array, ignoring.');
+                return [];
+            }
+            // Filter out any entries without valid Cloudinary URLs
+            return data.filter(item => item.url && item.url.startsWith('https://'));
+        } catch (err) {
+            console.warn('Failed to fetch product catalog from Cloudinary:', err.message);
             return [];
         }
-    }
-
-    async function fetchProductsFromCloudinary() {
-        const localItems = getStoredProducts();
-        const localCats = localItems.map(item => item.category);
-        const categories = Array.from(new Set([...(config.defaultCategories || ['living', 'bedroom', 'office', 'dining']), ...localCats]));
-        const fetched = [];
-
-        for (const cat of categories) {
-            try {
-                const res = await fetch(`https://res.cloudinary.com/${config.cloudName}/image/list/${cat}.json`);
-                if (res.ok) {
-                    const data = await res.json();
-                    if (data && data.resources) {
-                        data.resources.forEach(resItem => {
-                            fetched.push({
-                                id: resItem.public_id,
-                                title: resItem.context?.custom?.caption || resItem.context?.custom?.title || `${cat.toUpperCase()} Item`,
-                                category: cat,
-                                url: `https://res.cloudinary.com/${config.cloudName}/image/upload/f_auto,q_auto/${resItem.public_id}.${resItem.format}`,
-                                created_at: resItem.created_at
-                            });
-                        });
-                    }
-                }
-            } catch (err) {
-                console.warn(`Category '${cat}' Cloudinary notice:`, err.message);
-            }
-        }
-        return fetched;
     }
 
     function formatCategory(cat) {
