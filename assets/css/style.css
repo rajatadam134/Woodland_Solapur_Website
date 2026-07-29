@@ -939,6 +939,40 @@ footer {
     pointer-events: auto;
     visibility: visible;
 }
+/* Product Badges Overlay */
+.product-badges-overlay {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    z-index: 5;
+    pointer-events: none;
+}
+
+.product-tag-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.product-tag-badge.badge-new {
+    background: #2E7D32;
+    color: #FFFFFF;
+}
+
+.product-tag-badge.badge-top {
+    background: #C5A059;
+    color: #FFFFFF;
+}
 .lightbox-content {
     position: relative;
     width: calc(100% - 48px);

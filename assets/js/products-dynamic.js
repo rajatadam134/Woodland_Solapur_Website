@@ -27,13 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'def_9', title: 'Luxury Dining Showcase', category: 'dining', type: 'gallery', url: 'assets/images/gal_dining_setup.jpg', ref: 'gal-dining', catLabel: 'Dining Room / Lookbook' },
         { id: 'def_10', title: 'Classic Teak Dining Suite', category: 'dining', type: 'product', url: 'assets/images/prod_dining_suite.jpg', link: 'products/classic-teak-dining-suite.html', catLabel: 'Dining Room / Suite' },
         { id: 'def_11', title: 'Luxury Cream Marble Dining Suite', category: 'dining', type: 'product', url: 'assets/images/prod_cream_dining.jpg', link: 'products/luxury-cream-dining.html', catLabel: 'Dining Room / Suite' },
-        { id: 'def_12', title: 'Modern White Marble Dining Table', category: 'dining', type: 'product', url: 'assets/images/prod_white_dining.jpg', link: 'products/modern-white-dining.html', catLabel: 'Dining Room / Table' },
-        { id: 'def_13', title: 'Executive Office Showcase', category: 'office', type: 'gallery', url: 'assets/images/gal_office_setup.jpg', ref: 'gal-office', catLabel: 'Office / Lookbook' },
-        { id: 'def_14', title: 'Veneer Conference Desk', category: 'office', type: 'product', url: 'assets/images/prod_office_table.jpg', link: 'products/veneer-conference-desk.html', catLabel: 'Office / Table' },
-        { id: 'def_15', title: 'Office Executive Ergonomic Chair', category: 'office', type: 'product', url: 'assets/images/prod_office_chair.jpg', link: 'products/office-executive-chair.html', catLabel: 'Office / Chair' },
-        { id: 'def_16', title: 'Teak Compactors Storage System', category: 'office', type: 'product', url: 'assets/images/prod_compactors.jpg', link: 'products/teak-compactors-storage.html', catLabel: 'Office / Storage' },
-        { id: 'def_17', title: 'Outdoor Balcony Swings', category: 'living', type: 'gallery', url: 'assets/images/gal_outdoor_swing.jpg', ref: 'gal-outdoor-swing', catLabel: 'Living Room / Swings' },
-        { id: 'def_18', title: 'Wicker Patio Seating', category: 'living', type: 'gallery', url: 'assets/images/gal_wicker_seating.jpg', ref: 'gal-wicker-seating', catLabel: 'Living Room / Patio' }
+        { id: 'def_12', title: 'Modern White Marble Dining Table', category: 'dining', type: 'product', url: 'assets/images/prod_white_dining.jpg', link: 'products/modern-white-dining.html', catLabel: 'Dining Room / Table' }
     ];
 
     loadProducts();
@@ -45,22 +39,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 const { data, error } = await supabaseClient
                     .from('products')
                     .select('*')
+                    .eq('is_archived', false)
+                    .order('sort_order', { ascending: true })
                     .order('created_at', { ascending: false });
 
-                if (error) {
-                    console.error('Error fetching Supabase products:', error);
-                } else if (data) {
+                if (!error && data) {
                     cloudProducts = data;
                 }
             } catch (err) {
-                console.error('Supabase fetch exception:', err);
+                console.error('Supabase fetch error:', err);
             }
         }
 
         const seenUrls = new Set();
         allProducts = [];
 
-        // Uploaded Supabase products first
         cloudProducts.forEach(p => {
             if (p.url && !seenUrls.has(p.url)) {
                 allProducts.push(p);
@@ -68,7 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Default static products fallback
         DEFAULT_PRODUCTS.forEach(dp => {
             if (!seenUrls.has(dp.url)) {
                 allProducts.push(dp);
@@ -134,16 +126,28 @@ document.addEventListener('DOMContentLoaded', () => {
             const rawCatDisplay = p.catLabel || formatCategory(p.category);
             const catDisplay = escapeHtml(rawCatDisplay);
             const refId = escapeHtml(p.ref || p.id || 'prod');
-            const safeTitle = escapeHtml(p.title);
+            const displayTitle = p.use_custom_display_name && p.display_name ? p.display_name : p.title;
+            const safeTitle = escapeHtml(displayTitle);
             const safeCategory = escapeHtml(p.category);
             const safeUrl = escapeHtml(p.url);
 
+            // Compute automatic tags
+            let badgeHtml = '';
+            if (p.created_at) {
+                const daysOld = (Date.now() - new Date(p.created_at).getTime()) / (1000 * 60 * 60 * 24);
+                if (daysOld <= 7) badgeHtml += `<span class="product-tag-badge badge-new">New Arrival</span>`;
+            }
+            if ((p.inquiry_count || 0) >= 5) {
+                badgeHtml += `<span class="product-tag-badge badge-top">Top Pick</span>`;
+            }
+
             return `
-                <div class="product-card gallery-card-item showcase-card" data-category="${safeCategory}" data-type="gallery" data-image="${safeUrl}" data-ref="${refId}" data-title="${safeTitle}" data-catdisplay="${catDisplay}" tabindex="0" role="button">
+                <div class="product-card gallery-card-item showcase-card" data-id="${p.id || ''}" data-category="${safeCategory}" data-type="gallery" data-image="${safeUrl}" data-ref="${refId}" data-title="${safeTitle}" data-catdisplay="${catDisplay}" tabindex="0" role="button">
                     <div class="product-img-wrapper">
+                        <div class="product-badges-overlay">${badgeHtml}</div>
                         <img src="${safeUrl}" alt="${safeTitle}" loading="lazy" onerror="this.closest('.product-card').style.display='none'">
                         <div class="glass-hover-overlay">
-                            <span class="lux-btn"><i class="fa-solid fa-magnifying-glass-plus" style="margin-right: 8px;"></i> Zoom Setup</span>
+                            <span class="lux-btn"><i class="fa-solid fa-magnifying-glass-plus" style="margin-right: 8px;"></i> Zoom & Inquire</span>
                         </div>
                     </div>
                     <div class="product-info">
@@ -156,10 +160,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
         grid.innerHTML = dynamicCardsHtml;
 
-        // Re-attach lightbox triggers if window.initLightbox exists
         if (typeof window.initLightbox === 'function') {
             window.initLightbox();
         }
+
+        // Attach click view counter & inquiry logger
+        grid.querySelectorAll('.product-card').forEach(card => {
+            card.addEventListener('click', async () => {
+                const id = card.dataset.id;
+                const title = card.dataset.title;
+
+                if (id && supabaseClient && !id.startsWith('def_')) {
+                    // Increment view count
+                    try {
+                        await supabaseClient.rpc('increment_view_count', { row_id: id }).catch(async () => {
+                            // Fallback direct update
+                            const { data: current } = await supabaseClient.from('products').select('view_count').eq('id', id).single();
+                            if (current) {
+                                await supabaseClient.from('products').update({ view_count: (current.view_count || 0) + 1 }).eq('id', id);
+                            }
+                        });
+                    } catch (e) {}
+                }
+            });
+        });
 
         if (loadMoreBtn) {
             loadMoreBtn.style.display = displayedCount < filtered.length ? 'inline-block' : 'none';
@@ -170,3 +194,4 @@ document.addEventListener('DOMContentLoaded', () => {
         loadMoreBtn.addEventListener('click', () => renderProducts());
     }
 });
+
