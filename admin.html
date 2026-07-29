@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
     <title>Woodland Solapur | Client Admin Upload</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,23 +24,28 @@
                 <ul class="nav-links">
                     <li><a href="index.html">Home</a></li>
                     <li><a href="products.html">Products</a></li>
-                    <li class="active"><a href="admin.html">Admin Upload</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <div id="passcodeModal" class="passcode-modal">
+    <div id="loginModal" class="passcode-modal">
         <div class="passcode-box">
             <h2>Woodland Admin Portal</h2>
-            <p style="color:#6D675E; font-size:14px; margin-bottom:20px;">Enter Passcode to Access Upload System</p>
-            <input type="password" id="passcodeInput" placeholder="Enter Passcode" style="padding:14px; width:100%; margin-bottom:15px; border-radius:10px; border:1px solid #E2DAD0; background:#FDFCF7; color:#222; font-size:16px;">
-            <button id="loginBtn" class="lux-btn" style="width:100%;">Access Portal</button>
-            <p id="passcodeError" style="color:#D32F2F; display:none; margin-top:15px; font-size:14px; font-weight:600;">Invalid Passcode. Please try again.</p>
+            <p style="color:#6D675E; font-size:14px; margin-bottom:20px;">Sign in with your admin credentials</p>
+            <input type="email" id="emailInput" placeholder="Admin Email" autocomplete="email" style="padding:14px; width:100%; margin-bottom:12px; border-radius:10px; border:1px solid #E2DAD0; background:#FDFCF7; color:#222; font-size:16px;">
+            <input type="password" id="passwordInput" placeholder="Password" autocomplete="current-password" style="padding:14px; width:100%; margin-bottom:15px; border-radius:10px; border:1px solid #E2DAD0; background:#FDFCF7; color:#222; font-size:16px;">
+            <button id="loginBtn" class="lux-btn" style="width:100%;">Sign In</button>
+            <p id="loginError" style="color:#D32F2F; display:none; margin-top:15px; font-size:14px; font-weight:600;"></p>
         </div>
     </div>
 
     <main class="container admin-container" id="adminMain" style="display:none;">
+        <div style="display:flex; justify-content:flex-end; margin-bottom:12px;">
+            <button id="logoutBtn" class="lux-btn" style="padding:8px 18px; font-size:13px; background:#D32F2F; border-color:#D32F2F;">
+                <i class="fa-solid fa-right-from-bracket" style="margin-right:6px;"></i> Sign Out
+            </button>
+        </div>
         <div class="section-title-wrapper" style="text-align:center; margin-bottom:35px;">
             <div class="section-subtitle">Store Management</div>
             <h1 class="section-title">Bulk Product Upload & AI Studio</h1>

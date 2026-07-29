@@ -1,75 +1,147 @@
 document.addEventListener('DOMContentLoaded', () => {
     const config = window.WOODLAND_CONFIG;
-    const modal = document.getElementById('passcodeModal');
+    const modal = document.getElementById('loginModal');
     const adminMain = document.getElementById('adminMain');
     const loginBtn = document.getElementById('loginBtn');
-    const passcodeInput = document.getElementById('passcodeInput');
-    const passcodeError = document.getElementById('passcodeError');
-
-    const SESSION_KEY = 'woodland_admin_authed';
+    const emailInput = document.getElementById('emailInput');
+    const passwordInput = document.getElementById('passwordInput');
+    const loginError = document.getElementById('loginError');
 
     // Initialize Supabase Client
     const supabaseClient = (window.supabase && config.supabaseUrl)
         ? window.supabase.createClient(config.supabaseUrl, config.supabaseAnonKey)
         : null;
 
-    // Auto-unlock if session authenticated
-    if (sessionStorage.getItem(SESSION_KEY) === 'true') {
-        modal.style.display = 'none';
-        adminMain.style.display = 'block';
+    // Check existing authenticated session on page load
+    async function checkSession() {
+        if (!supabaseClient) return;
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if (session) {
+            unlockAdmin();
+        }
+    }
+
+    function unlockAdmin() {
+        if (modal) modal.style.display = 'none';
+        if (adminMain) adminMain.style.display = 'block';
         renderCatalog();
     }
 
-    loginBtn.addEventListener('click', handleLogin);
-    passcodeInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') handleLogin();
-    });
+    function lockAdmin() {
+        if (modal) modal.style.display = 'flex';
+        if (adminMain) adminMain.style.display = 'none';
+    }
+
+    // Listen for auth state changes
+    if (supabaseClient) {
+        supabaseClient.auth.onAuthStateChange((event, session) => {
+            if (event === 'SIGNED_OUT' || !session) {
+                lockAdmin();
+            }
+        });
+    }
+
+    checkSession();
+
+    // Login handler using Supabase Auth
+    if (loginBtn) loginBtn.addEventListener('click', handleLogin);
+    if (passwordInput) {
+        passwordInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleLogin();
+        });
+    }
+    if (emailInput) {
+        emailInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && passwordInput) passwordInput.focus();
+        });
+    }
 
     async function handleLogin() {
-        const hashBuffer = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(passcodeInput.value));
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-
-        if (hashHex === config.adminPasscodeHash) {
-            sessionStorage.setItem(SESSION_KEY, 'true');
-            modal.style.display = 'none';
-            adminMain.style.display = 'block';
-            renderCatalog();
-        } else {
-            passcodeError.style.display = 'block';
+        if (!supabaseClient) {
+            showLoginError('Supabase client not initialized. Check config.js.');
+            return;
         }
+
+        const email = emailInput ? emailInput.value.trim() : '';
+        const password = passwordInput ? passwordInput.value : '';
+
+        if (!email || !password) {
+            showLoginError('Please enter both email and password.');
+            return;
+        }
+
+        loginBtn.disabled = true;
+        loginBtn.textContent = 'Signing in...';
+
+        const { data, error } = await supabaseClient.auth.signInWithPassword({
+            email: email,
+            password: password
+        });
+
+        loginBtn.disabled = false;
+        loginBtn.textContent = 'Sign In';
+
+        if (error) {
+            showLoginError(error.message);
+            return;
+        }
+
+        if (loginError) loginError.style.display = 'none';
+        unlockAdmin();
+    }
+
+    function showLoginError(message) {
+        if (!loginError) return;
+        loginError.textContent = message;
+        loginError.style.display = 'block';
+    }
+
+    // Logout handler
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', async () => {
+            if (!supabaseClient) return;
+            await supabaseClient.auth.signOut();
+            lockAdmin();
+            if (emailInput) emailInput.value = '';
+            if (passwordInput) passwordInput.value = '';
+        });
     }
 
     const categorySelect = document.getElementById('categorySelect');
     const customInput = document.getElementById('customCategoryInput');
-    categorySelect.addEventListener('change', () => {
-        customInput.style.display = categorySelect.value === 'custom' ? 'block' : 'none';
-    });
+    if (categorySelect && customInput) {
+        categorySelect.addEventListener('change', () => {
+            customInput.style.display = categorySelect.value === 'custom' ? 'block' : 'none';
+        });
+    }
 
     const dropZone = document.getElementById('dropZone');
     const fileInput = document.getElementById('fileInput');
 
-    dropZone.addEventListener('click', () => fileInput.click());
+    if (dropZone && fileInput) {
+        dropZone.addEventListener('click', () => fileInput.click());
 
-    ['dragenter', 'dragover'].forEach(eventName => {
-        dropZone.addEventListener(eventName, (e) => {
-            e.preventDefault();
-            dropZone.classList.add('drag-active');
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                dropZone.classList.add('drag-active');
+            });
         });
-    });
 
-    ['dragleave', 'drop'].forEach(eventName => {
-        dropZone.addEventListener(eventName, (e) => {
-            e.preventDefault();
-            dropZone.classList.remove('drag-active');
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('drag-active');
+            });
         });
-    });
 
-    dropZone.addEventListener('drop', (e) => {
-        if (e.dataTransfer.files) handleFiles(e.dataTransfer.files);
-    });
+        dropZone.addEventListener('drop', (e) => {
+            if (e.dataTransfer.files) handleFiles(e.dataTransfer.files);
+        });
 
-    fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
+        fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
+    }
 
     async function handleFiles(files) {
         if (!files || files.length === 0) return;
@@ -77,6 +149,31 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Supabase client not initialized. Check config.js settings.');
             return;
         }
+
+        // Session guard: verify user is authenticated before uploading
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if (!session) {
+            alert('Session expired. Please sign in again.');
+            lockAdmin();
+            return;
+        }
+
+        // Client-side file validation
+        const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+        const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+        const validFiles = [];
+        for (const file of files) {
+            if (!ALLOWED_TYPES.includes(file.type)) {
+                alert(`Skipped "${file.name}": Invalid type (${file.type}). Only JPEG, PNG, WEBP allowed.`);
+                continue;
+            }
+            if (file.size > MAX_FILE_SIZE) {
+                alert(`Skipped "${file.name}": File size too large (${(file.size / 1024 / 1024).toFixed(1)}MB). Max 5MB allowed.`);
+                continue;
+            }
+            validFiles.push(file);
+        }
+        if (validFiles.length === 0) return;
 
         let category = categorySelect.value;
         if (category === 'custom') {
@@ -96,12 +193,12 @@ document.addEventListener('DOMContentLoaded', () => {
         successNotice.style.display = 'none';
         previewGrid.innerHTML = '';
 
-        const total = files.length;
+        const total = validFiles.length;
         let uploadedCount = 0;
         let failedCount = 0;
 
         for (let i = 0; i < total; i++) {
-            const file = files[i];
+            const file = validFiles[i];
             const title = (total === 1 && productNameInput) ? productNameInput : (productNameInput ? `${productNameInput} #${i+1}` : file.name.replace(/\.[^/.]+$/, ""));
             statusText.innerText = `Processing ${i + 1} of ${total}: ${file.name}`;
             progressBar.style.width = `${((i + 1) / total) * 100}%`;
@@ -141,8 +238,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 errorCard.innerHTML = `
                     <div style="color:#D32F2F; padding:10px; text-align:center;">
                         <i class="fa-solid fa-triangle-exclamation"></i>
-                        <p style="font-size:12px; margin-top:5px;">Upload failed: ${title}</p>
-                        <p style="font-size:10px; color:#888;">${uploadErr.message || uploadErr}</p>
+                        <p style="font-size:12px; margin-top:5px;">Upload failed: ${escapeHtml(title)}</p>
+                        <p style="font-size:10px; color:#888;">${escapeHtml(String(uploadErr.message || uploadErr))}</p>
                     </div>
                 `;
                 previewGrid.appendChild(errorCard);
@@ -250,7 +347,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <span class="cat-badge">${safeCat}</span>
                         <img src="${safeUrl}" alt="${safeTitle}" loading="lazy">
                         <div class="card-title">${safeTitle}</div>
-                        <button class="delete-btn" onclick="deleteProduct('${safeId}', '${safePath}')">
+                        <button class="delete-btn" data-delete-id="${safeId}" data-delete-path="${safePath}">
                             <i class="fa-solid fa-trash"></i> Delete
                         </button>
                     </div>
@@ -262,9 +359,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    window.deleteProduct = async function(id, storagePath) {
+    async function deleteProduct(id, storagePath) {
         if (!confirm('Are you sure you want to delete this product from store catalog?')) return;
         if (!supabaseClient) return;
+
+        // Session guard before destructive action
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if (!session) {
+            alert('Session expired. Please sign in again.');
+            lockAdmin();
+            return;
+        }
 
         try {
             // 1. Delete from DB
@@ -288,7 +393,19 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Delete failed:', err);
             alert('Delete failed: ' + err.message);
         }
-    };
+    }
+
+    // Event delegation for delete buttons
+    const catalogGrid = document.getElementById('catalogGrid');
+    if (catalogGrid) {
+        catalogGrid.addEventListener('click', (e) => {
+            const btn = e.target.closest('.delete-btn');
+            if (!btn) return;
+            const id = btn.dataset.deleteId;
+            const path = btn.dataset.deletePath;
+            if (id) deleteProduct(id, path);
+        });
+    }
 
     function compositeOnStudioCanvas(bgRemovedBlob) {
         return new Promise((resolve) => {
@@ -350,8 +467,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const card = document.createElement('div');
         card.className = 'preview-card';
         card.innerHTML = `
-            <img src="${imageUrl}" alt="${title}">
-            <span>${title}</span>
+            <img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(title)}">
+            <span>${escapeHtml(title)}</span>
         `;
         container.appendChild(card);
     }
