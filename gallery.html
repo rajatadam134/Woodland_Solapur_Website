@@ -2,13 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Woodland | Inspiration Gallery Showcase</title>
     <meta http-equiv="refresh" content="0; url=products.html?view=gallery">
-    <title>Redirecting to Woodland Inspiration Gallery...</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
     <script>
-        window.location.href = "products.html?view=gallery";
+        window.location.replace("products.html?view=gallery");
     </script>
 </head>
-<body>
-    <p>Redirecting to <a href="products.html?view=gallery">Woodland Showcase & Inspiration Gallery</a>...</p>
+<body style="display: flex; align-items: center; justify-content: center; min-height: 100vh; text-align: center; padding: 20px;">
+    <div class="lux-card glass-panel" style="max-width: 480px; width: 100%;">
+        <h2 style="margin-bottom: 12px;">Woodland Showcase</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 20px;">Entering Inspiration & Lookbook Gallery...</p>
+        <a href="products.html?view=gallery" class="lux-btn">Explore Catalog</a>
+    </div>
 </body>
 </html>

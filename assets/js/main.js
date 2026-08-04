@@ -35,8 +35,9 @@ function initMobileMenu() {
     
     menuToggle.addEventListener('click', (e) => {
         e.stopPropagation();
-        menuToggle.classList.toggle('active');
+        const isActive = menuToggle.classList.toggle('active');
         navLinks.classList.toggle('active');
+        menuToggle.setAttribute('aria-expanded', isActive ? 'true' : 'false');
     });
     
     const links = navLinks.querySelectorAll('a');
@@ -44,6 +45,7 @@ function initMobileMenu() {
         link.addEventListener('click', () => {
             menuToggle.classList.remove('active');
             navLinks.classList.remove('active');
+            menuToggle.setAttribute('aria-expanded', 'false');
         });
     });
     
@@ -51,6 +53,7 @@ function initMobileMenu() {
         if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
             menuToggle.classList.remove('active');
             navLinks.classList.remove('active');
+            menuToggle.setAttribute('aria-expanded', 'false');
         }
     });
 }
@@ -198,7 +201,8 @@ function initLightbox() {
             modalImg.setAttribute('src', src);
             
             const waNumber = (window.WOODLAND_CONFIG && window.WOODLAND_CONFIG.whatsappNumber) || '918767223224';
-            const msgText = `Hi Woodland Solapur! I am inquiring about *${title}* (${catDisplay}).\n\nProduct Photo:\n${src}`;
+            const pageUrl = window.location.href.split('#')[0];
+            const msgText = `Hi Woodland Solapur! I am inquiring about *${title}* (${catDisplay}).\n\nProduct Photo: ${src}\nCatalog Link: ${pageUrl}`;
             inquireBtn.setAttribute('href', `https://wa.me/${waNumber}?text=${encodeURIComponent(msgText)}`);
             
             document.body.style.overflow = 'hidden';
@@ -222,7 +226,7 @@ function initLightbox() {
     }
 
     modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
+        if (!modalImg.contains(e.target) && !inquireBtn.contains(e.target)) {
             modal.classList.remove('active');
             document.body.style.overflow = '';
             modalImg.setAttribute('src', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7');
